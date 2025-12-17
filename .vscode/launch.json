@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Streamlit App",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${config:python.pythonPath}",
+      "args": [
+        "-m",
+        "streamlit",
+        "run",
+        "${file}"
+      ],
+      "console": "integratedTerminal"
+    }
+  ]
+}
