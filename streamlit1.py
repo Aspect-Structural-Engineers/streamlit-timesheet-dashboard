@@ -8,34 +8,54 @@ import requests
 from msal import ConfidentialClientApplication
 import io
 
+
 def get_sharepoint_csv(client_id, client_secret, tenant_id, site_url, file_path):
     """
-    Fetch CSV from SharePoint site via Microsoft Graph
-    - site_url: full SharePoint site URL (e.g., "https://company.sharepoint.com/sites/Finance")
-    - file_path: path to file within the site (e.g., "User Fig/data.csv")
+    Fetch CSV from SharePoint via Microsoft Graph
     """
+
+    # Auth
     authority = f"https://login.microsoftonline.com/{tenant_id}"
-    app = ConfidentialClientApplication(client_id, client_credential=client_secret, authority=authority)
-    token = app.acquire_token_for_client(scopes=["https://graph.microsoft.com/.default"])
+    app = ConfidentialClientApplication(
+        client_id,
+        client_credential=client_secret,
+        authority=authority
+    )
+
+    token = app.acquire_token_for_client(
+        scopes=["https://graph.microsoft.com/.default"]
+    )
 
     if "access_token" not in token:
         raise Exception(f"Could not get token: {token}")
 
-    # Convert site URL to site-id via Graph API
-    site_api = f"https://graph.microsoft.com/v1.0/sites/{site_url.split('.com/')[-1]}"
     headers = {"Authorization": f"Bearer {token['access_token']}"}
+
+    # Resolve site ID (THIS IS THE FIX)
+    hostname = site_url.split("//")[1].split("/")[0]
+    site_path = "/" + "/".join(site_url.split("/")[3:])
+
+    site_api = f"https://graph.microsoft.com/v1.0/sites/{hostname}:{site_path}"
     site_info = requests.get(site_api, headers=headers).json()
+
+    if "id" not in site_info:
+        raise Exception(f"Failed to resolve site: {site_info}")
+
     site_id = site_info["id"]
 
     # Fetch file content
-    file_api = f"https://graph.microsoft.com/v1.0/sites/{site_id}/drive/root:/{file_path}:/content"
+    file_api = (
+        f"https://graph.microsoft.com/v1.0/sites/{site_id}"
+        f"/drive/root:/{file_path}:/content"
+    )
+
     r = requests.get(file_api, headers=headers)
-    if r.status_code != 200:
-        raise Exception(f"Failed to fetch {file_path}: {r.text}")
+    r.raise_for_status()
 
-    return pd.read_csv(io.StringIO(r.text))
+    return pd.read_csv(BytesIO(r.content))
 
 
+st.set_page_config(layout = "wide")
 
 st.set_page_config(
     layout="wide",  # makes content stretch full width
@@ -103,8 +123,7 @@ df_user = get_sharepoint_csv(
     client_secret=st.secrets["sharepoint"]["client_secret"],
     tenant_id=st.secrets["sharepoint"]["tenant_id"],
     site_url=st.secrets["sharepoint"]["site_url"],
-    file_path="User Fig.csv"
-)
+    file_path=st.secrets["sharepoint"]["userfig_path"])
 
 
 df_user["Start"] = pd.to_datetime(df_user["Start"],errors= "coerce")
@@ -149,7 +168,7 @@ df = get_sharepoint_csv(
     client_secret=st.secrets["sharepoint"]["client_secret"],
     tenant_id=st.secrets["sharepoint"]["tenant_id"],
     site_url=st.secrets["sharepoint"]["site_url"],
-    file_path="Timesheet Export.csv"
+    file_path=st.secrets["sharepoint"]["timesheet_path"]
 )
 
 
