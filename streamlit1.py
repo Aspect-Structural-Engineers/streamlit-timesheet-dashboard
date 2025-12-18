@@ -11,6 +11,7 @@ import io
 
 
 
+
 def get_sharepoint_csv(client_id, client_secret, tenant_id, site_url, file_path):
     """
     Fetch CSV from SharePoint via Microsoft Graph
@@ -33,7 +34,7 @@ def get_sharepoint_csv(client_id, client_secret, tenant_id, site_url, file_path)
 
     headers = {"Authorization": f"Bearer {token['access_token']}"}
 
-    
+    # Resolve site ID
     hostname = site_url.split("//")[1].split("/")[0]
     site_path = "/" + "/".join(site_url.split("/")[3:])
 
@@ -45,17 +46,7 @@ def get_sharepoint_csv(client_id, client_secret, tenant_id, site_url, file_path)
 
     site_id = site_info["id"]
 
-    # DEBUG: list available drives (document libraries)
-    drives_api = f"https://graph.microsoft.com/v1.0/sites/{site_id}/drives"
-    drives = requests.get(drives_api, headers=headers).json()
-
-    st.write("Available drives on this site:")
-    st.write(drives)
-
-    st.stop()  # ⬅️ IMPORTANT: stop execution after printing
-
-
-    # Fetch file content
+    # Fetch file from Documents drive (root)
     file_api = (
         f"https://graph.microsoft.com/v1.0/sites/{site_id}"
         f"/drive/root:/{file_path}:/content"
