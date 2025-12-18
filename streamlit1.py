@@ -9,6 +9,15 @@ from msal import ConfidentialClientApplication
 import io
 
 
+def list_drives(headers):
+    r = requests.get(
+        "https://graph.microsoft.com/v1.0/sites/{site_id}/drives",
+        headers=headers
+    )
+    return r.json()
+
+st.write(list_drives(headers))
+
 def get_sharepoint_csv(client_id, client_secret, tenant_id, site_url, file_path):
     """
     Fetch CSV from SharePoint via Microsoft Graph
@@ -61,6 +70,7 @@ st.set_page_config(
     layout="wide",  # makes content stretch full width
     page_title="Timesheet Dashboard"
     )
+
 
 if not hasattr(st, "user") or not st.user.is_logged_in:
     st.title("Timesheet Dashboard")
