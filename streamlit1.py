@@ -6,7 +6,7 @@ import numpy as np
 from pandas.tseries.offsets import BDay
 import requests
 from msal import ConfidentialClientApplication
-import io
+from io import BytesIO
 
 
 
