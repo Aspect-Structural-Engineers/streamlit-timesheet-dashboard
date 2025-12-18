@@ -31,7 +31,7 @@ def get_sharepoint_csv(client_id, client_secret, tenant_id, site_url, file_path)
 
     headers = {"Authorization": f"Bearer {token['access_token']}"}
 
-    # Resolve site ID (THIS IS THE FIX)
+    
     hostname = site_url.split("//")[1].split("/")[0]
     site_path = "/" + "/".join(site_url.split("/")[3:])
 
