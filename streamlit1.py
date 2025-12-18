@@ -4,20 +4,26 @@ import altair as alt
 from datetime import datetime, timedelta
 import numpy as np
 from pandas.tseries.offsets import BDay
+
+
 st.set_page_config(
     layout="wide",  # makes content stretch full width
     page_title="Timesheet Dashboard"
     )
+
+
+
+
+
+if not hasattr(st, "user") or not st.user.is_logged_in:
+    st.title("Timesheet Dashboard")
+    st.info("This app is private. Please log in with your Microsoft account.")
+    if st.button("Log in with Microsoft"):
+        st.login("microsoft")
+    st.stop()
+
 st.title("Timesheet Dashboard")
 st.write("App is running 🎉")
-
-# if not st.user.is_logged_in:
-#     st.header("This app is private.")
-#     st.subheader("Please log in with Microsoft")
-#     if st.button("Log in"):
-#         st.login("microsoft")
-#     st.stop()
-
 # st.write("Logged in successfully")
 # st.stop()
 
