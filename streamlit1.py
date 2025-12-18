@@ -45,6 +45,16 @@ def get_sharepoint_csv(client_id, client_secret, tenant_id, site_url, file_path)
 
     site_id = site_info["id"]
 
+    # DEBUG: list available drives (document libraries)
+    drives_api = f"https://graph.microsoft.com/v1.0/sites/{site_id}/drives"
+    drives = requests.get(drives_api, headers=headers).json()
+
+    st.write("Available drives on this site:")
+    st.write(drives)
+
+    st.stop()  # ⬅️ IMPORTANT: stop execution after printing
+
+
     # Fetch file content
     file_api = (
         f"https://graph.microsoft.com/v1.0/sites/{site_id}"
