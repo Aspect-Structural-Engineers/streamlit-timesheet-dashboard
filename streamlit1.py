@@ -84,24 +84,26 @@ last_refreshed = monday.strftime("%B %d, %Y")
 
 st.markdown(
 f"""
-<div style="padding: 0.25rem 1rem;">
+<div style="padding: 0.1rem 1rem;">
     <div style="
         display: flex;
         justify-content: space-between;
-        align-items: flex-end;
+        align-items: flex-start;
     ">
         <div>
             <h2 style="
                 color: #111827;
                 font-weight: 700;
-                margin-bottom: 0;
+                margin: 0;
+                line-height: 1.2;
             ">
                 Good morning, <span style="color:#ED017F;">{first_name}</span>
             </h2>
             <h4 style="
                 color: #374151;
                 font-weight: 400;
-                margin-top: 0;
+                margin: 0.1rem 0 0 0;
+                line-height: 1.2;
             ">
                 Your year so far
             </h4>
@@ -111,6 +113,7 @@ f"""
             color: #6b7280;
             font-size: 0.9rem;
             white-space: nowrap;
+            margin-top: 0.15rem;
         ">
             <strong>Last refreshed:</strong> {last_refreshed}
         </div>
@@ -119,6 +122,7 @@ f"""
 """,
 unsafe_allow_html=True
 )
+
 
 
 st.markdown(
