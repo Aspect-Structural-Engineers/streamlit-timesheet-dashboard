@@ -246,10 +246,11 @@ components.html(f"""
 <div style="
     padding: 1rem;
     border: 1px solid #e5e7eb;
-    border-radius: 12px;
+    border-radius: 8px;
     max-width: 400px;
     text-align: left;
     margin-top: 1rem;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 ">
     <h3 style="margin:0 0 0.25rem 0; font-weight:700; color:#111827;">Hours Worked</h3>
     <h1 style="margin:0 0 1rem 0; font-weight:900; font-size:3rem; color:#111827;">{total_working_hours:.1f}</h1>
@@ -259,6 +260,7 @@ components.html(f"""
             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Project</p>
             <p style="margin:0; font-weight:700; font-size:1.2rem; color:#111827;">{project_hours:.1f}</p>
         </div>
+        <div style="font-weight:700; font-size:1.2rem; color:#111827;">+</div>
         <div>
             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Internal</p>
             <p style="margin:0; font-weight:700; font-size:1.2rem; color:#111827;">{internal_hours:.1f}</p>
