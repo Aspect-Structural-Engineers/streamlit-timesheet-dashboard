@@ -89,7 +89,7 @@ with col_left:
         <h2 style="margin-bottom: 0;">
             Good morning, <span style="color:#ED017F;">{first_name}</span>
         </h2>
-        <p style="margin-top: 0.1rem; color: #374151;">
+        <p style="margin-top: 0.1rem; color: #374151; font-size: 1.1rem;"">
             Your year so far
         </p>
         """,
@@ -101,7 +101,7 @@ with col_right:
         f"""
         <p style="
             text-align: right;
-            color: #6b7280;
+            color: #374151;
             font-size: 0.9rem;
             margin-top: 1.6rem;
         ">
@@ -110,47 +110,6 @@ with col_right:
         """,
         unsafe_allow_html=True
     )
-# st.markdown(
-# f"""
-# <div style="padding: 0.1rem 1rem;">
-#     <div style="
-#         display: flex;
-#         justify-content: space-between;
-#         align-items: flex-start;
-#     ">
-#         <div>
-#             <h2 style="
-#                 color: #111827;
-#                 font-weight: 700;
-#                 margin: 0;
-#                 line-height: 1.2;
-#             ">
-#                 Good morning, <span style="color:#ED017F;">{first_name}</span>
-#             </h2>
-#             <h4 style="
-#                 color: #374151;
-#                 font-weight: 400;
-#                 margin: 0.1rem 0 0 0;
-#                 line-height: 1.2;
-#             ">
-#                 Your year so far
-#             </h4>
-#         </div>
-
-#         <div style="
-#             color: #6b7280;
-#             font-size: 0.9rem;
-#             white-space: nowrap;
-#             margin-top: 0.15rem;
-#         ">
-#             <strong>Last refreshed:</strong> {last_refreshed}
-#         </div>
-#     </div>
-# </div>
-# """,
-# unsafe_allow_html=True
-# )
-
 
 
 st.markdown(
@@ -282,11 +241,11 @@ flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l &
 
 # Project + Internal = Total Working Hrs
 col1, col2, col3, col4, col5 = st.columns(5)
-col1.metric("Project Hours Worked", f"{project_hours:.1f}")
+col1.metric("Project", f"{project_hours:.1f}")
 col2.metric("", "+")
-col3.metric("Internal Hours Worked", f"{internal_hours:.1f}")
+col3.metric("Internal", f"{internal_hours:.1f}")
 col4.metric("", "=")
-col5.metric("Total Working Hrs", f"{total_working_hours:.1f}")
+col5.metric("Total", f"{total_working_hours:.1f}")
 
 st.markdown("---")
 
@@ -304,7 +263,7 @@ flex_row = pd.DataFrame({"Project No - Title": ["PTO Flex"], "Hours": [flex_hour
 budget_pto_grouped = pd.concat([budget_pto_grouped, flex_row], ignore_index=True)
 
 # PTO titles order
-titles_order = ["PTO Vacation", "PTO Sick/Medical","PTO Flex", "Stat Holidays", "PTO Office Closed"]
+titles_order = ["Vacation", "Sick/Medical","Flex", "Stat Holidays", "Office Closed"]
 
 # Merge to ensure all titles exist
 all_titles_df = pd.DataFrame({"Project No - Title": titles_order})
@@ -312,11 +271,11 @@ budget_pto_grouped = pd.merge(all_titles_df, budget_pto_grouped, on="Project No 
 
 # Example max allocations per PTO type
 pto_max = {
-    "PTO Vacation": 75,
-    "PTO Sick/Medical": 37.5,
+    "Vacation": 75,
+    "Sick/Medical": 37.5,
     "Stat Holidays": np.nan,
-    "PTO Office Closed": np.nan,
-    "PTO Flex": np.nan
+    "Office Closed": np.nan,
+    "Flex": np.nan
 }
 
 # Display PTO cards
@@ -326,7 +285,7 @@ for i, row in budget_pto_grouped.iterrows():
     hours = row["Hours"]
     
     # Add Taken/Budget for Vacation and Sick/Medical
-    if title in ["PTO Vacation", "PTO Sick/Medical"]:
+    if title in ["Vacation", "Sick/Medical"]:
         max_val = pto_max[title]
         display_val = f"{hours:.1f}/{max_val:.1f}"
     else:
@@ -353,9 +312,9 @@ adjusted_target = target_hours - pto_vacation - pto_sick - stat_holidays
 col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
 col1.metric("Target Working Hours", f"{target_hours:.1f}")
 col2.metric("", "-")
-col3.metric("PTO Vacation", f"{pto_vacation:.1f}")
+col3.metric("Vacation", f"{pto_vacation:.1f}")
 col4.metric("", "-")
-col5.metric("PTO Sick/Medical", f"{pto_sick:.1f}")
+col5.metric("Sick/Medical", f"{pto_sick:.1f}")
 col6.metric("", "-")
 col7.metric("Stat Holidays", f"{stat_holidays:.1f}")
 col8.metric("", "=")
