@@ -242,14 +242,28 @@ flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l &
 
 st.markdown(
     f"""
-    <div style="padding: 0.25rem 1rem;">
-        <!-- Total Working Hours + Breakdown -->
-        <div style="text-align:center; margin-top:1.5rem;">
-            <h3 style="margin:0; font-weight:700; color:#111827;">Hours Worked</h3>
-            <h1 style="margin:0; font-weight:900; font-size:3rem; color:#111827;">{total_working_hours:.1f}</h1>
-            <p style="margin:0; font-size:1rem; color:#6b7280;">
-                {project_hours:.1f} + {internal_hours:.1f} (Project + Internal)
-            </p>
+    <div style="
+        padding: 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        max-width: 400px;
+        text-align: left;
+        margin-top: 1rem;
+    ">
+        <!-- Total Working Hours -->
+        <h3 style="margin:0 0 0.25rem 0; font-weight:700; color:#111827;">Hours Worked</h3>
+        <h1 style="margin:0 0 1rem 0; font-weight:900; font-size:3rem; color:#111827;">{total_working_hours:.1f}</h1>
+        
+        <!-- Project + Internal breakdown -->
+        <div style="display:flex; gap:2rem;">
+            <div>
+                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Project</p>
+                <p style="margin:0; font-weight:700; font-size:1.2rem; color:#111827;">{project_hours:.1f}</p>
+            </div>
+            <div>
+                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Internal</p>
+                <p style="margin:0; font-weight:700; font-size:1.2rem; color:#111827;">{internal_hours:.1f}</p>
+            </div>
         </div>
     </div>
     """,
