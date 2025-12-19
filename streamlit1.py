@@ -84,7 +84,7 @@ last_refreshed = monday.strftime("%B %d, %Y")
 
 st.markdown(
     f"""
-    <div style="padding: 0 1rem;">
+    <div style="padding: 0.25rem 1rem;">
         <div style="
             display: flex;
             justify-content: space-between;
@@ -94,7 +94,7 @@ st.markdown(
                 <h2 style="
                     color: #111827;
                     font-weight: 700;
-                    margin-bottom: 0.1em;
+                    margin-bottom: 0;
                 ">
                     Good morning, <span style="color:#ED017F;">{first_name}</span>
                 </h2>
@@ -117,7 +117,7 @@ st.markdown(
         </div>
     </div>
     """,
-    unsafe_allow_html=True
+ unsafe_allow_html=True
 )
 
 
