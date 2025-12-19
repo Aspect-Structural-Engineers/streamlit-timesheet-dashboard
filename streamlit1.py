@@ -242,43 +242,34 @@ flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l &
 
 import streamlit.components.v1 as components
 
-components.html(f"""
-<div style="
-    padding: 1rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    max-width: 400px;
-    text-align: center;
-    margin-top: 1rem;
-    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-">
-    <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Hours Worked</h3>
-    <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{total_working_hours:.1f}</h1>
-    
-    <div style="display:flex;justify-content:center; align-items:center; gap:2rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-        <div style="text-align:center;">
-            <p style="margin:0; font-size:0.9rem; color:#6b7280;">Project</p>
-            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{project_hours:.1f}</p>
-        </div>
-        <div style="font-weight:700; font-size:1.2rem; color:#111827;">+</div>
-        <div style="text-align:center;">
-            <p style="margin:0; font-size:0.9rem; color:#6b7280;">Internal</p>
-            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{internal_hours:.1f}</p>
+col_left, col_right = st.columns([1, 1])
+with col_left:
+    components.html(f"""
+    <div style="
+        padding: 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        max-width: 400px;
+        text-align: center;
+        margin-top: 1rem;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    ">
+        <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Hours Worked</h3>
+        <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{total_working_hours:.1f}</h1>
+        
+        <div style="display:flex;justify-content:center; align-items:center; gap:2rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+            <div style="text-align:center;">
+                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Project</p>
+                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{project_hours:.1f}</p>
+            </div>
+            <div style="font-weight:700; font-size:1.2rem; color:#111827;">+</div>
+            <div style="text-align:center;">
+                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Internal</p>
+                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{internal_hours:.1f}</p>
+            </div>
         </div>
     </div>
-</div>
-""", height=200)
-
-# Project + Internal = Total Working Hrs
-# col1, col2, col3, col4, col5 = st.columns(5)
-# col1.metric("Project", f"{project_hours:.1f}")
-# col2.metric("", "+")
-# col3.metric("Internal", f"{internal_hours:.1f}")
-# col4.metric("", "=")
-# col5.metric("Total", f"{total_working_hours:.1f}")
-
-# st.markdown("---")
-
+    """, height=200)
 
 
 # Second row
@@ -308,23 +299,23 @@ pto_max = {
     "Flex": np.nan
 }
 
-# Display PTO cards
-cols = st.columns(len(titles_order))
-for i, row in budget_pto_grouped.iterrows():
-    title = row["Project No - Title"]
-    hours = row["Hours"]
+# # Display PTO cards
+# cols = st.columns(len(titles_order))
+# for i, row in budget_pto_grouped.iterrows():
+#     title = row["Project No - Title"]
+#     hours = row["Hours"]
     
-    # Add Taken/Budget for Vacation and Sick/Medical
-    if title in ["Vacation", "Sick/Medical"]:
-        max_val = pto_max[title]
-        display_val = f"{hours:.1f}/{max_val:.1f}"
-    else:
-        display_val = f"{hours:.1f}"
+#     # Add Taken/Budget for Vacation and Sick/Medical
+#     if title in ["PTO Vacation", "PTO Sick/Medical"]:
+#         max_val = pto_max[title]
+#         display_val = f"{hours:.1f}/{max_val:.1f}"
+#     else:
+#         display_val = f"{hours:.1f}"
     
-    cols[i].metric(label=title, value=display_val)
+#     cols[i].metric(label=title, value=display_val)
 
 
-st.markdown("---")
+# st.markdown("---")
 
 
 # Third row
@@ -338,17 +329,53 @@ stat_holidays = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] 
 # Calculate Adjusted Target
 adjusted_target = target_hours - pto_vacation - pto_sick - stat_holidays
 
-# Display Adjusted Target row similar to first row
-col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
-col1.metric("Target Working Hours", f"{target_hours:.1f}")
-col2.metric("", "-")
-col3.metric("Vacation", f"{pto_vacation:.1f}")
-col4.metric("", "-")
-col5.metric("Sick/Medical", f"{pto_sick:.1f}")
-col6.metric("", "-")
-col7.metric("Stat Holidays", f"{stat_holidays:.1f}")
-col8.metric("", "=")
-col9.metric("Adjusted Target", f"{adjusted_target:.1f}")
+with col_right:
+    components.html(f"""
+    <div style="
+        padding: 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        max-width: 400px;
+        text-align: center;
+        margin-top: 1rem;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    ">
+        <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Adjusted Target</h3>
+        <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{adjusted_target:.1f}</h1>
+
+        <div style="display:flex;justify-content:center; align-items:center; gap:1.5rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+            <div style="text-align:center;">
+                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Vacation</p>
+                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_vacation:.1f}</p>
+            </div>
+            <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+            <div style="text-align:center;">
+                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Sick/Medical</p>
+                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_sick:.1f}</p>
+            </div>
+            <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+            <div style="text-align:center;">
+                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Stat Holidays</p>
+                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{stat_holidays:.1f}</p>
+            </div>
+        </div>
+    </div>
+    """, height=200)
+
+
+
+
+# # Display Adjusted Target row similar to first row
+# col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
+# col1.metric("Target Working Hours", f"{target_hours:.1f}")
+# col2.metric("", "-")
+# col3.metric("Vacation", f"{pto_vacation:.1f}")
+# col4.metric("", "-")
+# col5.metric("Sick/Medical", f"{pto_sick:.1f}")
+# col6.metric("", "-")
+# col7.metric("Stat Holidays", f"{stat_holidays:.1f}")
+# col8.metric("", "=")
+# col9.metric("Adjusted Target", f"{adjusted_target:.1f}")
 
 
 
