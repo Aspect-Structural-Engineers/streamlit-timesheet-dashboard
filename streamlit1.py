@@ -89,7 +89,7 @@ with col_left:
         <h2 style="margin-bottom: 0;">
             Good morning, <span style="color:#ED017F;">{first_name}</span>
         </h2>
-        <p style="margin-top: 0.1rem; color: #374151; font-size: 1.1rem;"">
+        <p style="margin-top: 0.1rem; color: #374151; font-size: 1.2rem;"">
             Your year so far
         </p>
         """,
@@ -239,15 +239,33 @@ total_working_hours = project_hours + internal_hours
 budget_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Budget PTO", "Hours"].sum()
 flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l & Flex PTO", "Hours"].sum()
 
-# Project + Internal = Total Working Hrs
-col1, col2, col3, col4, col5 = st.columns(5)
-col1.metric("Project", f"{project_hours:.1f}")
-col2.metric("", "+")
-col3.metric("Internal", f"{internal_hours:.1f}")
-col4.metric("", "=")
-col5.metric("Total", f"{total_working_hours:.1f}")
 
-st.markdown("---")
+st.markdown(
+    f"""
+    <div style="padding: 0.25rem 1rem;">
+        <!-- Total Working Hours + Breakdown -->
+        <div style="text-align:center; margin-top:1.5rem;">
+            <h3 style="margin:0; font-weight:700; color:#111827;">Hours Worked</h3>
+            <h1 style="margin:0; font-weight:900; font-size:3rem; color:#111827;">{total_working_hours:.1f}</h1>
+            <p style="margin:0; font-size:1rem; color:#6b7280;">
+                {project_hours:.1f} + {internal_hours:.1f} (Project + Internal)
+            </p>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+# Project + Internal = Total Working Hrs
+# col1, col2, col3, col4, col5 = st.columns(5)
+# col1.metric("Project", f"{project_hours:.1f}")
+# col2.metric("", "+")
+# col3.metric("Internal", f"{internal_hours:.1f}")
+# col4.metric("", "=")
+# col5.metric("Total", f"{total_working_hours:.1f}")
+
+# st.markdown("---")
 
 
 
