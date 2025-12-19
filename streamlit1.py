@@ -293,7 +293,7 @@ flex_row = pd.DataFrame({"Project No - Title": ["PTO Flex"], "Hours": [flex_hour
 budget_pto_grouped = pd.concat([budget_pto_grouped, flex_row], ignore_index=True)
 
 # PTO titles order
-titles_order = ["Vacation", "Sick/Medical","Flex", "Stat Holidays", "Office Closed"]
+titles_order = ["PTO Vacation", "PTO Sick/Medical","PTO Flex", "Stat Holidays", "Office Closed"]
 
 # Merge to ensure all titles exist
 all_titles_df = pd.DataFrame({"Project No - Title": titles_order})
