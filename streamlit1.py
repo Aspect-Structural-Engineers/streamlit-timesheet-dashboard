@@ -345,6 +345,11 @@ with col_right:
 
         <div style="display:flex;justify-content:center; align-items:center; gap:1.5rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
             <div style="text-align:center;">
+                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Target</p>
+                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{target_hours:.1f}</p>
+            </div>
+            <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+            <div style="text-align:center;">
                 <p style="margin:0; font-size:0.9rem; color:#6b7280;">Vacation</p>
                 <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_vacation:.1f}</p>
             </div>
