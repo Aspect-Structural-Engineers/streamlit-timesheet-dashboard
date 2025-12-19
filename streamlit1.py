@@ -240,7 +240,9 @@ budget_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Budge
 flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l & Flex PTO", "Hours"].sum()
 
 
-st.markdown(f"""
+import streamlit.components.v1 as components
+
+components.html(f"""
 <div style="
     padding: 1rem;
     border: 1px solid #e5e7eb;
@@ -263,8 +265,7 @@ st.markdown(f"""
         </div>
     </div>
 </div>
-""", unsafe_allow_html=True)
-
+""", height=200)
 
 # Project + Internal = Total Working Hrs
 # col1, col2, col3, col4, col5 = st.columns(5)
