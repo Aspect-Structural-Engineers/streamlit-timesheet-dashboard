@@ -240,35 +240,30 @@ budget_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Budge
 flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l & Flex PTO", "Hours"].sum()
 
 
-st.markdown(
-    f"""
-    <div style="
-        padding: 1rem;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        max-width: 400px;
-        text-align: left;
-        margin-top: 1rem;
-    ">
-        <!-- Total Working Hours -->
-        <h3 style="margin:0 0 0.25rem 0; font-weight:700; color:#111827;">Hours Worked</h3>
-        <h1 style="margin:0 0 1rem 0; font-weight:900; font-size:3rem; color:#111827;">{total_working_hours:.1f}</h1>
-        
-        <!-- Project + Internal breakdown -->
-        <div style="display:flex; gap:2rem;">
-            <div>
-                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Project</p>
-                <p style="margin:0; font-weight:700; font-size:1.2rem; color:#111827;">{project_hours:.1f}</p>
-            </div>
-            <div>
-                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Internal</p>
-                <p style="margin:0; font-weight:700; font-size:1.2rem; color:#111827;">{internal_hours:.1f}</p>
-            </div>
+st.markdown(f"""
+<div style="
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    max-width: 400px;
+    text-align: left;
+    margin-top: 1rem;
+">
+    <h3 style="margin:0 0 0.25rem 0; font-weight:700; color:#111827;">Hours Worked</h3>
+    <h1 style="margin:0 0 1rem 0; font-weight:900; font-size:3rem; color:#111827;">{total_working_hours:.1f}</h1>
+    
+    <div style="display:flex; gap:2rem;">
+        <div>
+            <p style="margin:0; font-size:0.9rem; color:#6b7280;">Project</p>
+            <p style="margin:0; font-weight:700; font-size:1.2rem; color:#111827;">{project_hours:.1f}</p>
+        </div>
+        <div>
+            <p style="margin:0; font-size:0.9rem; color:#6b7280;">Internal</p>
+            <p style="margin:0; font-weight:700; font-size:1.2rem; color:#111827;">{internal_hours:.1f}</p>
         </div>
     </div>
-    """,
-    unsafe_allow_html=True
-)
+</div>
+""", unsafe_allow_html=True)
 
 
 # Project + Internal = Total Working Hrs
