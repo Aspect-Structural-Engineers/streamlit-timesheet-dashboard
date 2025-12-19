@@ -255,7 +255,7 @@ components.html(f"""
     <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Hours Worked</h3>
     <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{total_working_hours:.1f}</h1>
     
-    <div style="display:flex; gap:2rem; text-align:center; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+    <div style="display:flex;justify-content:center; align-items:center; gap:2rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
         <div style="text-align:center;">
             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Project</p>
             <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{project_hours:.1f}</p>
