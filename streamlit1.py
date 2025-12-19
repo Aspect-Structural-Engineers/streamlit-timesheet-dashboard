@@ -83,41 +83,41 @@ last_refreshed = monday.strftime("%B %d, %Y")
 
 
 st.markdown(
-    f"""
-    <div style="padding: 0.25rem 1rem;">
-        <div style="
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        ">
-            <div>
-                <h2 style="
-                    color: #111827;
-                    font-weight: 700;
-                    margin-bottom: 0;
-                ">
-                    Good morning, <span style="color:#ED017F;">{first_name}</span>
-                </h2>
-                <h4 style="
-                    color: #374151;
-                    font-weight: 400;
-                    margin-top: 0;
-                ">
-                    Your year so far
-                </h4>
-            </div>
-
-            <div style="
-                color: #6b7280;
-                font-size: 0.9rem;
-                white-space: nowrap;
+f"""
+<div style="padding: 0.25rem 1rem;">
+    <div style="
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    ">
+        <div>
+            <h2 style="
+                color: #111827;
+                font-weight: 700;
+                margin-bottom: 0;
             ">
-                <strong>Last refreshed:</strong> {last_refreshed}
-            </div>
+                Good morning, <span style="color:#ED017F;">{first_name}</span>
+            </h2>
+            <h4 style="
+                color: #374151;
+                font-weight: 400;
+                margin-top: 0;
+            ">
+                Your year so far
+            </h4>
+        </div>
+
+        <div style="
+            color: #6b7280;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        ">
+            <strong>Last refreshed:</strong> {last_refreshed}
         </div>
     </div>
-    """,
- unsafe_allow_html=True
+</div>
+""",
+unsafe_allow_html=True
 )
 
 
