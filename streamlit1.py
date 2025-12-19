@@ -8,10 +8,6 @@ import requests
 from msal import ConfidentialClientApplication
 from io import BytesIO
 
-
-
-
-
 def get_sharepoint_csv(client_id, client_secret, tenant_id, site_url, file_path):
     """
     Fetch CSV from SharePoint via Microsoft Graph
@@ -78,20 +74,52 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
 emp_name = "Sumi Raveendiran"
 first_name = emp_name.split(" ")[0]
 
+
+from datetime import datetime, timedelta
+
+today = datetime.today()
+monday = today - timedelta(days=today.weekday())
+last_refreshed = monday.strftime("%B %d, %Y")
+
+
 st.markdown(
     f"""
-    <div style="text-align: center;">
-        <h2 style="color: #6b7280; font-weight: 500; margin-bottom: 0.2em;">
-            Good morning, {first_name}
-        </h2>
-        <hr style="width: 60%; margin: 0.5em auto; border: 0; border-top: 1px solid #e5e7eb;">
-        <h1 style="margin-top: 0.6em;">
-            Your year so far
-        </h1>
+    <div style="padding: 0 1rem;">
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        ">
+            <div>
+                <h2 style="
+                    color: #111827;
+                    font-weight: 700;
+                    margin-bottom: 0.1em;
+                ">
+                    Good morning, <span style="color:#ED017F;">{first_name}</span>
+                </h2>
+                <h4 style="
+                    color: #374151;
+                    font-weight: 400;
+                    margin-top: 0;
+                ">
+                    Your year so far
+                </h4>
+            </div>
+
+            <div style="
+                color: #6b7280;
+                font-size: 0.9rem;
+                white-space: nowrap;
+            ">
+                <strong>Last refreshed:</strong> {last_refreshed}
+            </div>
+        </div>
     </div>
     """,
     unsafe_allow_html=True
 )
+
 
 st.markdown(
     """
