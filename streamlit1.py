@@ -81,47 +81,75 @@ today = datetime.today()
 monday = today - timedelta(days=today.weekday())
 last_refreshed = monday.strftime("%B %d, %Y")
 
+col_left, col_right = st.columns([3, 1])
 
-st.markdown(
-f"""
-<div style="padding: 0.1rem 1rem;">
-    <div style="
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-    ">
-        <div>
-            <h2 style="
-                color: #111827;
-                font-weight: 700;
-                margin: 0;
-                line-height: 1.2;
-            ">
-                Good morning, <span style="color:#ED017F;">{first_name}</span>
-            </h2>
-            <h4 style="
-                color: #374151;
-                font-weight: 400;
-                margin: 0.1rem 0 0 0;
-                line-height: 1.2;
-            ">
-                Your year so far
-            </h4>
-        </div>
+with col_left:
+    st.markdown(
+        f"""
+        <h2 style="margin-bottom: 0;">
+            Good morning, <span style="color:#ED017F;">{first_name}</span>
+        </h2>
+        <p style="margin-top: 0.1rem; color: #374151;">
+            Your year so far
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
 
-        <div style="
+with col_right:
+    st.markdown(
+        f"""
+        <p style="
+            text-align: right;
             color: #6b7280;
             font-size: 0.9rem;
-            white-space: nowrap;
-            margin-top: 0.15rem;
+            margin-top: 1.6rem;
         ">
             <strong>Last refreshed:</strong> {last_refreshed}
-        </div>
-    </div>
-</div>
-""",
-unsafe_allow_html=True
-)
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
+# st.markdown(
+# f"""
+# <div style="padding: 0.1rem 1rem;">
+#     <div style="
+#         display: flex;
+#         justify-content: space-between;
+#         align-items: flex-start;
+#     ">
+#         <div>
+#             <h2 style="
+#                 color: #111827;
+#                 font-weight: 700;
+#                 margin: 0;
+#                 line-height: 1.2;
+#             ">
+#                 Good morning, <span style="color:#ED017F;">{first_name}</span>
+#             </h2>
+#             <h4 style="
+#                 color: #374151;
+#                 font-weight: 400;
+#                 margin: 0.1rem 0 0 0;
+#                 line-height: 1.2;
+#             ">
+#                 Your year so far
+#             </h4>
+#         </div>
+
+#         <div style="
+#             color: #6b7280;
+#             font-size: 0.9rem;
+#             white-space: nowrap;
+#             margin-top: 0.15rem;
+#         ">
+#             <strong>Last refreshed:</strong> {last_refreshed}
+#         </div>
+#     </div>
+# </div>
+# """,
+# unsafe_allow_html=True
+# )
 
 
 
