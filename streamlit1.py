@@ -248,8 +248,8 @@ with col_left:
     <div style="
         padding: 1rem;
         border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        max-width: 400px;
+        border-radius: 10px;
+        max-width: 500px;
         text-align: center;
         margin-top: 1rem;
         font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -318,7 +318,7 @@ with col_right:
         padding: 1rem;
         border: 1px solid #e5e7eb;
         border-radius: 10px;
-        max-width: 400px;
+        max-width: 500px;
         text-align: center;
         margin-top: 1rem;
         font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
