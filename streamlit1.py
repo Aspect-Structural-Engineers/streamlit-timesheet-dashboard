@@ -72,7 +72,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
 import matplotlib.pyplot as plt
 
 def donut_chart(used, remaining, title):
-    fig, ax = plt.subplots(figsize=(1.5, 1.5))
+    fig, ax = plt.subplots(figsize=(1.25, 1.25))
 
     ax.pie(
         [used, remaining],
@@ -269,7 +269,7 @@ flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l &
 
 import streamlit.components.v1 as components
 
-col_left, col_right, col_spacer, col_charts = st.columns([1, 1, 0.2, 1])
+col_left, col_right, col_spacer, col_charts = st.columns([1, 1, 0.5, 1])
 
 
 with col_left:
