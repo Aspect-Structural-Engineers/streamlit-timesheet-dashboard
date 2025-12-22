@@ -299,23 +299,6 @@ pto_max = {
     "Flex": np.nan
 }
 
-# # Display PTO cards
-# cols = st.columns(len(titles_order))
-# for i, row in budget_pto_grouped.iterrows():
-#     title = row["Project No - Title"]
-#     hours = row["Hours"]
-    
-#     # Add Taken/Budget for Vacation and Sick/Medical
-#     if title in ["PTO Vacation", "PTO Sick/Medical"]:
-#         max_val = pto_max[title]
-#         display_val = f"{hours:.1f}/{max_val:.1f}"
-#     else:
-#         display_val = f"{hours:.1f}"
-    
-#     cols[i].metric(label=title, value=display_val)
-
-
-# st.markdown("---")
 
 
 # Third row
@@ -334,7 +317,7 @@ with col_right:
     <div style="
         padding: 1rem;
         border: 1px solid #e5e7eb;
-        border-radius: 8px;
+        border-radius: 10px;
         max-width: 400px;
         text-align: center;
         margin-top: 1rem;
@@ -369,20 +352,7 @@ with col_right:
 
 
 
-
-# # Display Adjusted Target row similar to first row
-# col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
-# col1.metric("Target Working Hours", f"{target_hours:.1f}")
-# col2.metric("", "-")
-# col3.metric("Vacation", f"{pto_vacation:.1f}")
-# col4.metric("", "-")
-# col5.metric("Sick/Medical", f"{pto_sick:.1f}")
-# col6.metric("", "-")
-# col7.metric("Stat Holidays", f"{stat_holidays:.1f}")
-# col8.metric("", "=")
-# col9.metric("Adjusted Target", f"{adjusted_target:.1f}")
-
-
+st.space("medium") 
 
 
 # Monthly Bar Chart
