@@ -69,6 +69,24 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
         st.login("microsoft")
     st.stop()
 
+import matplotlib.pyplot as plt
+
+def donut_chart(used, remaining, title):
+    fig, ax = plt.subplots(figsize=(2.2, 2.2))
+
+    ax.pie(
+        [used, remaining],
+        labels=None,
+        startangle=90,
+        counterclock=False,
+        wedgeprops=dict(width=0.35),
+    )
+
+    ax.text(0, 0, f"{used:.1f}", ha="center", va="center", fontsize=12, fontweight="bold")
+    ax.set_title(title, fontsize=10)
+    ax.axis("equal")
+
+    return fig
 
 
 emp_name = "Sumi Raveendiran"
@@ -242,7 +260,7 @@ flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l &
 
 import streamlit.components.v1 as components
 
-col_left, col_right, col_pto = st.columns([1, 1, 1])
+col_left, col_right, col_charts = st.columns([1, 1, 1])
 
 with col_left:
     components.html(f"""
@@ -313,6 +331,19 @@ pto_sick = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "P
 stat_holidays = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "Stat Holidays", "Hours"].sum()
 # Calculate Adjusted Target
 adjusted_target = target_hours - pto_vacation - pto_sick - stat_holidays - unpaid_hours
+adjusted_target2 = budget_pto_grouped.loc[budget_pto_breakdown]
+
+# PTO max values
+vacation_max = pto_max["Vacation"]
+sick_max = pto_max["Sick/Medical"]
+
+vacation_used = min(pto_vacation, vacation_max)
+vacation_remaining = max(vacation_max - vacation_used, 0)
+
+sick_used = min(pto_sick, sick_max)
+sick_remaining = max(sick_max - sick_used, 0)
+
+
 
 with col_right:
     components.html(f"""
@@ -356,6 +387,24 @@ with col_right:
         </div>
     </div>
     """, height=200)
+
+
+with col_charts:
+    st.markdown("### PTO Usage")
+
+    fig_vac = donut_chart(
+        used=vacation_used,
+        remaining=vacation_remaining,
+        title="Vacation"
+    )
+    st.pyplot(fig_vac, use_container_width=True)
+
+    fig_sick = donut_chart(
+        used=sick_used,
+        remaining=sick_remaining,
+        title="Sick/Medical"
+    )
+    st.pyplot(fig_sick, use_container_width=True)
 
 
 
