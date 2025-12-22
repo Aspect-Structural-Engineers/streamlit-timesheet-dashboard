@@ -269,7 +269,7 @@ flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l &
 
 import streamlit.components.v1 as components
 
-col_left, col_right, col_chart1, col_chart2 = st.columns([0.8, 1, 0.5, 0.5])
+col_left, col_right, col_charts = st.columns([0.8, 1, 1])
 
 
 with col_left:
@@ -400,21 +400,23 @@ with col_right:
 
 
 
-with col_chart1:
-    fig_vac = donut_chart(
-        used=vacation_used,
-        remaining=vacation_remaining,
-        title="Vacation"
-    )
-    st.pyplot(fig_vac, use_container_width=False)
+with col_charts:
+    chart_col1, chart_col2 = st.columns([1, 1])
+    with chart_col1:
+        fig_vac = donut_chart(
+            used=vacation_used,
+            remaining=vacation_remaining,
+            title="Vacation"
+        )
+        st.pyplot(fig_vac, use_container_width=False)
 
-with col_chart2:
-    fig_sick = donut_chart(
-        used=sick_used,
-        remaining=sick_remaining,
-        title="Sick/Medical"
-    )
-    st.pyplot(fig_sick, use_container_width=False)
+    with chart_col2:
+        fig_sick = donut_chart(
+            used=sick_used,
+            remaining=sick_remaining,
+            title="Sick/Medical"
+        )
+        st.pyplot(fig_sick, use_container_width=False)
 
 
 
