@@ -242,14 +242,15 @@ flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l &
 
 import streamlit.components.v1 as components
 
-col_left, col_right = st.columns([1, 1])
+col_left, col_spacer, col_right = st.columns([1, 0.05, 1])
+
 with col_left:
     components.html(f"""
     <div style="
         padding: 1rem;
         border: 1px solid #e5e7eb;
         border-radius: 10px;
-        max-width: 600px;
+        max-width: 400px;
         text-align: center;
         margin-top: 1rem;
         font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
