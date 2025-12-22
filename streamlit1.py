@@ -269,7 +269,8 @@ flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l &
 
 import streamlit.components.v1 as components
 
-col_left, col_right, col_charts = st.columns([1, 1, 1])
+col_left, col_right, col_spacer, col_charts = st.columns([1, 1, 0.2, 1])
+
 
 with col_left:
     components.html(f"""
@@ -395,6 +396,10 @@ with col_right:
         </div>
     </div>
     """, height=200)
+
+
+with col_spacer:
+    st.empty()  # intentional gap
 
 
 with col_charts:
