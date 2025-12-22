@@ -406,7 +406,7 @@ with col_chart1:
         remaining=vacation_remaining,
         title="Vacation"
     )
-    st.pyplot(fig_vac, use_container_width=False)
+    st.pyplot(fig_vac, use_container_width=True)
 
 with col_chart2:
     fig_sick = donut_chart(
@@ -414,7 +414,7 @@ with col_chart2:
         remaining=sick_remaining,
         title="Sick/Medical"
     )
-    st.pyplot(fig_sick, use_container_width=False)
+    st.pyplot(fig_sick, use_container_width=True)
 
 
 
