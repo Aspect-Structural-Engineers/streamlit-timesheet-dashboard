@@ -249,7 +249,7 @@ with col_left:
         padding: 1rem;
         border: 1px solid #e5e7eb;
         border-radius: 10px;
-        max-width: 500px;
+        max-width: 600px;
         text-align: center;
         margin-top: 1rem;
         font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -319,7 +319,7 @@ with col_right:
         padding: 1rem;
         border: 1px solid #e5e7eb;
         border-radius: 10px;
-        max-width: 500px;
+        max-width: 600px;
         text-align: center;
         margin-top: 1rem;
         font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
