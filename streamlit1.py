@@ -91,7 +91,7 @@ def donut_chart(used, remaining, title):
         fontweight="600",
         color="#111827"
     )
-    ax.set_title(title, fontsize=9,fontweight="600",pad=6)
+    ax.set_title(title, fontsize=7,fontweight="600",pad=6)
     ax.axis("equal")
     ax.axis("off")
 
@@ -269,7 +269,7 @@ flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l &
 
 import streamlit.components.v1 as components
 
-col_left, col_right, col_charts = st.columns([0.6, 1.2, 0.8])
+col_left, col_right, col_charts = st.columns([0.6, 1, 0.8])
 
 
 with col_left:
