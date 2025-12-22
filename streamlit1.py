@@ -72,7 +72,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
 import matplotlib.pyplot as plt
 
 def donut_chart(used, remaining, title):
-    fig, ax = plt.subplots(figsize=(1.25, 1.25))
+    fig, ax = plt.subplots(figsize=(1, 1))
 
     ax.pie(
         [used, remaining],
@@ -406,7 +406,7 @@ with col_chart1:
         remaining=vacation_remaining,
         title="Vacation"
     )
-    st.pyplot(fig_vac, use_container_width=True)
+    st.pyplot(fig_vac, use_container_width=False)
 
 with col_chart2:
     fig_sick = donut_chart(
@@ -414,7 +414,7 @@ with col_chart2:
         remaining=sick_remaining,
         title="Sick/Medical"
     )
-    st.pyplot(fig_sick, use_container_width=True)
+    st.pyplot(fig_sick, use_container_width=False)
 
 
 
