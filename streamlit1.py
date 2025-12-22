@@ -401,7 +401,7 @@ with col_right:
 
 
 with col_charts:
-    chart_col1, chart_col2 = st.columns([1, 1])
+    chart_col1, chart_col2 = st.columns([1, 0.8])
     with chart_col1:
         fig_vac = donut_chart(
             used=vacation_used,
