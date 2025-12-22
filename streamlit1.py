@@ -282,6 +282,7 @@ budget_pto_grouped = budget_pto_breakdown.groupby("Project No - Title")["Hours"]
 flex_hours = df_filtered.loc[df_filtered["Utilization Category"] == "Add'l & Flex PTO", "Hours"].sum()
 flex_row = pd.DataFrame({"Project No - Title": ["PTO Flex"], "Hours": [flex_hours]})
 budget_pto_grouped = pd.concat([budget_pto_grouped, flex_row], ignore_index=True)
+unpaid_hours = df_filtered.loc[df_filtered["Project No - Title"] == "Unpaid Time Off", "Hours"].sum()
 
 # PTO titles order
 titles_order = ["PTO Vacation", "PTO Sick/Medical","PTO Flex", "Stat Holidays", "Office Closed"]
@@ -310,7 +311,7 @@ pto_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] =
 pto_sick = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Sick/Medical", "Hours"].sum()
 stat_holidays = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "Stat Holidays", "Hours"].sum()
 # Calculate Adjusted Target
-adjusted_target = target_hours - pto_vacation - pto_sick - stat_holidays
+adjusted_target = target_hours - pto_vacation - pto_sick - stat_holidays - unpaid_hours
 
 with col_right:
     components.html(f"""
@@ -345,6 +346,11 @@ with col_right:
             <div style="text-align:center;">
                 <p style="margin:0; font-size:0.9rem; color:#6b7280;">Stat Holidays</p>
                 <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{stat_holidays:.1f}</p>
+            </div>
+            <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+            <div style="text-align:center;">
+                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Unpaid</p>
+                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{unpaid_hours:.1f}</p>
             </div>
         </div>
     </div>
