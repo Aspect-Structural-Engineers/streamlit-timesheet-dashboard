@@ -331,7 +331,6 @@ pto_sick = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "P
 stat_holidays = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "Stat Holidays", "Hours"].sum()
 # Calculate Adjusted Target
 adjusted_target = target_hours - pto_vacation - pto_sick - stat_holidays - unpaid_hours
-adjusted_target2 = budget_pto_grouped.loc[budget_pto_breakdown]
 
 # PTO max values
 vacation_max = pto_max["Vacation"]
