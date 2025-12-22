@@ -242,7 +242,7 @@ flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l &
 
 import streamlit.components.v1 as components
 
-col_left, col_spacer, col_right = st.columns([1, 0.01, 1])
+col_left, col_spacer, col_right, col_pto, col_pto2 = st.columns([1, 0.01, 1, 1, 1])
 
 with col_left:
     components.html(f"""
