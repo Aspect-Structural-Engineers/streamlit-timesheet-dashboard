@@ -76,10 +76,11 @@ def donut_chart(used, remaining, title):
 
     ax.pie(
         [used, remaining],
+        colors=["#ED017F", "#F7B3D6"],
         labels=None,
         startangle=90,
         counterclock=False,
-        wedgeprops=dict(width=0.28),
+        wedgeprops=dict(width=0.28, edgecolor="white"),
     )
 
     ax.text(
