@@ -72,19 +72,28 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
 import matplotlib.pyplot as plt
 
 def donut_chart(used, remaining, title):
-    fig, ax = plt.subplots(figsize=(2.2, 2.2))
+    fig, ax = plt.subplots(figsize=(1.5, 1.5))
 
     ax.pie(
         [used, remaining],
         labels=None,
         startangle=90,
         counterclock=False,
-        wedgeprops=dict(width=0.35),
+        wedgeprops=dict(width=0.28),
     )
 
-    ax.text(0, 0, f"{used:.1f}", ha="center", va="center", fontsize=12, fontweight="bold")
-    ax.set_title(title, fontsize=10)
+    ax.text(
+        0, 0,
+        f"{used:.1f}",
+        ha="center",
+        va="center",
+        fontsize=10,
+        fontweight="600",
+        color="#111827"
+    )
+    ax.set_title(title, fontsize=9,fontweight="600",pad=6)
     ax.axis("equal")
+    ax.axis("off")
 
     return fig
 
@@ -389,21 +398,20 @@ with col_right:
 
 
 with col_charts:
-    st.markdown("### PTO Usage")
-
+   
     fig_vac = donut_chart(
         used=vacation_used,
         remaining=vacation_remaining,
         title="Vacation"
     )
-    st.pyplot(fig_vac, use_container_width=True)
+    st.pyplot(fig_vac, use_container_width=False)
 
     fig_sick = donut_chart(
         used=sick_used,
         remaining=sick_remaining,
         title="Sick/Medical"
     )
-    st.pyplot(fig_sick, use_container_width=True)
+    st.pyplot(fig_sick, use_container_width=False)
 
 
 
