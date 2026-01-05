@@ -7,6 +7,20 @@ from pandas.tseries.offsets import BDay
 import requests
 from msal import ConfidentialClientApplication
 from io import BytesIO
+import matplotlib.pyplot as plt
+import streamlit.components.v1 as components
+
+st.set_page_config(
+    layout="wide",  # makes content stretch full width
+    page_title="Timesheet Dashboard"
+    )
+
+if not hasattr(st, "user") or not st.user.is_logged_in:
+    st.title("Timesheet Dashboard")
+    st.info("This app is private. Please log in with your Microsoft account.")
+    if st.button("Log in with Microsoft"):
+        st.login("microsoft")
+    st.stop()
 
 def get_sharepoint_csv(client_id, client_secret, tenant_id, site_url, file_path):
     """
@@ -53,24 +67,6 @@ def get_sharepoint_csv(client_id, client_secret, tenant_id, site_url, file_path)
 
     return pd.read_csv(BytesIO(r.content))
 
-
-st.set_page_config(layout = "wide")
-
-st.set_page_config(
-    layout="wide",  # makes content stretch full width
-    page_title="Timesheet Dashboard"
-    )
-
-
-if not hasattr(st, "user") or not st.user.is_logged_in:
-    st.title("Timesheet Dashboard")
-    st.info("This app is private. Please log in with your Microsoft account.")
-    if st.button("Log in with Microsoft"):
-        st.login("microsoft")
-    st.stop()
-
-import matplotlib.pyplot as plt
-
 def donut_chart(used, remaining, title, footer):
     fig, ax = plt.subplots(figsize=(1, 1))
 
@@ -108,13 +104,12 @@ def donut_chart(used, remaining, title, footer):
 
     return fig
 
+def weekday_hours(row):
+    weekdays = pd.bdate_range(start=row["Start"], end=row["End"])
+    return len(weekdays) * row["Daily_Hours"]
 
 emp_name = "Sumi Raveendiran"
 first_name = emp_name.split(" ")[0]
-
-
-from datetime import datetime, timedelta
-
 today = datetime.today()
 monday = today - timedelta(days=today.weekday())
 last_refreshed = monday.strftime("%B %d, %Y")
@@ -127,7 +122,7 @@ with col_left:
         <h2 style="margin-bottom: 0;">
             Good morning, <span style="color:#ED017F;">{first_name}</span>
         </h2>
-        <p style="margin-top: 0.1rem; color: #374151; font-size: 1.2rem;"">
+        <p style="margin-top: 0.1rem; color: #374151; font-size: 1.2rem;">
             Your year so far
         </p>
         """,
@@ -186,6 +181,27 @@ df_user = get_sharepoint_csv(
     site_url=st.secrets["sharepoint"]["site_url"],
     file_path=st.secrets["sharepoint"]["userfig_path"])
 
+# Load Timesheet data
+df = get_sharepoint_csv(
+    client_id=st.secrets["sharepoint"]["client_id"],
+    client_secret=st.secrets["sharepoint"]["client_secret"],
+    tenant_id=st.secrets["sharepoint"]["tenant_id"],
+    site_url=st.secrets["sharepoint"]["site_url"],
+    file_path=st.secrets["sharepoint"]["timesheet_path"]
+)
+
+# Load Timeoff Allowance
+df_allowance = get_sharepoint_csv(
+    client_id=st.secrets["sharepoint"]["client_id"],
+    client_secret=st.secrets["sharepoint"]["client_secret"],
+    tenant_id=st.secrets["sharepoint"]["tenant_id"],
+    site_url=st.secrets["sharepoint"]["site_url"],
+    file_path=st.secrets["sharepoint"]["allowance_path"]
+)
+
+#----------------------
+# TARGET HRS CALC
+#----------------------
 
 df_user["Start"] = pd.to_datetime(df_user["Start"],errors= "coerce")
 df_user["End"] = pd.to_datetime(df_user["End"], errors="coerce")
@@ -211,10 +227,6 @@ df_user["Daily_Hours"] = np.where(
     0
 )
 
-# Function to count weekdays
-def weekday_hours(row):
-    weekdays = pd.bdate_range(start=row["Start"], end=row["End"])
-    return len(weekdays) * row["Daily_Hours"]
 
 df_user["Target Working Hrs"] = df_user.apply(weekday_hours, axis=1)
 
@@ -222,23 +234,14 @@ df_user["Target Working Hrs"] = df_user.apply(weekday_hours, axis=1)
 df_target = df_user.groupby(["Full Name", "Legal Office"], as_index=False)["Target Working Hrs"].sum()
 
 
-# Load Timesheet Export data (Actual Hours)
-
-df = get_sharepoint_csv(
-    client_id=st.secrets["sharepoint"]["client_id"],
-    client_secret=st.secrets["sharepoint"]["client_secret"],
-    tenant_id=st.secrets["sharepoint"]["tenant_id"],
-    site_url=st.secrets["sharepoint"]["site_url"],
-    file_path=st.secrets["sharepoint"]["timesheet_path"]
-)
-
-
+#----------------------
+# TIMESHEET CLEANING
+#----------------------
 
 df.rename(columns={
     "Employee Full Name": "Full Name", 
     "Sum of Hours": "Hours"
 }, inplace=True)
-
 
 # Convert Date
 df["Date"] = pd.to_datetime(df["Date"])
@@ -252,7 +255,6 @@ df["Utilization Category"] = pd.Categorical(
     ordered=True
 )
 
-
 # Filter timesheet to only include dates before start of this week
 today = datetime.today()
 start_of_week = today - timedelta(days=today.weekday())  # Monday this week
@@ -261,24 +263,91 @@ df = df[df["Date"] < start_of_week]
 # Target vs Actual Comparison
 df_filtered = df[df["Full Name"] == emp_name]
 df_actual = df_filtered.groupby("Full Name", as_index=False)["Hours"].sum()
-
-# Merge with target
 df_comparison = pd.merge(df_target, df_actual, on="Full Name", how="left").fillna(0)
-
-
-# Totals by Utilization Category (custom horizontal cards)
-
 totals_by_util = df_filtered.groupby("Utilization Category")["Hours"].sum().reset_index()
 
-# Compute totals
+#----------------------
+# METRICS
+#----------------------
 project_hours = totals_by_util.loc[totals_by_util["Utilization Category"] == "Project", "Hours"].sum()
 internal_hours = totals_by_util.loc[totals_by_util["Utilization Category"] == "Internal", "Hours"].sum()
 total_working_hours = project_hours + internal_hours
 budget_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Budget PTO", "Hours"].sum()
 flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l & Flex PTO", "Hours"].sum()
 
+# Calculate PTO breakdown
+budget_pto_breakdown = df_filtered[df_filtered["Utilization Category"] == "Budget PTO"]
+budget_pto_grouped = budget_pto_breakdown.groupby("Project No - Title")["Hours"].sum().reset_index()
 
-import streamlit.components.v1 as components
+# Add PTO Flex from Add'l & Flex PTO
+flex_hours = df_filtered.loc[df_filtered["Utilization Category"] == "Add'l & Flex PTO", "Hours"].sum()
+flex_row = pd.DataFrame({"Project No - Title": ["PTO Flex"], "Hours": [flex_hours]})
+budget_pto_grouped = pd.concat([budget_pto_grouped, flex_row], ignore_index=True)
+unpaid_hours = df_filtered.loc[df_filtered["Project No - Title"] == "Unpaid Time Off", "Hours"].sum()
+
+# PTO titles order
+titles_order = ["PTO Vacation", "PTO Sick/Medical","PTO Flex", "Stat Holidays", "Office Closed"]
+
+# Merge to ensure all titles exist
+all_titles_df = pd.DataFrame({"Project No - Title": titles_order})
+budget_pto_grouped = pd.merge(all_titles_df, budget_pto_grouped, on="Project No - Title", how="left").fillna(0)
+
+
+# Rename to match naming conventions
+df_allowance.rename(columns={
+    "Employee Full Name": "Full Name"
+}, inplace=True)
+
+df_allowance["Full Name"] = df_allowance["Full Name"].str.strip()
+df_target["Full Name"] = df_target["Full Name"].str.strip()
+
+df_target = df_target.merge(
+    df_allowance,
+    on="Full Name",
+    how="left"
+)
+
+vacation_max = (
+    df_target.loc[df_target["Full Name"] == emp_name, "Allowance"]
+    .fillna(0)
+    .iloc[0]
+)
+
+# Example max allocations per PTO type
+pto_max = {
+    "Vacation": vacation_max,
+    "Sick/Medical": 37.5,
+    "Stat Holidays": np.nan,
+    "Office Closed": np.nan,
+    "Flex": np.nan
+}
+
+# Get target working hours for the selected employee
+target_hours = df_target.loc[df_target["Full Name"] == emp_name, "Target Working Hrs"].sum()
+# Calculate PTO amounts
+pto_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Vacation", "Hours"].sum()
+pto_sick = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Sick/Medical", "Hours"].sum()
+stat_holidays = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "Stat Holidays", "Hours"].sum()
+office_closed = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Office Closed", "Hours"].sum()
+
+combined_closed = stat_holidays + office_closed
+
+# Calculate Adjusted Target
+adjusted_target = target_hours - pto_vacation - pto_sick - combined_closed - unpaid_hours
+flex_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Flex Vacation", "Hours"].sum()
+
+
+# PTO max values
+vacation_max = pto_max["Vacation"]
+sick_max = pto_max["Sick/Medical"]
+
+vacation_used = min(pto_vacation, vacation_max)
+vacation_remaining = max(vacation_max - vacation_used, 0)
+
+sick_used = min(pto_sick, sick_max)
+sick_remaining = max(sick_max - sick_used, 0)
+
+
 
 col_left, col_right, col_charts = st.columns([0.6, 1, 0.8])
 
@@ -311,92 +380,6 @@ with col_left:
     </div>
     """, height=200)
 
-
-# Second row
-
-# Calculate PTO breakdown
-budget_pto_breakdown = df_filtered[df_filtered["Utilization Category"] == "Budget PTO"]
-budget_pto_grouped = budget_pto_breakdown.groupby("Project No - Title")["Hours"].sum().reset_index()
-
-# Add PTO Flex from Add'l & Flex PTO
-flex_hours = df_filtered.loc[df_filtered["Utilization Category"] == "Add'l & Flex PTO", "Hours"].sum()
-flex_row = pd.DataFrame({"Project No - Title": ["PTO Flex"], "Hours": [flex_hours]})
-budget_pto_grouped = pd.concat([budget_pto_grouped, flex_row], ignore_index=True)
-unpaid_hours = df_filtered.loc[df_filtered["Project No - Title"] == "Unpaid Time Off", "Hours"].sum()
-
-# PTO titles order
-titles_order = ["PTO Vacation", "PTO Sick/Medical","PTO Flex", "Stat Holidays", "Office Closed"]
-
-# Merge to ensure all titles exist
-all_titles_df = pd.DataFrame({"Project No - Title": titles_order})
-budget_pto_grouped = pd.merge(all_titles_df, budget_pto_grouped, on="Project No - Title", how="left").fillna(0)
-
-
-# Load Allowance data (PTO entitlements)
-df_allowance = get_sharepoint_csv(
-    client_id=st.secrets["sharepoint"]["client_id"],
-    client_secret=st.secrets["sharepoint"]["client_secret"],
-    tenant_id=st.secrets["sharepoint"]["tenant_id"],
-    site_url=st.secrets["sharepoint"]["site_url"],
-    file_path=st.secrets["sharepoint"]["allowance_path"]
-)
-
-# Rename to match naming conventions
-df_allowance.rename(columns={
-    "Employee Full Name": "Full Name"
-}, inplace=True)
-
-df_allowance["Full Name"] = df_allowance["Full Name"].str.strip()
-df_target["Full Name"] = df_target["Full Name"].str.strip()
-
-df_target = df_target.merge(
-    df_allowance,
-    on="Full Name",
-    how="left"
-)
-
-vacation_max = (
-    df_target.loc[df_target["Full Name"] == emp_name, "Allowance"]
-    .fillna(0)
-    .iloc[0]
-)
-
-# Example max allocations per PTO type
-pto_max = {
-    "Vacation": vacation_max,
-    "Sick/Medical": 37.5,
-    "Stat Holidays": np.nan,
-    "Office Closed": np.nan,
-    "Flex": np.nan
-}
-
-
-# Third row
-
-# Get target working hours for the selected employee
-target_hours = df_target.loc[df_target["Full Name"] == emp_name, "Target Working Hrs"].sum()
-# Calculate PTO amounts
-pto_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Vacation", "Hours"].sum()
-pto_sick = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Sick/Medical", "Hours"].sum()
-stat_holidays = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "Stat Holidays", "Hours"].sum()
-office_closed = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Office Closed", "Hours"].sum()
-
-combined_closed = stat_holidays + office_closed
-
-# Calculate Adjusted Target
-adjusted_target = target_hours - pto_vacation - pto_sick - combined_closed - unpaid_hours
-flex_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Flex Vacation", "Hours"].sum()
-
-
-# PTO max values
-vacation_max = pto_max["Vacation"]
-sick_max = pto_max["Sick/Medical"]
-
-vacation_used = min(pto_vacation, vacation_max)
-vacation_remaining = max(vacation_max - vacation_used, 0)
-
-sick_used = min(pto_sick, sick_max)
-sick_remaining = max(sick_max - sick_used, 0)
 
 
 
@@ -443,9 +426,6 @@ with col_right:
     </div>
     """, height=200)
 
-
-
-
 with col_charts:
     chart_col1, chart_col2 = st.columns([1, 0.8])
     with chart_col1:
@@ -490,15 +470,15 @@ with col_charts:
 
         <div style="display:flex; justify-content:space-between;">
             <div>
-                <p style="margin:0; font-size:1.2rem; color:#6b7280;">Flex</p>
+                <p style="margin:0; font-size:0.6rem; color:#6b7280;">Flex</p>
                 <p style="margin:0; font-weight:600; color:#111827;">{flex_vacation:.1f}</p>
             </div>
             <div>
-                <p style="margin:0; font-size:1.2rem; color:#6b7280;">Unpaid</p>
+                <p style="margin:0; font-size:0.6rem; color:#6b7280;">Unpaid</p>
                 <p style="margin:0; font-weight:600; color:#111827;">{unpaid_hours:.1f}</p>
             </div>
             <div>
-                <p style="margin:0; font-size:1.2rem; color:#6b7280;">Stat Holidays</p>
+                <p style="margin:0; font-size:0.6rem; color:#6b7280;">Stat Holidays</p>
                 <p style="margin:0; font-weight:600; color:#111827;">{stat_holidays:.1f}</p>
             </div>
         </div>
@@ -507,10 +487,10 @@ with col_charts:
 st.space("medium") 
 
 
+#----------------------
+# BAR CHART
+#----------------------
 
-
-
-# Monthly Bar Chart
 agg_df = df_filtered.groupby(["Month", "Utilization Category"], as_index=False)["Hours"].sum()
 totals_by_month = agg_df.groupby("Month")["Hours"].sum().reset_index()
 
