@@ -80,7 +80,7 @@ def donut_chart(used, remaining, title):
         labels=None,
         startangle=90,
         counterclock=False,
-        wedgeprops=dict(width=0.28, edgecolor="white"),
+        wedgeprops=dict(width=0.28),
     )
 
     ax.text(
@@ -321,15 +321,44 @@ titles_order = ["PTO Vacation", "PTO Sick/Medical","PTO Flex", "Stat Holidays", 
 all_titles_df = pd.DataFrame({"Project No - Title": titles_order})
 budget_pto_grouped = pd.merge(all_titles_df, budget_pto_grouped, on="Project No - Title", how="left").fillna(0)
 
+
+# Load Allowance data (PTO entitlements)
+df_allowance = get_sharepoint_csv(
+    client_id=st.secrets["sharepoint"]["client_id"],
+    client_secret=st.secrets["sharepoint"]["client_secret"],
+    tenant_id=st.secrets["sharepoint"]["tenant_id"],
+    site_url=st.secrets["sharepoint"]["site_url"],
+    file_path=st.secrets["sharepoint"]["allowance_path"]
+)
+
+# Rename to match naming conventions
+df_allowance.rename(columns={
+    "Employee Full Name": "Full Name"
+}, inplace=True)
+
+df_allowance["Full Name"] = df_allowance["Full Name"].str.strip()
+df_target["Full Name"] = df_target["Full Name"].str.strip()
+
+df_target = df_target.merge(
+    df_allowance,
+    on="Full Name",
+    how="left"
+)
+
+vacation_max = (
+    df_target.loc[df_target["Full Name"] == emp_name, "Vacation Allowance"]
+    .fillna(0)
+    .iloc[0]
+)
+
 # Example max allocations per PTO type
 pto_max = {
-    "Vacation": 75,
+    "Vacation": vacation_max,
     "Sick/Medical": 37.5,
     "Stat Holidays": np.nan,
     "Office Closed": np.nan,
     "Flex": np.nan
 }
-
 
 
 # Third row
@@ -419,6 +448,45 @@ with col_charts:
         )
         st.pyplot(fig_sick, use_container_width=False)
 
+    max_col1, max_col2 = st.columns([1, 0.8])
+
+    with max_col1:
+        st.markdown(
+            f"""
+            <div style="
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 0.5rem;
+                text-align: center;
+                font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            ">
+                <p style="margin:0; font-size:0.85rem; color:#6b7280;">Vacation Allowance</p>
+                <p style="margin:0; font-weight:600; font-size:1.1rem; color:#111827;">
+                    {vacation_max:.1f} hrs
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    with max_col2:
+        st.markdown(
+            f"""
+            <div style="
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 0.5rem;
+                text-align: center;
+                font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            ">
+                <p style="margin:0; font-size:0.85rem; color:#6b7280;">Sick Allowance</p>
+                <p style="margin:0; font-weight:600; font-size:1.1rem; color:#111827;">
+                    {sick_max:.1f} hrs
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
 
 st.space("medium") 
