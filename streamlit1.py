@@ -454,7 +454,6 @@ with col_charts:
         st.markdown(
             f"""
             <div style="
-            
                 padding: 0.5rem;
                 text-align: center;
                 font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
