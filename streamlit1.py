@@ -102,7 +102,7 @@ def donut_chart(used, remaining, title, footer):
         footer,
         ha="center",
         va="bottom",
-        fontsize=6.5,
+        fontsize=5,
         color="#6b7280"
     )
 
@@ -447,7 +447,7 @@ with col_charts:
             used=vacation_used,
             remaining=vacation_remaining,
             title="Vacation",
-            footer=f"Max {vacation_max:.1f} hrs"
+            footer=f"Max: {vacation_max:.1f} hrs"
         )
         st.pyplot(fig_vac, use_container_width=False)
 
@@ -456,7 +456,7 @@ with col_charts:
             used=sick_used,
             remaining=sick_remaining,
             title="Sick/Medical",
-            footer="Max 37.5 hrs"
+            footer="Max: 37.5 hrs"
         )
         st.pyplot(fig_sick, use_container_width=False)
 
