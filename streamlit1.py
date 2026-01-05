@@ -381,6 +381,8 @@ pto_sick = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "P
 stat_holidays = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "Stat Holidays", "Hours"].sum()
 # Calculate Adjusted Target
 adjusted_target = target_hours - pto_vacation - pto_sick - stat_holidays - unpaid_hours
+flex_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Flex Vacation", "Hours"].sum()
+
 
 # PTO max values
 vacation_max = pto_max["Vacation"]
@@ -460,8 +462,48 @@ with col_charts:
         )
         st.pyplot(fig_sick, use_container_width=False)
 
+    st.markdown("<div style='height:0.75rem'></div>", unsafe_allow_html=True)
 
+    # Centered box below both charts
+    components.html(f"""
+    <div style="
+        margin: 0 auto;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        max-width: 320px;
+        text-align: center;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    ">
+        <p style="
+            margin: 0 0 0.5rem 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #111827;
+        ">
+            Additional Time Off
+        </p>
+
+        <div style="display:flex; justify-content:space-between;">
+            <div>
+                <p style="margin:0; font-size:0.75rem; color:#6b7280;">Flex</p>
+                <p style="margin:0; font-weight:600; color:#111827;">{flex_vacation:.1f}</p>
+            </div>
+            <div>
+                <p style="margin:0; font-size:0.75rem; color:#6b7280;">Unpaid</p>
+                <p style="margin:0; font-weight:600; color:#111827;">{unpaid_hours:.1f}</p>
+            </div>
+            <div>
+                <p style="margin:0; font-size:0.75rem; color:#6b7280;">Stat</p>
+                <p style="margin:0; font-weight:600; color:#111827;">{stat_holidays:.1f}</p>
+            </div>
+        </div>
+    </div>
+    """, height=120)
 st.space("medium") 
+
+
+
 
 
 # Monthly Bar Chart
