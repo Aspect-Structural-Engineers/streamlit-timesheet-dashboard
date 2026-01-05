@@ -454,15 +454,14 @@ with col_charts:
         st.markdown(
             f"""
             <div style="
-                border: 1px solid #e5e7eb;
-                border-radius: 8px;
+            
                 padding: 0.5rem;
                 text-align: center;
                 font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             ">
-                <p style="margin:0; font-size:0.85rem; color:#6b7280;">Vacation Allowance</p>
+                <p style="margin:0; font-size:0.85rem; color:#6b7280;">Allowance</p>
                 <p style="margin:0; font-weight:600; font-size:1.1rem; color:#111827;">
-                    {vacation_max:.1f} hrs
+                    {vacation_max:.1f}
                 </p>
             </div>
             """,
@@ -473,15 +472,13 @@ with col_charts:
         st.markdown(
             f"""
             <div style="
-                border: 1px solid #e5e7eb;
-                border-radius: 8px;
                 padding: 0.5rem;
                 text-align: center;
                 font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             ">
-                <p style="margin:0; font-size:0.85rem; color:#6b7280;">Sick Allowance</p>
+                <p style="margin:0; font-size:0.85rem; color:#6b7280;">Allowance</p>
                 <p style="margin:0; font-weight:600; font-size:1.1rem; color:#111827;">
-                    {sick_max:.1f} hrs
+                    {sick_max:.1f}
                 </p>
             </div>
             """,
