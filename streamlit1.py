@@ -346,7 +346,7 @@ df_target = df_target.merge(
 )
 
 vacation_max = (
-    df_target.loc[df_target["Full Name"] == emp_name, "Vacation Allowance"]
+    df_target.loc[df_target["Full Name"] == emp_name, "Allowance"]
     .fillna(0)
     .iloc[0]
 )
