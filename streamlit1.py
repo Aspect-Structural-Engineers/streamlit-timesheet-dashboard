@@ -448,13 +448,13 @@ with col_charts:
         )
         st.pyplot(fig_sick, use_container_width=False)
 
-    max_col1, max_col2 = st.columns([1, 0.8])
+    max_col1, max_col2 = st.columns([0.5, 0.5])
 
     with max_col1:
         st.markdown(
             f"""
             <div style="
-                padding: 0.5rem;
+                padding: 0.3rem;
                 text-align: center;
                 font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             ">
@@ -471,7 +471,7 @@ with col_charts:
         st.markdown(
             f"""
             <div style="
-                padding: 0.5rem;
+                padding: 0.3rem;
                 text-align: center;
                 font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             ">
