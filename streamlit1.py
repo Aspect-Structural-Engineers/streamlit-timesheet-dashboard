@@ -379,8 +379,12 @@ target_hours = df_target.loc[df_target["Full Name"] == emp_name, "Target Working
 pto_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Vacation", "Hours"].sum()
 pto_sick = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Sick/Medical", "Hours"].sum()
 stat_holidays = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "Stat Holidays", "Hours"].sum()
+office_closed = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Office Closed", "Hours"].sum()
+
+combined_closed = stat_holidays + office_closed
+
 # Calculate Adjusted Target
-adjusted_target = target_hours - pto_vacation - pto_sick - stat_holidays - unpaid_hours
+adjusted_target = target_hours - pto_vacation - pto_sick - combined_closed - unpaid_hours
 flex_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Flex Vacation", "Hours"].sum()
 
 
@@ -427,8 +431,8 @@ with col_right:
             </div>
             <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
             <div style="text-align:center;">
-                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Stat Holidays</p>
-                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{stat_holidays:.1f}</p>
+                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Stat + Office Closed</p>
+                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{combined_closed:.1f}</p>
             </div>
             <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
             <div style="text-align:center;">
@@ -471,30 +475,30 @@ with col_charts:
         padding: 0.75rem 1rem;
         border: 1px solid #e5e7eb;
         border-radius: 10px;
-        max-width: 320px;
+        max-width: 600px;
         text-align: center;
         font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     ">
         <p style="
             margin: 0 0 0.5rem 0;
-            font-size: 0.85rem;
+            font-size: 3rem;
             font-weight: 600;
             color: #111827;
         ">
-            Additional Time Off
+            Additional Time Off Taken
         </p>
 
         <div style="display:flex; justify-content:space-between;">
             <div>
-                <p style="margin:0; font-size:0.75rem; color:#6b7280;">Flex</p>
+                <p style="margin:0; font-size:1.2rem; color:#6b7280;">Flex</p>
                 <p style="margin:0; font-weight:600; color:#111827;">{flex_vacation:.1f}</p>
             </div>
             <div>
-                <p style="margin:0; font-size:0.75rem; color:#6b7280;">Unpaid</p>
+                <p style="margin:0; font-size:1.2rem; color:#6b7280;">Unpaid</p>
                 <p style="margin:0; font-weight:600; color:#111827;">{unpaid_hours:.1f}</p>
             </div>
             <div>
-                <p style="margin:0; font-size:0.75rem; color:#6b7280;">Stat</p>
+                <p style="margin:0; font-size:1.2rem; color:#6b7280;">Stat Holidays</p>
                 <p style="margin:0; font-weight:600; color:#111827;">{stat_holidays:.1f}</p>
             </div>
         </div>
