@@ -71,7 +71,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
 
 import matplotlib.pyplot as plt
 
-def donut_chart(used, remaining, title):
+def donut_chart(used, remaining, title, footer):
     fig, ax = plt.subplots(figsize=(1, 1))
 
     ax.pie(
@@ -95,6 +95,16 @@ def donut_chart(used, remaining, title):
     ax.set_title(title, fontsize=7,fontweight="600",pad=6)
     ax.axis("equal")
     ax.axis("off")
+
+    fig.text( 
+        0.5,        # center horizontally
+        0.02,       # near bottom of figure
+        footer,
+        ha="center",
+        va="bottom",
+        fontsize=6.5,
+        color="#6b7280"
+    )
 
     return fig
 
@@ -436,7 +446,8 @@ with col_charts:
         fig_vac = donut_chart(
             used=vacation_used,
             remaining=vacation_remaining,
-            title="Vacation"
+            title="Vacation",
+            footer=f"Max {vacation_max:.1f} hrs"
         )
         st.pyplot(fig_vac, use_container_width=False)
 
@@ -444,45 +455,10 @@ with col_charts:
         fig_sick = donut_chart(
             used=sick_used,
             remaining=sick_remaining,
-            title="Sick/Medical"
+            title="Sick/Medical",
+            footer="Max 37.5 hrs"
         )
         st.pyplot(fig_sick, use_container_width=False)
-
-    max_col1, max_col2 = st.columns([0.5, 0.5])
-
-    with max_col1:
-        st.markdown(
-            f"""
-            <div style="
-                padding: 0.3rem;
-                text-align: center;
-                font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            ">
-                <p style="margin:0; font-size:0.85rem; color:#6b7280;">Allowance</p>
-                <p style="margin:0; font-weight:600; font-size:1.1rem; color:#111827;">
-                    {vacation_max:.1f}
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    with max_col2:
-        st.markdown(
-            f"""
-            <div style="
-                padding: 0.3rem;
-                text-align: center;
-                font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            ">
-                <p style="margin:0; font-size:0.85rem; color:#6b7280;">Allowance</p>
-                <p style="margin:0; font-weight:600; font-size:1.1rem; color:#111827;">
-                    {sick_max:.1f}
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
 
 
 st.space("medium") 
