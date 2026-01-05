@@ -481,7 +481,7 @@ with col_charts:
     ">
         <p style="
             margin: 0 0 0.5rem 0;
-            font-size: 3rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: #111827;
         ">
