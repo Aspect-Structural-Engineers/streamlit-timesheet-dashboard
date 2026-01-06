@@ -454,8 +454,8 @@ with col_left:
         <strong>{util_last_month:.1%}</strong>,
         and utilization YTD is
         <strong>{util_ytd:.1%}</strong>.
-        Your project hours in Decemebr is {project_last_month:.1%} and target is {adjusted_target_last_month:.1%}.
-        Your project hrs ytd is {project_ytd:.1%} and target is {adjusted_target_ytd:.1%}
+        Your project hours in Decemebr is {project_last_month:.1f} and target is {adjusted_target_last_month:.1f}.
+        Your project hrs ytd is {project_ytd:.1f} and target is {adjusted_target_ytd:.1f}
     </p>
     """,
     unsafe_allow_html=True
