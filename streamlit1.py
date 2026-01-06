@@ -140,7 +140,7 @@ def weekday_hours(row):
     weekdays = pd.bdate_range(start=row["Start"], end=row["End"])
     return len(weekdays) * row["Daily_Hours"]
 
-emp_name = "Sumi Raveendiran"
+emp_name = "Patricia Suayan"
 first_name = emp_name.split(" ")[0]
 today = datetime.today()
 monday = today - timedelta(days=today.weekday())
