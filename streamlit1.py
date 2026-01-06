@@ -126,7 +126,7 @@ def adjusted_target_for_period(start_date, end_date):
     pto = df_util[
         (df_util["Date"].between(start_date, end_date)) &
         (df_util["Project No - Title"].isin([
-            "PTO Vacation",
+            "Vacation",
             "PTO Office Closed",
             "Stat Holidays",
             "Unpaid Time Off",
