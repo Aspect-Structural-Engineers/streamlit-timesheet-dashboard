@@ -22,7 +22,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
         st.login("microsoft")
     st.stop()
 
-def get_sharepoint_csv(client_id, client_secret, tenant_id, site_url, file_path):
+def get_sharepoint_file(client_id, client_secret, tenant_id, site_url, file_path):
     """
     Fetch CSV from SharePoint via Microsoft Graph
     """
@@ -65,7 +65,7 @@ def get_sharepoint_csv(client_id, client_secret, tenant_id, site_url, file_path)
     r = requests.get(file_api, headers=headers)
     r.raise_for_status()
 
-    return pd.read_csv(BytesIO(r.content))
+    return pd.read_excel(BytesIO(r.content), engine ="openpyxl")
 
 def donut_chart(used, remaining, title, footer):
     fig, ax = plt.subplots(figsize=(1, 1))
@@ -174,7 +174,7 @@ st.markdown(
 
 # Load User Fig data (Target Hours)
 
-df_user = get_sharepoint_csv(
+df_user = get_sharepoint_file(
     client_id=st.secrets["sharepoint"]["client_id"],
     client_secret=st.secrets["sharepoint"]["client_secret"],
     tenant_id=st.secrets["sharepoint"]["tenant_id"],
@@ -182,7 +182,7 @@ df_user = get_sharepoint_csv(
     file_path=st.secrets["sharepoint"]["userfig_path"])
 
 # Load Timesheet data
-df = get_sharepoint_csv(
+df = get_sharepoint_file(
     client_id=st.secrets["sharepoint"]["client_id"],
     client_secret=st.secrets["sharepoint"]["client_secret"],
     tenant_id=st.secrets["sharepoint"]["tenant_id"],
@@ -191,7 +191,7 @@ df = get_sharepoint_csv(
 )
 
 # Load Timeoff Allowance
-df_allowance = get_sharepoint_csv(
+df_allowance = get_sharepoint_file(
     client_id=st.secrets["sharepoint"]["client_id"],
     client_secret=st.secrets["sharepoint"]["client_secret"],
     tenant_id=st.secrets["sharepoint"]["tenant_id"],
@@ -202,23 +202,18 @@ df_allowance = get_sharepoint_csv(
 #----------------------
 # TARGET HRS CALC
 #----------------------
-
-df_user["Start"] = pd.to_datetime(df_user["Start"],errors= "coerce")
+# Convert dates
+df_user["Start"] = pd.to_datetime(df_user["Start"], errors="coerce")
 df_user["End"] = pd.to_datetime(df_user["End"], errors="coerce")
 
-today = datetime.today()
-start_of_week = today - timedelta(days=today.weekday())  # Monday this week
-end_of_last_week = start_of_week - timedelta(days=1)     # Sunday last week
-df_user["End"].fillna(end_of_last_week, inplace=True)
+# Hard cap date
+cap_end_date = pd.Timestamp("2025-12-31")
 
-# Cap End dates at last Sunday
-df_user["End"] = np.where(
-    df_user["End"] > end_of_last_week,
-    end_of_last_week,
-    df_user["End"]
-)
+# Fill open-ended contracts to cap date
+df_user["End"] = df_user["End"].fillna(cap_end_date)
 
-df_user["End"] = pd.to_datetime(df_user["End"]) 
+# Cap all End dates at Dec 31, 2025
+df_user["End"] = df_user["End"].clip(upper=cap_end_date)
 
 # Calculate daily working hours
 df_user["Daily_Hours"] = np.where(
@@ -226,6 +221,7 @@ df_user["Daily_Hours"] = np.where(
     df_user["Working Hrs"] / 5,
     0
 )
+
 
 
 df_user["Target Working Hrs"] = df_user.apply(weekday_hours, axis=1)
@@ -348,9 +344,76 @@ sick_used = min(pto_sick, sick_max)
 sick_remaining = max(sick_max - sick_used, 0)
 
 
+# -------------------------
+# UTILIZATION DATE WINDOWS
+# -------------------------
+
+
+
+last_month_start = pd.Timestamp("2025-12-01")
+last_month_end = pd.Timestamp("2025-12-31")
+
+ytd_start = pd.Timestamp("2025-01-01")
+ytd_end = cap_end_date
+
+df_util = df_filtered[df_filtered["Date"] <= cap_end_date]
+
+# Last month project hours
+project_last_month = df_util[
+    (df_util["Utilization Category"] == "Project") &
+    (df_util["Date"].between(last_month_start, last_month_end))
+]["Hours"].sum()
+
+# YTD project hours
+project_ytd = df_util[
+    (df_util["Utilization Category"] == "Project") &
+    (df_util["Date"].between(ytd_start, ytd_end))
+]["Hours"].sum()
+
+def adjusted_target_for_period(start_date, end_date):
+    # Target hours in period
+    target = df_user[
+        (df_user["Full Name"] == emp_name) &
+        (df_user["Start"] <= end_date) &
+        (df_user["End"] >= start_date)
+    ]["Target Working Hrs"].sum()
+
+    # PTO + unpaid in period
+    pto = df_util[
+        (df_util["Date"].between(start_date, end_date)) &
+        (df_util["Utilization Category"].isin(["Budget PTO", "Add'l & Flex PTO"]))
+    ]["Hours"].sum()
+
+    unpaid = df_util[
+        (df_util["Date"].between(start_date, end_date)) &
+        (df_util["Project No - Title"] == "Unpaid Time Off")
+    ]["Hours"].sum()
+
+    return max(target - pto - unpaid, 0)
+
+adjusted_target_last_month = adjusted_target_for_period(
+    last_month_start, last_month_end
+)
+
+adjusted_target_ytd = adjusted_target_for_period(
+    ytd_start, ytd_end
+)
+
+util_last_month = (
+    project_last_month / adjusted_target_last_month
+    if adjusted_target_last_month > 0 else 0
+)
+
+util_ytd = (
+    project_ytd / adjusted_target_ytd
+    if adjusted_target_ytd > 0 else 0
+)
 
 col_left, col_right, col_charts = st.columns([0.6, 1, 0.8])
 
+#----------------------
+# Hours Worked Box
+#----------------------
 
 with col_left:
     components.html(f"""
@@ -380,8 +443,26 @@ with col_left:
     </div>
     """, height=200)
 
+    st.markdown(
+    f"""
+    <p style="
+        margin-top: 0.75rem;
+        font-size: 0.95rem;
+        color: #374151;
+    ">
+        Your utilization for last month (December 2025) was
+        <strong>{util_last_month:.1%}</strong>,
+        and utilization YTD is
+        <strong>{util_ytd:.1%}</strong>.
+    </p>
+    """,
+    unsafe_allow_html=True
+    )
 
 
+#----------------------
+# Adjusted Target Box
+#----------------------
 
 with col_right:
     components.html(f"""
@@ -425,6 +506,10 @@ with col_right:
         </div>
     </div>
     """, height=200)
+
+#----------------------
+# Pie Charts + Addl Time Off Box
+#----------------------
 
 with col_charts:
     chart_col1, chart_col2 = st.columns([1, 0.8])
@@ -470,15 +555,15 @@ with col_charts:
 
         <div style="display:flex; justify-content:space-between;">
             <div>
-                <p style="margin:0; font-size:0.6rem; color:#6b7280;">Flex</p>
+                <p style="margin:0; font-size:0.8rem; color:#6b7280;">Flex</p>
                 <p style="margin:0; font-weight:600; color:#111827;">{flex_vacation:.1f}</p>
             </div>
             <div>
-                <p style="margin:0; font-size:0.6rem; color:#6b7280;">Unpaid</p>
+                <p style="margin:0; font-size:0.8rem; color:#6b7280;">Unpaid</p>
                 <p style="margin:0; font-weight:600; color:#111827;">{unpaid_hours:.1f}</p>
             </div>
             <div>
-                <p style="margin:0; font-size:0.6rem; color:#6b7280;">Stat Holidays</p>
+                <p style="margin:0; font-size:0.8rem; color:#6b7280;">Stat Holidays</p>
                 <p style="margin:0; font-weight:600; color:#111827;">{stat_holidays:.1f}</p>
             </div>
         </div>
