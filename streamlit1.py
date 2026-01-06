@@ -136,6 +136,10 @@ def adjusted_target_for_period(start_date, end_date):
 
     return max(target - pto, 0)
 
+def weekday_hours(row):
+    weekdays = pd.bdate_range(start=row["Start"], end=row["End"])
+    return len(weekdays) * row["Daily_Hours"]
+
 emp_name = "Sumi Raveendiran"
 first_name = emp_name.split(" ")[0]
 today = datetime.today()
@@ -250,10 +254,11 @@ df_user["Daily_Hours"] = np.where(
     0
 )
 
+df_user["Target Working Hrs (Contract)"] = df_user.apply(weekday_hours, axis=1)
 
 
 # Aggregate by employee
-df_target = df_user.groupby(["Full Name", "Legal Office"], as_index=False)["Target Working Hrs"].sum()
+df_target = df_user.groupby(["Full Name", "Legal Office"], as_index=False)["Target Working Hrs (Contract)"].sum()
 
 
 #----------------------
@@ -345,7 +350,7 @@ pto_max = {
 }
 
 # Get target working hours for the selected employee
-target_hours = df_target.loc[df_target["Full Name"] == emp_name, "Target Working Hrs"].sum()
+target_hours = df_target.loc[df_target["Full Name"] == emp_name, "Target Working Hrs (Contract)"].sum()
 # Calculate PTO amounts
 pto_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "Vacation", "Hours"].sum()
 pto_sick = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Sick/Medical", "Hours"].sum()
