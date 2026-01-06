@@ -321,7 +321,7 @@ pto_max = {
 # Get target working hours for the selected employee
 target_hours = df_target.loc[df_target["Full Name"] == emp_name, "Target Working Hrs"].sum()
 # Calculate PTO amounts
-pto_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Vacation", "Hours"].sum()
+pto_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "Vacation", "Hours"].sum()
 pto_sick = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Sick/Medical", "Hours"].sum()
 stat_holidays = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "Stat Holidays", "Hours"].sum()
 office_closed = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Office Closed", "Hours"].sum()
