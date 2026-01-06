@@ -104,9 +104,37 @@ def donut_chart(used, remaining, title, footer):
 
     return fig
 
-def weekday_hours(row):
-    weekdays = pd.bdate_range(start=row["Start"], end=row["End"])
+def target_hours_in_period(row, period_start, period_end):
+    start = max(row["Start"], period_start)
+    end = min(row["End"], period_end)
+
+    if start > end:
+        return 0
+
+    weekdays = pd.bdate_range(start=start, end=end)
     return len(weekdays) * row["Daily_Hours"]
+
+def adjusted_target_for_period(start_date, end_date):
+    # Target hours in period (correct)
+    target = (
+        df_user[df_user["Full Name"] == emp_name]
+        .apply(target_hours_in_period, axis=1, args=(start_date, end_date))
+        .sum()
+    )
+
+    # PTO taken in period
+    pto = df_util[
+        (df_util["Date"].between(start_date, end_date)) &
+        (df_util["Project No - Title"].isin([
+            "PTO Vacation",
+            "PTO Office Closed",
+            "Stat Holidays",
+            "Unpaid Time Off",
+            "PTO Sick/Medical"
+        ]))
+    ]["Hours"].sum()
+
+    return max(target - pto, 0)
 
 emp_name = "Sumi Raveendiran"
 first_name = emp_name.split(" ")[0]
@@ -223,8 +251,6 @@ df_user["Daily_Hours"] = np.where(
 )
 
 
-
-df_user["Target Working Hrs"] = df_user.apply(weekday_hours, axis=1)
 
 # Aggregate by employee
 df_target = df_user.groupby(["Full Name", "Legal Office"], as_index=False)["Target Working Hrs"].sum()
@@ -370,26 +396,6 @@ project_ytd = df_util[
     (df_util["Date"].between(ytd_start, ytd_end))
 ]["Hours"].sum()
 
-def adjusted_target_for_period(start_date, end_date):
-    # Target hours in period
-    target = df_user[
-        (df_user["Full Name"] == emp_name) &
-        (df_user["Start"] <= end_date) &
-        (df_user["End"] >= start_date)
-    ]["Target Working Hrs"].sum()
-
-    # PTO + unpaid in period
-    pto = df_util[
-        (df_util["Date"].between(start_date, end_date)) &
-        (df_util["Utilization Category"].isin(["Budget PTO", "Add'l & Flex PTO"]))
-    ]["Hours"].sum()
-
-    unpaid = df_util[
-        (df_util["Date"].between(start_date, end_date)) &
-        (df_util["Project No - Title"] == "Unpaid Time Off")
-    ]["Hours"].sum()
-
-    return max(target - pto - unpaid, 0)
 
 adjusted_target_last_month = adjusted_target_for_period(
     last_month_start, last_month_end
@@ -454,7 +460,7 @@ with col_left:
         <strong>{util_last_month:.1%}</strong>,
         and utilization YTD is
         <strong>{util_ytd:.1%}</strong>.
-        Your project hours in Decemebr is {project_last_month:.1f} and target is {adjusted_target_last_month:.1f}.
+        Your project hours in December is {project_last_month:.1f} and target is {adjusted_target_last_month:.1f}.
         Your project hrs ytd is {project_ytd:.1f} and target is {adjusted_target_ytd:.1f}
     </p>
     """,
