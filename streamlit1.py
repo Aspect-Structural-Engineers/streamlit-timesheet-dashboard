@@ -564,7 +564,6 @@ with col_charts:
         </div>
     </div>
     """, height=120)
-st.space("medium") 
 
 
 # ----------------------
@@ -593,14 +592,14 @@ with util_left:
             <p style="margin:0.4rem 0 0 0;">
                 Project hours in December:
                 <strong>{project_last_month:.1f}</strong>
-                &nbsp;|&nbsp;
+                &nbsp;/&nbsp;
                 Target:
                 <strong>{adjusted_target_last_month:.1f}</strong>
             </p>
             <p style="margin:0.25rem 0 0 0;">
                 Project hours YTD:
                 <strong>{project_ytd:.1f}</strong>
-                &nbsp;|&nbsp;
+                &nbsp;/&nbsp;
                 Target:
                 <strong>{adjusted_target_ytd:.1f}</strong>
             </p>
