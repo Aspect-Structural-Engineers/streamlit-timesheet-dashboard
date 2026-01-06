@@ -454,25 +454,7 @@ with col_left:
     </div>
     """, height=200)
 
-    st.markdown(
-    f"""
-    <p style="
-        margin-top: 0.75rem;
-        font-size: 0.95rem;
-        color: #374151;
-    ">
-        Your utilization for last month (December 2025) was
-        <strong>{util_last_month:.1%}</strong>,
-        and utilization YTD is
-        <strong>{util_ytd:.1%}</strong>.
-        Your project hours in December is {project_last_month:.1f} and target is {adjusted_target_last_month:.1f}.
-        Your project hrs ytd is {project_ytd:.1f} and target is {adjusted_target_ytd:.1f}
-    </p>
-    """,
-    unsafe_allow_html=True
-    )
-
-
+ 
 #----------------------
 # Adjusted Target Box
 #----------------------
@@ -583,6 +565,50 @@ with col_charts:
     </div>
     """, height=120)
 st.space("medium") 
+
+
+# ----------------------
+# Utilization Summary Row
+# ----------------------
+
+util_left, util_right, util_spacer = st.columns([1.6, 0.8, 0.1])
+
+with util_left:
+    st.markdown(
+        f"""
+        <div style="
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            color: #374151;
+            font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        ">
+            <p style="margin:0;">
+                Your utilization for last month (December 2025) was
+                <strong>{util_last_month:.1%}</strong>,
+                and utilization YTD is
+                <strong>{util_ytd:.1%}</strong>.
+            </p>
+            <p style="margin:0.4rem 0 0 0;">
+                Project hours in December:
+                <strong>{project_last_month:.1f}</strong>
+                &nbsp;|&nbsp;
+                Target:
+                <strong>{adjusted_target_last_month:.1f}</strong>
+            </p>
+            <p style="margin:0.25rem 0 0 0;">
+                Project hours YTD:
+                <strong>{project_ytd:.1f}</strong>
+                &nbsp;|&nbsp;
+                Target:
+                <strong>{adjusted_target_ytd:.1f}</strong>
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
 
 
 #----------------------
