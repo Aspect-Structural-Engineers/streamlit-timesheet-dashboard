@@ -277,12 +277,12 @@ budget_pto_grouped = budget_pto_breakdown.groupby("Project No - Title")["Hours"]
 
 # Add PTO Flex from Add'l & Flex PTO
 flex_hours = df_filtered.loc[df_filtered["Utilization Category"] == "Add'l & Flex PTO", "Hours"].sum()
-flex_row = pd.DataFrame({"Project No - Title": ["PTO Flex"], "Hours": [flex_hours]})
+flex_row = pd.DataFrame({"Project No - Title": ["PTO Flex Vacation"], "Hours": [flex_hours]})
 budget_pto_grouped = pd.concat([budget_pto_grouped, flex_row], ignore_index=True)
 unpaid_hours = df_filtered.loc[df_filtered["Project No - Title"] == "Unpaid Time Off", "Hours"].sum()
 
 # PTO titles order
-titles_order = ["Vacation", "PTO Sick/Medical","PTO Flex", "Stat Holidays", "PTO Office Closed"]
+titles_order = ["Vacation", "PTO Sick/Medical","PTO Flex Vacation", "Stat Holidays", "PTO Office Closed"]
 
 # Merge to ensure all titles exist
 all_titles_df = pd.DataFrame({"Project No - Title": titles_order})
@@ -454,6 +454,8 @@ with col_left:
         <strong>{util_last_month:.1%}</strong>,
         and utilization YTD is
         <strong>{util_ytd:.1%}</strong>.
+        Your project hours in Decemebr is {project_last_month:.1%} and target is {adjusted_target_last_month:.1%}.
+        Your project hrs ytd is {project_ytd:.1%} and target is {adjusted_target_ytd:.1%}
     </p>
     """,
     unsafe_allow_html=True
