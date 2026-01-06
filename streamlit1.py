@@ -282,7 +282,7 @@ budget_pto_grouped = pd.concat([budget_pto_grouped, flex_row], ignore_index=True
 unpaid_hours = df_filtered.loc[df_filtered["Project No - Title"] == "Unpaid Time Off", "Hours"].sum()
 
 # PTO titles order
-titles_order = ["PTO Vacation", "PTO Sick/Medical","PTO Flex", "Stat Holidays", "Office Closed"]
+titles_order = ["Vacation", "PTO Sick/Medical","PTO Flex", "Stat Holidays", "PTO Office Closed"]
 
 # Merge to ensure all titles exist
 all_titles_df = pd.DataFrame({"Project No - Title": titles_order})
@@ -314,7 +314,7 @@ pto_max = {
     "Vacation": vacation_max,
     "Sick/Medical": 37.5,
     "Stat Holidays": np.nan,
-    "Office Closed": np.nan,
+    "PTO Office Closed": np.nan,
     "Flex": np.nan
 }
 
