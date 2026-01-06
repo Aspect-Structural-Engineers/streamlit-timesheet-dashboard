@@ -504,7 +504,39 @@ with col_metrics:
         """, height=200)
 
 
-    
+#----------------------
+# Pie Charts + Addl Time Off Box
+#----------------------
+
+with col_charts:
+    chart_col1, chart_col2 = st.columns([1, 0.8])
+    with chart_col1:
+        fig_vac = donut_chart(
+            used=vacation_used,
+            remaining=vacation_remaining,
+            title="Vacation",
+            footer=f"Max: {vacation_max:.1f} hrs"
+        )
+        st.pyplot(fig_vac, use_container_width=False)
+
+    with chart_col2:
+        fig_sick = donut_chart(
+            used=sick_used,
+            remaining=sick_remaining,
+            title="Sick/Medical",
+            footer="Max: 37.5 hrs"
+        )
+        st.pyplot(fig_sick, use_container_width=False)
+
+    st.markdown("<div style='height:0.75rem'></div>", unsafe_allow_html=True)
+
+# ----------------------
+# Bottom Summary Row
+# ----------------------
+
+util_left, util_right = st.columns([1.6, 0.8])
+
+with util_left:
     components.html(
         f"""
         <div style="
@@ -536,75 +568,49 @@ with col_metrics:
                 <strong>{adjusted_target_ytd:.1f}</strong>
             </p>
         </div>
-        """,height=120)  
+        """,
+        height=120
+    )
 
-#----------------------
-# Pie Charts + Addl Time Off Box
-#----------------------
-
-with col_charts:
-    chart_col1, chart_col2 = st.columns([1, 0.8])
-    with chart_col1:
-        fig_vac = donut_chart(
-            used=vacation_used,
-            remaining=vacation_remaining,
-            title="Vacation",
-            footer=f"Max: {vacation_max:.1f} hrs"
-        )
-        st.pyplot(fig_vac, use_container_width=False)
-
-    with chart_col2:
-        fig_sick = donut_chart(
-            used=sick_used,
-            remaining=sick_remaining,
-            title="Sick/Medical",
-            footer="Max: 37.5 hrs"
-        )
-        st.pyplot(fig_sick, use_container_width=False)
-
-    st.markdown("<div style='height:0.75rem'></div>", unsafe_allow_html=True)
-
-    # Centered box below both charts
-    components.html(f"""
-    <div style="
-        margin: 0 auto;
-        padding: 0.75rem 1rem;
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        max-width: 600px;
-        text-align: center;
-        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    ">
-        <p style="
-            margin: 0 0 0.5rem 0;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #111827;
+with util_right:
+    components.html(
+        f"""
+        <div style="
+            margin: 0 auto;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            max-width: 600px;
+            text-align: center;
+            font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         ">
-            Additional Time Off Taken
-        </p>
+            <p style="
+                margin: 0 0 0.5rem 0;
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: #111827;
+            ">
+                Additional Time Off Taken
+            </p>
 
-        <div style="display:flex; justify-content:space-between;">
-            <div>
-                <p style="margin:0; font-size:0.8rem; color:#6b7280;">Flex</p>
-                <p style="margin:0; font-weight:600; color:#111827;">{flex_vacation:.1f}</p>
-            </div>
-            <div>
-                <p style="margin:0; font-size:0.8rem; color:#6b7280;">Unpaid</p>
-                <p style="margin:0; font-weight:600; color:#111827;">{unpaid_hours:.1f}</p>
-            </div>
-            <div>
-                <p style="margin:0; font-size:0.8rem; color:#6b7280;">Stat Holidays</p>
-                <p style="margin:0; font-weight:600; color:#111827;">{stat_holidays:.1f}</p>
+            <div style="display:flex; justify-content:space-between;">
+                <div>
+                    <p style="margin:0; font-size:0.8rem; color:#6b7280;">Flex</p>
+                    <p style="margin:0; font-weight:600; color:#111827;">{flex_vacation:.1f}</p>
+                </div>
+                <div>
+                    <p style="margin:0; font-size:0.8rem; color:#6b7280;">Unpaid</p>
+                    <p style="margin:0; font-weight:600; color:#111827;">{unpaid_hours:.1f}</p>
+                </div>
+                <div>
+                    <p style="margin:0; font-size:0.8rem; color:#6b7280;">Stat Holidays</p>
+                    <p style="margin:0; font-weight:600; color:#111827;">{stat_holidays:.1f}</p>
+                </div>
             </div>
         </div>
-    </div>
-    """, height=120)
-
-
-# ----------------------
-# Utilization Summary Row
-# ----------------------
+        """,
+        height=120
+    )
 
 
 
