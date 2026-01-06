@@ -420,87 +420,123 @@ util_ytd = (
     if adjusted_target_ytd > 0 else 0
 )
 
-col_left, col_right, col_charts = st.columns([0.6, 1, 0.8])
+col_metrics, col_charts = st.columns([1.6, 0.8])
 
 #----------------------
 # Hours Worked Box
 #----------------------
-
-with col_left:
-    components.html(f"""
-    <div style="
-        padding: 1rem;
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        max-width: 400px;
-        text-align: center;
-        margin-top: 1rem;
-        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    ">
-        <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Hours Worked</h3>
-        <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{total_working_hours:.1f}</h1>
-        
-        <div style="display:flex;justify-content:center; align-items:center; gap:2rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-            <div style="text-align:center;">
-                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Project</p>
-                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{project_hours:.1f}</p>
-            </div>
-            <div style="font-weight:700; font-size:1.2rem; color:#111827;">+</div>
-            <div style="text-align:center;">
-                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Internal</p>
-                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{internal_hours:.1f}</p>
+with col_metrics:
+    col_left, col_right = st.columns([0.6, 1])
+    with col_left:
+        components.html(f"""
+        <div style="
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            max-width: 400px;
+            text-align: center;
+            margin-top: 1rem;
+            font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        ">
+            <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Hours Worked</h3>
+            <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{total_working_hours:.1f}</h1>
+            
+            <div style="display:flex;justify-content:center; align-items:center; gap:2rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+                <div style="text-align:center;">
+                    <p style="margin:0; font-size:0.9rem; color:#6b7280;">Project</p>
+                    <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{project_hours:.1f}</p>
+                </div>
+                <div style="font-weight:700; font-size:1.2rem; color:#111827;">+</div>
+                <div style="text-align:center;">
+                    <p style="margin:0; font-size:0.9rem; color:#6b7280;">Internal</p>
+                    <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{internal_hours:.1f}</p>
+                </div>
             </div>
         </div>
-    </div>
-    """, height=200)
+        """, height=200)
 
  
 #----------------------
 # Adjusted Target Box
 #----------------------
 
-with col_right:
-    components.html(f"""
-    <div style="
-        padding: 1rem;
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        max-width: 600px;
-        text-align: center;
-        margin-top: 1rem;
-        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    ">
-        <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Adjusted Target</h3>
-        <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{adjusted_target:.1f}</h1>
+    with col_right:
+        components.html(f"""
+        <div style="
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            max-width: 600px;
+            text-align: center;
+            margin-top: 1rem;
+            font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        ">
+            <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Adjusted Target</h3>
+            <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{adjusted_target:.1f}</h1>
 
-        <div style="display:flex;justify-content:center; align-items:center; gap:1.5rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-            <div style="text-align:center;">
-                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Target</p>
-                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{target_hours:.1f}</p>
-            </div>
-            <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
-            <div style="text-align:center;">
-                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Vacation</p>
-                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_vacation:.1f}</p>
-            </div>
-            <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
-            <div style="text-align:center;">
-                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Sick/Medical</p>
-                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_sick:.1f}</p>
-            </div>
-            <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
-            <div style="text-align:center;">
-                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Stat + Office Closed</p>
-                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{combined_closed:.1f}</p>
-            </div>
-            <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
-            <div style="text-align:center;">
-                <p style="margin:0; font-size:0.9rem; color:#6b7280;">Unpaid</p>
-                <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{unpaid_hours:.1f}</p>
+            <div style="display:flex;justify-content:center; align-items:center; gap:1.5rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+                <div style="text-align:center;">
+                    <p style="margin:0; font-size:0.9rem; color:#6b7280;">Target</p>
+                    <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{target_hours:.1f}</p>
+                </div>
+                <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+                <div style="text-align:center;">
+                    <p style="margin:0; font-size:0.9rem; color:#6b7280;">Vacation</p>
+                    <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_vacation:.1f}</p>
+                </div>
+                <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+                <div style="text-align:center;">
+                    <p style="margin:0; font-size:0.9rem; color:#6b7280;">Sick/Medical</p>
+                    <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_sick:.1f}</p>
+                </div>
+                <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+                <div style="text-align:center;">
+                    <p style="margin:0; font-size:0.9rem; color:#6b7280;">Stat + Office Closed</p>
+                    <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{combined_closed:.1f}</p>
+                </div>
+                <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+                <div style="text-align:center;">
+                    <p style="margin:0; font-size:0.9rem; color:#6b7280;">Unpaid</p>
+                    <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{unpaid_hours:.1f}</p>
+                </div>
             </div>
         </div>
-    </div>
-    """, height=200)
+        """, height=200)
+
+
+    
+    components.html(
+        f"""
+        <div style="
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            color: #374151;
+            font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        ">
+            <p style="margin:0;">
+                Your utilization for last month (December 2025) was
+                <strong>{util_last_month:.1%}</strong>,
+                and utilization YTD is
+                <strong>{util_ytd:.1%}</strong>.
+            </p>
+            <p style="margin:0.4rem 0 0 0;">
+                Project hours in December:
+                <strong>{project_last_month:.1f}</strong>
+                &nbsp;/&nbsp;
+                Target:
+                <strong>{adjusted_target_last_month:.1f}</strong>
+            </p>
+            <p style="margin:0.25rem 0 0 0;">
+                Project hours YTD:
+                <strong>{project_ytd:.1f}</strong>
+                &nbsp;/&nbsp;
+                Target:
+                <strong>{adjusted_target_ytd:.1f}</strong>
+            </p>
+        </div>
+        """,height=120)  
 
 #----------------------
 # Pie Charts + Addl Time Off Box
@@ -570,43 +606,9 @@ with col_charts:
 # Utilization Summary Row
 # ----------------------
 
-util_left, util_right, util_spacer = st.columns([1.6, 0.8, 0.1])
 
-with util_left:
-    st.markdown(
-        f"""
-        <div style="
-            padding: 0.75rem 1rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            color: #374151;
-            font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        ">
-            <p style="margin:0;">
-                Your utilization for last month (December 2025) was
-                <strong>{util_last_month:.1%}</strong>,
-                and utilization YTD is
-                <strong>{util_ytd:.1%}</strong>.
-            </p>
-            <p style="margin:0.4rem 0 0 0;">
-                Project hours in December:
-                <strong>{project_last_month:.1f}</strong>
-                &nbsp;/&nbsp;
-                Target:
-                <strong>{adjusted_target_last_month:.1f}</strong>
-            </p>
-            <p style="margin:0.25rem 0 0 0;">
-                Project hours YTD:
-                <strong>{project_ytd:.1f}</strong>
-                &nbsp;/&nbsp;
-                Target:
-                <strong>{adjusted_target_ytd:.1f}</strong>
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+
+
 
 
 
