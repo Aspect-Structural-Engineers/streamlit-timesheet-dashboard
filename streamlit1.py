@@ -611,12 +611,12 @@ with col_metrics:
             margin-top: 1rem;
             font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         ">
-            <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Adjusted Target</h3>
+            <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Adjusted Baseline</h3>
             <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{adjusted_target:.1f}</h1>
 
             <div style="display:flex;justify-content:center; align-items:center; gap:1.5rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                 <div style="text-align:center;">
-                    <p style="margin:0; font-size:0.9rem; color:#6b7280;">Target</p>
+                    <p style="margin:0; font-size:0.9rem; color:#6b7280;">Baseline</p>
                     <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{target_hours:.1f}</p>
                 </div>
                 <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
@@ -699,14 +699,14 @@ with util_left:
                 Project hours in December:
                 <strong>{project_last_month:.1f}</strong>
                 &nbsp;/&nbsp;
-                Target:
+                Baseline:
                 <strong>{adjusted_target_last_month:.1f}</strong>
             </p>
             <p style="margin:0.25rem 0 0 0;">
                 Project hours YTD:
                 <strong>{project_ytd:.1f}</strong>
                 &nbsp;/&nbsp;
-                Target:
+                Baseline:
                 <strong>{adjusted_target_ytd:.1f}</strong>
             </p>
         </div>
@@ -753,11 +753,6 @@ with util_right:
         """,
         height=120
     )
-
-
-
-
-
 
 
 #----------------------
