@@ -131,8 +131,6 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
                 class="login-logo"
             />
             <div class="login-title">Timesheet Dashboard</div>
-
-            <!-- Button anchor -->
             <div id="login-button-anchor"></div>
         </div>
     </div>
