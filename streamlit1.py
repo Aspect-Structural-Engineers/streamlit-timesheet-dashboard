@@ -136,11 +136,9 @@ st.markdown("<div style='height: 1.5rem'></div>", unsafe_allow_html=True)
 left, center, right = st.columns([3.2, 2, 2])
 
 with center:
-    
     if st.button("Log in with Microsoft"):
         st.login("microsoft")
-
-st.stop()
+    st.stop()
 
 
 
