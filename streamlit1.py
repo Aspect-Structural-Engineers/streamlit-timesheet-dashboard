@@ -47,7 +47,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
             background: white;
             padding: 2.5rem 3rem;
             border-radius: 12px;
-            width: 360px;
+            width: 420px;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -63,10 +63,17 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
 
         /* Title */
         .login-title {
-            font-size: 1.6rem;
+            font-size: 1.45rem;
             font-weight: 700;
             color: #111827;
-            margin-bottom: 2rem;
+            margin-bottom: 1.8rem;
+            white-space: nowrap;
+        }
+        
+        /* Ensure button stays inside card */
+        div.stButton {
+        margin-top: 1rem;
+        width: 100%;
         }
 
         /* Streamlit button overrides */
@@ -92,24 +99,33 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
     )
 
     st.markdown(
-        """
-        <div class="login-container">
-            <div class="login-card">
-                <img
-                    src="https://raw.githubusercontent.com/Aspect-Structural-Engineers/streamlit-timesheet-dashboard/main/assets/ASPECT_Full_Logo.png"
-                    class="login-logo"
-                />
-                <div class="login-title">
-                    Timesheet Dashboard
-                </div>
-        """,
-        unsafe_allow_html=True
-    )
+    """
+    <div class="login-container">
+        <div class="login-card">
+            <img
+                src="https://raw.githubusercontent.com/Aspect-Structural-Engineers/streamlit-timesheet-dashboard/main/assets/ASPECT_Full_Logo.png"
+                class="login-logo"
+            />
+            <div class="login-title">Timesheet Dashboard</div>
+    """,
+    unsafe_allow_html=True
+)
 
+
+with st.container():
     if st.button("Log in with Microsoft"):
         st.login("microsoft")
-    st.markdown("</div></div>", unsafe_allow_html=True)
-    st.stop()
+
+st.markdown(
+    """
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.stop()
+
 
 
 def get_sharepoint_file(client_id, client_secret, tenant_id, site_url, file_path):
