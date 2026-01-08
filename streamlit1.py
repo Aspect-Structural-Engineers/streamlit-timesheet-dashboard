@@ -260,6 +260,11 @@ df_user["Target Working Hrs (Contract)"] = df_user.apply(weekday_hours, axis=1)
 # Aggregate by employee
 df_target = df_user.groupby(["Full Name", "Legal Office"], as_index=False)["Target Working Hrs (Contract)"].sum()
 
+df_util_target = (
+    df_user
+    .groupby("Full Name", as_index=False)
+    .agg({"Utilization Target": "mean"})
+)
 
 #----------------------
 # TIMESHEET CLEANING
@@ -336,6 +341,12 @@ df_target = df_target.merge(
 
 vacation_max = (
     df_target.loc[df_target["Full Name"] == emp_name, "Allowance"]
+    .fillna(0)
+    .iloc[0]
+)
+
+util_target = (
+    df_util_target.loc[df_util_target["Full Name"] == emp_name, "Utilization Target"]
     .fillna(0)
     .iloc[0]
 )
@@ -551,7 +562,9 @@ with util_left:
                 Your utilization for last month (December 2025) was
                 <strong>{util_last_month:.1%}</strong>,
                 and utilization YTD is
-                <strong>{util_ytd:.1%}</strong>.
+                <strong>{util_ytd:.1%}</strong>. 
+                Your utilization target is 
+                <strong>{util_target:.1%}</strong>
             </p>
             <p style="margin:0.4rem 0 0 0;">
                 Project hours in December:
