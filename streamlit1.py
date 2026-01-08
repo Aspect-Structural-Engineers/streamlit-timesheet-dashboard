@@ -57,7 +57,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
             background: white;
             padding: 2.5rem 3rem;
             border-radius: 12px;
-            width: 450px;
+            width: 420px;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -136,7 +136,7 @@ st.markdown("<div style='height: 1.5rem'></div>", unsafe_allow_html=True)
 left, center, right = st.columns([3.2, 2, 2])
 
 with center:
-    st.markdown("<br><br><br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
+    
     if st.button("Log in with Microsoft"):
         st.login("microsoft")
 
@@ -262,7 +262,7 @@ def weekday_hours(row):
     weekdays = pd.bdate_range(start=row["Start"], end=row["End"])
     return len(weekdays) * row["Daily_Hours"]
 
-emp_name = "Ornagh Higgins"
+emp_name = "Shlok Verma"
 first_name = emp_name.split(" ")[0]
 today = datetime.today()
 monday = today - timedelta(days=today.weekday())
