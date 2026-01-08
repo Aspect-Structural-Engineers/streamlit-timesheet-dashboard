@@ -155,7 +155,7 @@ with col_left:
             Good morning, <span style="color:#ED017F;">{first_name}</span>
         </h2>
         <p style="margin-top: 0.1rem; color: #374151; font-size: 1.2rem;">
-            Your year so far
+            Your year so far:
         </p>
         """,
         unsafe_allow_html=True
@@ -562,9 +562,9 @@ with util_left:
                 Your utilization for last month (December 2025) was
                 <strong>{util_last_month:.1%}</strong>,
                 and utilization YTD is
-                <strong>{util_ytd:.1%}</strong>. 
+                <strong><span style="color:#ED017F;">{util_ytd:.1%}</span></strong>. 
                 Your utilization target is 
-                <strong>{util_target:.1%}</strong>
+                <strong><span style="color:#ED017F;">{util_target:.1%}</span></strong>
             </p>
             <p style="margin:0.4rem 0 0 0;">
                 Project hours in December:
