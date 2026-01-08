@@ -23,7 +23,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
         /* Full-page background */
         .login-container {
             min-height: 100vh;
-            background-image: url("https://raw.githubusercontent.com/Aspect-Structural-Engineers/streamlit-timesheet-dashboard/main/assets/ASPECT_Malahat.jpg
+            background-image: url("https://raw.githubusercontent.com/Aspect-Structural-Engineers/streamlit-timesheet-dashboard/main/assets/ASPECT_Malahat.png
 ");
             background-size: cover;
             background-position: center;
