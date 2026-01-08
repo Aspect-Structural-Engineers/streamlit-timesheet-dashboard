@@ -133,7 +133,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
 st.markdown("<div style='height: 1.5rem'></div>", unsafe_allow_html=True)
 
 # Centered column matching card width
-left, center, right = st.columns([2, 2, 3])
+left, center, right = st.columns([3.2, 2, 2])
 
 with center:
     if st.button("Log in with Microsoft"):
