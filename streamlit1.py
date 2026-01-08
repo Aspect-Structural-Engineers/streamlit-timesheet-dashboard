@@ -133,6 +133,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
     left, center, right = st.columns([3.2, 2, 2])
 
     with center:
+        st.markdown("<br><br><br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
         st.button("Log in with Microsoft", on_click = st.login, args=("microsoft",))
         
     st.stop()
