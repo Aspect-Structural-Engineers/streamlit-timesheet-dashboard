@@ -20,11 +20,21 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
     st.markdown(
         """
         <style>
+
+        /* Remove Streamlit padding */
+        [data-testid="stAppViewContainer"] {
+            padding: 0;
+        }
+
+        [data-testid="stApp"] {
+            background: none;
+        }
+
         /* Full-page background */
         .login-container {
-            min-height: 100vh;
-            background-image: url("https://raw.githubusercontent.com/Aspect-Structural-Engineers/streamlit-timesheet-dashboard/main/assets/ASPECT_Malahat.png
-");
+            position: fixed;
+            inset: 0;
+            background-image: url("https://raw.githubusercontent.com/Aspect-Structural-Engineers/streamlit-timesheet-dashboard/main/assets/ASPECT_Malahat.png");
             background-size: cover;
             background-position: center;
             display: flex;
@@ -45,7 +55,9 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
 
         /* Logo */
         .login-logo {
-            max-width: 160px;
+            max-width: 140px;
+            width: 100%;
+            height: auto;
             margin-bottom: 1.5rem;
         }
 
@@ -96,6 +108,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
 
     if st.button("Log in with Microsoft"):
         st.login("microsoft")
+    st.markdown("</div></div>", unsafe_allow_html=True)
     st.stop()
 
 
