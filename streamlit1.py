@@ -129,8 +129,15 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
     unsafe_allow_html=True
 )
 
-if st.button("Log in with Microsoft"):
-    st.login("microsoft")
+# Spacer so button appears below title visually
+st.markdown("<div style='height: 1.5rem'></div>", unsafe_allow_html=True)
+
+# Centered column matching card width
+left, center, right = st.columns([1, 2, 1])
+
+with center:
+    if st.button("Log in with Microsoft"):
+        st.login("microsoft")
 
 st.stop()
 
