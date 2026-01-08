@@ -136,7 +136,7 @@ st.markdown("<div style='height: 1.5rem'></div>", unsafe_allow_html=True)
 left, center, right = st.columns([3.2, 2, 2])
 
 with center:
-    st.markdown("<br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
+    st.markdown("<br><br><br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
     if st.button("Log in with Microsoft"):
         st.login("microsoft")
 
