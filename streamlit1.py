@@ -69,11 +69,25 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
             margin-bottom: 1.8rem;
             white-space: nowrap;
         }
-        
+
+        /* Anchor for login card */
+        .login-card {
+            position: relative;
+        }
+
+        /* Move Streamlit button INTO the card */
+        .login-button-wrapper {
+            position: absolute;
+            left: 50%;
+            bottom: 2rem;
+            transform: translateX(-50%);
+            width: calc(100% - 6rem);
+        }
+
         /* Ensure button stays inside card */
         div.stButton {
-        margin-top: 1rem;
-        width: 100%;
+            margin-top: 1rem;
+            width: 100%;
         }
 
         /* Streamlit button overrides */
@@ -112,17 +126,20 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
 )
 
 
-with st.container():
+button_slot = st.empty()
+
+button_slot.markdown(
+    """
+    <div class="login-button-wrapper">
+    """,
+    unsafe_allow_html=True,
+)
+
+with button_slot.container():
     if st.button("Log in with Microsoft"):
         st.login("microsoft")
 
-st.markdown(
-    """
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+button_slot.markdown("</div>", unsafe_allow_html=True)
 
 st.stop()
 
