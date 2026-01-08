@@ -259,6 +259,40 @@ def weekday_hours(row):
 
 
 
+df_user = get_sharepoint_file(
+    client_id=st.secrets["sharepoint"]["client_id"],
+    client_secret=st.secrets["sharepoint"]["client_secret"],
+    tenant_id=st.secrets["sharepoint"]["tenant_id"],
+    site_url=st.secrets["sharepoint"]["site_url"],
+    file_path=st.secrets["sharepoint"]["userfig_path"])
+
+# Load Timesheet data
+df = get_sharepoint_file(
+    client_id=st.secrets["sharepoint"]["client_id"],
+    client_secret=st.secrets["sharepoint"]["client_secret"],
+    tenant_id=st.secrets["sharepoint"]["tenant_id"],
+    site_url=st.secrets["sharepoint"]["site_url"],
+    file_path=st.secrets["sharepoint"]["timesheet_path"]
+)
+
+# Load Timeoff Allowance
+df_allowance = get_sharepoint_file(
+    client_id=st.secrets["sharepoint"]["client_id"],
+    client_secret=st.secrets["sharepoint"]["client_secret"],
+    tenant_id=st.secrets["sharepoint"]["tenant_id"],
+    site_url=st.secrets["sharepoint"]["site_url"],
+    file_path=st.secrets["sharepoint"]["allowance_path"]
+)
+
+
+logged_in_email = st.user.email
+user_info = df_user[df_user["Email"].str.lower() == logged_in_email.lower()]
+
+if not user_info.empty:
+    emp_name = user_info.iloc[0]["Full Name"]
+else:
+    emp_name = "Unknown User"
+first_name = emp_name.split(" ")[0]
 
 
 today = datetime.today()
@@ -323,42 +357,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Load User Fig data (Target Hours)
-
-df_user = get_sharepoint_file(
-    client_id=st.secrets["sharepoint"]["client_id"],
-    client_secret=st.secrets["sharepoint"]["client_secret"],
-    tenant_id=st.secrets["sharepoint"]["tenant_id"],
-    site_url=st.secrets["sharepoint"]["site_url"],
-    file_path=st.secrets["sharepoint"]["userfig_path"])
-
-# Load Timesheet data
-df = get_sharepoint_file(
-    client_id=st.secrets["sharepoint"]["client_id"],
-    client_secret=st.secrets["sharepoint"]["client_secret"],
-    tenant_id=st.secrets["sharepoint"]["tenant_id"],
-    site_url=st.secrets["sharepoint"]["site_url"],
-    file_path=st.secrets["sharepoint"]["timesheet_path"]
-)
-
-# Load Timeoff Allowance
-df_allowance = get_sharepoint_file(
-    client_id=st.secrets["sharepoint"]["client_id"],
-    client_secret=st.secrets["sharepoint"]["client_secret"],
-    tenant_id=st.secrets["sharepoint"]["tenant_id"],
-    site_url=st.secrets["sharepoint"]["site_url"],
-    file_path=st.secrets["sharepoint"]["allowance_path"]
-)
-
-
-logged_in_email = st.user.email
-user_info = df_user[df_user["Email"].str.lower() == logged_in_email.lower()]
-
-if not user_info.empty:
-    emp_name = user_info.iloc[0]["Full Name"]
-else:
-    emp_name = "Unknown User"
-first_name = emp_name.split(" ")[0]
 
 
 #----------------------
