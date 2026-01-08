@@ -57,7 +57,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
             background: white;
             padding: 2.5rem 3rem;
             border-radius: 12px;
-            width: 420px;
+            width: 450px;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
