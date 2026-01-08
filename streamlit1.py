@@ -30,6 +30,16 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
             background: none;
         }
 
+        /* Inject Streamlit button into anchor */
+        #login-button-anchor {
+        margin-top: 1.5rem;
+        }
+
+        #login-button-anchor + div.stButton {
+        margin-top: 0;
+        }
+
+
         /* Full-page background */
         .login-container {
             position: fixed;
@@ -121,9 +131,15 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
                 class="login-logo"
             />
             <div class="login-title">Timesheet Dashboard</div>
+
+            <!-- Button anchor -->
+            <div id="login-button-anchor"></div>
+        </div>
+    </div>
     """,
     unsafe_allow_html=True
 )
+
 
 
 button_slot = st.empty()
