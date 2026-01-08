@@ -16,11 +16,88 @@ st.set_page_config(
     )
 
 if not hasattr(st, "user") or not st.user.is_logged_in:
-    st.title("Timesheet Dashboard")
-    st.info("This app is private. Please log in with your Microsoft account.")
+
+    st.markdown(
+        """
+        <style>
+        /* Full-page background */
+        .login-container {
+            min-height: 100vh;
+            background-image: url("https://raw.githubusercontent.com/Aspect-Structural-Engineers/streamlit-timesheet-dashboard/main/assets/ASPECT_Malahat.jpg
+");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* White login card */
+        .login-card {
+            background: white;
+            padding: 2.5rem 3rem;
+            border-radius: 12px;
+            width: 360px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        /* Logo */
+        .login-logo {
+            max-width: 160px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Title */
+        .login-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 2rem;
+        }
+
+        /* Streamlit button overrides */
+        div.stButton > button {
+            background-color: white;
+            color: black;
+            border: 2px solid #ED017F;
+            border-radius: 8px;
+            padding: 0.6rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.2s ease-in-out;
+        }
+
+        div.stButton > button:hover {
+            background-color: #ED017F;
+            color: white;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div class="login-container">
+            <div class="login-card">
+                <img
+                    src="https://raw.githubusercontent.com/Aspect-Structural-Engineers/streamlit-timesheet-dashboard/main/assets/ASPECT_Full_Logo.png"
+                    class="login-logo"
+                />
+                <div class="login-title">
+                    Timesheet Dashboard
+                </div>
+        """,
+        unsafe_allow_html=True
+    )
+
     if st.button("Log in with Microsoft"):
         st.login("microsoft")
     st.stop()
+
 
 def get_sharepoint_file(client_id, client_secret, tenant_id, site_url, file_path):
     """
