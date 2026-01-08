@@ -257,8 +257,10 @@ def weekday_hours(row):
     weekdays = pd.bdate_range(start=row["Start"], end=row["End"])
     return len(weekdays) * row["Daily_Hours"]
 
-emp_name = "Shlok Verma"
-first_name = emp_name.split(" ")[0]
+
+
+
+
 today = datetime.today()
 monday = today - timedelta(days=today.weekday())
 last_refreshed = monday.strftime("%B %d, %Y")
@@ -347,6 +349,17 @@ df_allowance = get_sharepoint_file(
     site_url=st.secrets["sharepoint"]["site_url"],
     file_path=st.secrets["sharepoint"]["allowance_path"]
 )
+
+
+logged_in_email = st.user.email
+user_info = df_user[df_user["Email"].str.lower() == logged_in_email.lower()]
+
+if not user_info.empty:
+    emp_name = user_info.iloc[0]["Full Name"]
+else:
+    emp_name = "Unknown User"
+first_name = emp_name.split(" ")[0]
+
 
 #----------------------
 # TARGET HRS CALC
