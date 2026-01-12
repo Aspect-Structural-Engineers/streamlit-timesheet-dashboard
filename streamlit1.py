@@ -314,7 +314,7 @@ with col_left:
             Good morning, <span style="color:#ED017F;">{first_name}</span>
         </h2>
         <p style="margin-top: 0.1rem; color: #374151; font-size: 1.2rem;">
-            Your year so far:
+            Your 2025 CMAP Recap:
         </p>
         """,
         unsafe_allow_html=True
