@@ -17,6 +17,7 @@ st.set_page_config(
 
 if not hasattr(st, "user") or not st.user.is_logged_in:
 
+
     st.markdown(
         """
         <style>
@@ -28,15 +29,6 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
 
         [data-testid="stApp"] {
             background: none;
-        }
-
-        /* Inject Streamlit button into anchor */
-        #login-button-anchor {
-        margin-top: 1.5rem;
-        }
-
-        #login-button-anchor + div.stButton {
-        margin-top: 0;
         }
 
 
@@ -92,7 +84,6 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
 
         /* Ensure button stays inside card */
         div.stButton {
-            margin-top: 1rem;
             width: 100%;
         }
 
@@ -127,21 +118,19 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
                 class="login-logo"
             />
             <div class="login-title">Timesheet Dashboard</div>
-            <div id="login-button-anchor"></div>
         </div>
     </div>
     """,
     unsafe_allow_html=True
 )
 
-    # Centered column matching card width
-    left, center, right = st.columns([3.2, 2, 2])
+   
+    # Render button directly after card
+    if st.button("Log in with Microsoft"):
+        st.login("microsoft")
 
-    with center:
-        st.markdown("<br><br><br><br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
-        st.button("Log in with Microsoft", on_click = st.login, args=("microsoft",))
-        
     st.stop()
+
 
 
 
