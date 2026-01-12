@@ -21,7 +21,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
         """
         <style>
 
-        /* Remove Streamlit padding */
+        
         [data-testid="stAppViewContainer"] {
             padding: 0;
         }
@@ -30,7 +30,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
             background: none;
         }
 
-        /* Inject Streamlit button into anchor */
+        
         #login-button-anchor {
         margin-top: 1.5rem;
         }
@@ -40,7 +40,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
         }
 
 
-        /* Full-page background */
+        
         .login-container {
             position: fixed;
             inset: 0;
@@ -52,7 +52,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
             justify-content: center;
         }
 
-        /* White login card */
+        
         .login-card {
             background: white;
             padding: 2.5rem 3rem;
@@ -90,7 +90,7 @@ if not hasattr(st, "user") or not st.user.is_logged_in:
             position: relative;
         }
 
-        /* Ensure button stays inside card */
+        
         div.stButton {
             margin-top: 1rem;
             width: 100%;
@@ -179,7 +179,7 @@ def get_sharepoint_file(client_id, client_secret, tenant_id, site_url, file_path
 
     site_id = site_info["id"]
 
-    # Fetch file from Documents drive (root)
+    # Fetch file
     file_api = (
         f"https://graph.microsoft.com/v1.0/sites/{site_id}"
         f"/drive/root:/{file_path}:/content"
@@ -216,8 +216,8 @@ def donut_chart(used, remaining, title, footer):
     ax.axis("off")
 
     fig.text( 
-        0.5,        # center horizontally
-        0.02,       # near bottom of figure
+        0.5,        
+        0.02,       
         footer,
         ha="center",
         va="bottom",
@@ -238,7 +238,7 @@ def target_hours_in_period(row, period_start, period_end):
     return len(weekdays) * row["Daily_Hours"]
 
 def adjusted_target_for_period(start_date, end_date):
-    # Target hours in period (correct)
+    # Target hours in period
     target = (
         df_user[df_user["Full Name"] == emp_name]
         .apply(target_hours_in_period, axis=1, args=(start_date, end_date))
@@ -264,7 +264,7 @@ def weekday_hours(row):
     return len(weekdays) * row["Daily_Hours"]
 
 
-
+# Load data
 df_user = get_sharepoint_file(
     client_id=st.secrets["sharepoint"]["client_id"],
     client_secret=st.secrets["sharepoint"]["client_secret"],
@@ -272,7 +272,7 @@ df_user = get_sharepoint_file(
     site_url=st.secrets["sharepoint"]["site_url"],
     file_path=st.secrets["sharepoint"]["userfig_path"])
 
-# Load Timesheet data
+
 df = get_sharepoint_file(
     client_id=st.secrets["sharepoint"]["client_id"],
     client_secret=st.secrets["sharepoint"]["client_secret"],
@@ -281,7 +281,6 @@ df = get_sharepoint_file(
     file_path=st.secrets["sharepoint"]["timesheet_path"]
 )
 
-# Load Timeoff Allowance
 df_allowance = get_sharepoint_file(
     client_id=st.secrets["sharepoint"]["client_id"],
     client_secret=st.secrets["sharepoint"]["client_secret"],
@@ -459,7 +458,6 @@ all_titles_df = pd.DataFrame({"Project No - Title": titles_order})
 budget_pto_grouped = pd.merge(all_titles_df, budget_pto_grouped, on="Project No - Title", how="left").fillna(0)
 
 
-# Rename to match naming conventions
 df_allowance.rename(columns={
     "Employee Full Name": "Full Name"
 }, inplace=True)
@@ -485,7 +483,7 @@ util_target = (
     .iloc[0]
 )
 
-# Example max allocations per PTO type
+#  max allocations per PTO type
 pto_max = {
     "Vacation": vacation_max,
     "Sick/Medical": 37.5,
