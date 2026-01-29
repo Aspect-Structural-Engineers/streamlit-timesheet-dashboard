@@ -150,7 +150,7 @@ year = st.segmented_control(
     default="2026"
 )
 
-def get_sharepoint_file(client_id, client_secret, tenant_id, site_url, file_path):
+def get_sharepoint_file(client_id, client_secret, tenant_id, site_url, file_path, sheet_name = None):
     """
     Fetch CSV from SharePoint via Microsoft Graph
     """
@@ -193,7 +193,7 @@ def get_sharepoint_file(client_id, client_secret, tenant_id, site_url, file_path
     r = requests.get(file_api, headers=headers)
     r.raise_for_status()
 
-    return pd.read_excel(BytesIO(r.content), engine ="openpyxl")
+    return pd.read_excel(BytesIO(r.content), engine ="openpyxl",sheet_name=sheet_name)
 
 def render_2025_dashboard():
     
@@ -1038,20 +1038,22 @@ def render_2026_dashboard():
             )
 
             return fig
+    
     df_user = get_sharepoint_file(
         client_id=st.secrets["sharepoint"]["client_id"],
         client_secret=st.secrets["sharepoint"]["client_secret"],
         tenant_id=st.secrets["sharepoint"]["tenant_id"],
         site_url=st.secrets["sharepoint"]["site_url"],
-        file_path=st.secrets["sharepoint"]["userfig_path_2026"])
-
+        file_path=st.secrets["sharepoint"]["userfig_path_2026"],
+        sheet_name="PQ")
 
     df = get_sharepoint_file(
         client_id=st.secrets["sharepoint"]["client_id"],
         client_secret=st.secrets["sharepoint"]["client_secret"],
         tenant_id=st.secrets["sharepoint"]["tenant_id"],
         site_url=st.secrets["sharepoint"]["site_url"],
-        file_path=st.secrets["sharepoint"]["timesheet_path_2026"]
+        file_path=st.secrets["sharepoint"]["timesheet_path_2026"],
+        sheet_name="PQ"
     )
 
     df_allowance = get_sharepoint_file(
@@ -1059,7 +1061,8 @@ def render_2026_dashboard():
         client_secret=st.secrets["sharepoint"]["client_secret"],
         tenant_id=st.secrets["sharepoint"]["tenant_id"],
         site_url=st.secrets["sharepoint"]["site_url"],
-        file_path=st.secrets["sharepoint"]["allowance_path_2026"]
+        file_path=st.secrets["sharepoint"]["allowance_path_2026"],
+        sheet_name="PQ"
     )
 
     logged_in_email = st.user.email
