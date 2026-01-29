@@ -1016,14 +1016,14 @@ def render_2026_dashboard():
             ),
             annotations=[
                 title_info_annotation(annotation_text),
-                dict(
+            dict(
                     text=f"<b>{used + booked:.1f}</b>",
                     x=0.5,
                     y=0.5,
                     font=dict(size=25, color="#111827"),
                     showarrow=False,
                 ),
-                dict(
+            dict(
                     text=footer,
                     x=0.5,
                     y=-0.25,
@@ -1032,8 +1032,8 @@ def render_2026_dashboard():
                 ),
 
 
-                            dict(
-                x=0.78,
+            dict(
+                x=0.70,
                 y=0.62,
                 xanchor="left",
                 yanchor="middle",
@@ -1042,7 +1042,7 @@ def render_2026_dashboard():
                 font=dict(size=13, color="#111827"),
             ),
             dict(
-                x=0.78,
+                x=0.70,
                 y=0.52,
                 xanchor="left",
                 yanchor="middle",
@@ -1051,7 +1051,7 @@ def render_2026_dashboard():
                 font=dict(size=13, color="#111827"),
             ),
             dict(
-                x=0.60,
+                x=0.70,
                 y=0.42,
                 xanchor="left",
                 yanchor="middle",
