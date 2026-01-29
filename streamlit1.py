@@ -757,10 +757,7 @@ def render_2025_dashboard():
                         <p style="margin:0; font-size:0.8rem; color:#6b7280;">Unpaid</p>
                         <p style="margin:0; font-weight:600; color:#111827;">{unpaid_hours:.1f}</p>
                     </div>
-                    <div>
-                        <p style="margin:0; font-size:0.8rem; color:#6b7280;">Stat Holidays</p>
-                        <p style="margin:0; font-weight:600; color:#111827;">{stat_holidays:.1f}</p>
-                    </div>
+
                 </div>
             </div>
             """,
@@ -1328,7 +1325,7 @@ def render_2026_dashboard():
 
     # Calculate Adjusted Target
     adjusted_target = target_hours - pto_vacation - pto_sick - combined_closed - unpaid_hours
-    flex_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Flex Vacation", "Hours"].sum() + future_flex_hours
+    flex_vacation = budget_pto_grouped.loc[budget_pto_grouped["Project No - Title"] == "PTO Flex Vacation", "Hours"].sum()
 
 
     # PTO max values
@@ -1652,7 +1649,7 @@ def render_2026_dashboard():
                 ">
                     Additional Time Off<span
                     class="info-tooltip"
-                    title="Additional Time off. Includes flex, unpaid, and stat + winter break."
+                    title="Additional Time off. Includes flex taken, future flex booked, and unpaid."
                     style="
                         font-size: 1rem;
                         font-weight: 400;
@@ -1663,16 +1660,18 @@ def render_2026_dashboard():
 
                 <div style="display:flex; justify-content:space-between;">
                     <div>
-                        <p style="margin:0; font-size:0.8rem; color:#6b7280;">Flex (Used + Booked)</p>
+                        <p style="margin:0; font-size:0.8rem; color:#6b7280;">Flex Used</p>
                         <p style="margin:0; font-weight:600; color:#111827;">{flex_vacation:.1f}</p>
                     </div>
+
+                    <div>
+                        <p style="margin:0; font-size:0.8rem; color:#6b7280;">Future Flex Booked</p>
+                        <p style="margin:0; font-weight:600; color:#111827;">{future_flex_hours:.1f}</p>
+                    </div>
+
                     <div>
                         <p style="margin:0; font-size:0.8rem; color:#6b7280;">Unpaid</p>
                         <p style="margin:0; font-weight:600; color:#111827;">{unpaid_hours:.1f}</p>
-                    </div>
-                    <div>
-                        <p style="margin:0; font-size:0.8rem; color:#6b7280;">Stat + Winter Break</p>
-                        <p style="margin:0; font-weight:600; color:#111827;">{combined_closed:.1f}</p>
                     </div>
                 </div>
             </div>
