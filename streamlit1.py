@@ -863,7 +863,7 @@ def render_2026_dashboard():
     #        unsafe_allow_html=True
     #    )
 
-        #donut chart def
+    
 
     def target_hours_in_period(row, period_start, period_end):
             start = max(row["Start"], period_start)
@@ -928,6 +928,7 @@ def render_2026_dashboard():
                         labels=["Used", "Remaining"],
                         hole=0.72,
                         direction="clockwise",
+                        rotation = 90,
                         marker=dict(
                             colors=["#ED017F", "#F7B3D6"]
                         ),
@@ -982,10 +983,11 @@ def render_2026_dashboard():
             fig = go.Figure(
                 data=[
                     go.Pie(
-                        values=[used, remaining, booked],
-                        labels=["Used", "Remaining", "Future Booked"],
+                        values=[used, booked, remaining],
+                        labels=["Used", "Booked", "Remaining"],
                         hole=0.72,
                         direction="clockwise",
+                        rotation = 90,
                         marker=dict(
                             colors=[
                                 "#ED017F",   
@@ -994,7 +996,7 @@ def render_2026_dashboard():
                             ],
 
                             pattern=dict(
-                                shape=["", "", "/"],   # <-- pattern only on Future Booked
+                                shape=["", "/", ""],   # <-- pattern only on Future Booked
                                 fgcolor="#ED017F",
                                 solidity=0.5
                             )
@@ -1563,7 +1565,7 @@ def render_2026_dashboard():
         booked=future_vacation_hours,
         title="Vacation",
         footer=f"Max: {vacation_max:.1f} hrs",
-        annotation_text= "Vacation time you have used and booked, future booked time is shown with a pattern."
+        annotation_text= "Vacation time you have used and booked. Future booked time is shown with a pattern."
     )
         st.plotly_chart(fig_vac, use_container_width=True, config ={"displayModeBar": False})
 
