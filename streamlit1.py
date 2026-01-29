@@ -1051,7 +1051,7 @@ def render_2026_dashboard():
                 font=dict(size=13, color="#111827"),
             ),
             dict(
-                x=0.78,
+                x=0.60,
                 y=0.42,
                 xanchor="left",
                 yanchor="middle",
