@@ -991,8 +991,8 @@ def render_2026_dashboard():
                         marker=dict(
                             colors=[
                                 "#ED017F",   
-                                "#F7B3D6",
-                                "#ED017F",    
+                                "#ED017F",
+                                "#F7B3D6"    
                             ],
 
                             pattern=dict(
