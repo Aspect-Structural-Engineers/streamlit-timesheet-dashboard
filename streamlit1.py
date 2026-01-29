@@ -296,6 +296,15 @@ def render_2025_dashboard():
         file_path=st.secrets["sharepoint"]["allowance_path_2025"]
     )
 
+    logged_in_email = st.user.email
+    user_info = df_user[df_user["Email"].str.lower() == logged_in_email.lower()]
+
+    if not user_info.empty:
+        emp_name = user_info.iloc[0]["Full Name"]
+    else:
+        emp_name = "Unknown User"
+    first_name = emp_name.split(" ")[0]
+
 
     today = datetime.today()
     monday = today - timedelta(days=today.weekday())
