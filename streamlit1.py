@@ -921,124 +921,122 @@ def render_2026_dashboard():
 
 
     def donut_chart_plotly(used, remaining, title, footer, annotation_text):
-            fig = go.Figure(
-                data=[
-                    go.Pie(
-                        values=[used, remaining],
-                        labels=["Used", "Remaining"],
-                        hole=0.72,
-                        direction="clockwise",
-                        rotation = 90,
-                        marker=dict(
-                            colors=["#ED017F", "#F7B3D6"]
-                        ),
-                        textinfo="none",
-                        hovertemplate="%{label}: %{value:.1f} hrs<extra></extra>",
-                    )
-                ]
-            )
+        fig = go.Figure(
+            data=[
+                go.Pie(
+                    values=[used, remaining],
+                    labels=["Used", "Remaining"],
+                    hole=0.72,
+                    direction="clockwise",
+                    marker=dict(
+                        colors=["#ED017F", "#F7B3D6"]
+                    ),
+                    textinfo="none",
+                    hovertemplate="%{label}: %{value:.1f} hrs<extra></extra>",
+                )
+            ]
+        )
 
-            fig.update_layout(
-                title=dict(
-                    text=title,
-                    y=1,
+        fig.update_layout(
+            title=dict(
+                text=title,
+                y=1,
+                x=0.5,
+                xanchor="center",
+                yanchor="top",
+                font=dict(size=25, color="#111827"),
+            ),
+            annotations=[
+                title_info_annotation(annotation_text),
+                dict(
+                    text=f"<b>{used:.1f}</b>",
                     x=0.5,
-                    xanchor="center",
-                    yanchor="top",
+                    y=0.5,
                     font=dict(size=25, color="#111827"),
+                    showarrow=False,
                 ),
-                annotations=[
-                    title_info_annotation(annotation_text),
-                    dict(
-                        text=f"<b>{used:.1f}</b>",
-                        x=0.5,
-                        y=0.5,
-                        font=dict(size=25, color="#111827"),
-                        showarrow=False,
-                    ),
-                    dict(
-                        text=footer,
-                        x=0.5,
-                        y=-0.25,
-                        font=dict(size=15, color="#6b7280"),
-                        showarrow=False,
-                    ),
-                ],
-                showlegend=False,
-                margin=dict(t=40, b=35, l=0, r=0),
-                height=240,
-            )
+                dict(
+                    text=footer,
+                    x=0.5,
+                    y=-0.25,
+                    font=dict(size=15, color="#6b7280"),
+                    showarrow=False,
+                ),
+            ],
+            showlegend=False,
+            margin=dict(t=40, b=35, l=0, r=0),
+            height=240,
+        )
 
-            return fig
+        return fig
 
 
     def donut_chart_plotly_vacation(
-            used,
-            booked,
-            remaining,
-            title,
-            footer,
-            annotation_text
-        ):
-            fig = go.Figure(
-                data=[
-                    go.Pie(
-                        values=[used, booked, remaining],
-                        labels=["Used", "Booked", "Remaining"],
-                        hole=0.72,
-                        direction="clockwise",
-                        rotation = 90,
-                        marker=dict(
-                            colors=[
-                                "#ED017F",   
-                                "#ED017F",
-                                "#F7B3D6"    
-                            ],
+        used,
+        booked,
+        remaining,
+        title,
+        footer,
+        annotation_text
+    ):
+        fig = go.Figure(
+            data=[
+                go.Pie(
+                    values=[used, booked, remaining],
+                    labels=["Used", "Future Booked", "Remaining"],
+                    hole=0.72,
+                    rotation = 90,
+                    marker=dict(
+                        colors=[
+                            "#ED017F",   
+                            "#ED017F",
+                            "#F7B3D6"    
+                        ],
 
-                            pattern=dict(
-                                shape=["", "/", ""],   # <-- pattern only on Future Booked
-                                fgcolor="#ED017F",
-                                solidity=0.5
-                            )
-                        ),
-                        textinfo="none",
-                        hovertemplate="%{label}: %{value:.1f} hrs<extra></extra>",
-                    )
-                ]
-            )
+                        pattern=dict(
+                            shape=["", "/", ""],   # <-- pattern only on Future Booked
+                            fgcolor="#ED017F",
+                            solidity=0.5
+                        )
+                    ),
+                    textinfo="none",
+                    hovertemplate="%{label}: %{value:.1f} hrs<extra></extra>",
+                )
+            ]
+        )
 
-            fig.update_layout(
-                title=dict(
-                    text=title,
-                    y=1,
+        fig.update_layout(
+            title=dict(
+                text=title,
+                y=1,
+                x=0.5,
+                xanchor="center",
+                yanchor="top",
+                font=dict(size=25, color="#111827"),
+            ),
+            annotations=[
+                title_info_annotation(annotation_text),
+                dict(
+                    text=f"<b>{used + booked:.1f}</b>",
                     x=0.5,
-                    xanchor="center",
-                    yanchor="top",
+                    y=0.5,
                     font=dict(size=25, color="#111827"),
+                    showarrow=False,
                 ),
-                annotations=[
-                    title_info_annotation(annotation_text),
-                    dict(
-                        text=f"<b>{used + booked:.1f}</b>",
-                        x=0.5,
-                        y=0.5,
-                        font=dict(size=25, color="#111827"),
-                        showarrow=False,
-                    ),
-                    dict(
-                        text=footer,
-                        x=0.5,
-                        y=-0.25,
-                        font=dict(size=15, color="#6b7280"),
-                        showarrow=False,
-                    ),
-                ],
-                showlegend=False,
-                margin=dict(t=40, b=35, l=0, r=0),
-                height=240,
-            )
+                dict(
+                    text=footer,
+                    x=0.5,
+                    y=-0.25,
+                    font=dict(size=15, color="#6b7280"),
+                    showarrow=False,
+                ),
+            ],
+            showlegend=False,
+            margin=dict(t=40, b=35, l=0, r=0),
+            height=240,
+        )
 
-            return fig
+        return fig
     
     df_user = get_sharepoint_file(
         client_id=st.secrets["sharepoint"]["client_id"],
