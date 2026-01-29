@@ -985,7 +985,6 @@ def render_2026_dashboard():
                     values=[used, booked, remaining],
                     labels=["Used", "Future Booked", "Remaining"],
                     hole=0.72,
-                    rotation = 90,
                     marker=dict(
                         colors=[
                             "#ED017F",   
