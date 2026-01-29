@@ -277,7 +277,9 @@ def render_2025_dashboard():
         client_secret=st.secrets["sharepoint"]["client_secret"],
         tenant_id=st.secrets["sharepoint"]["tenant_id"],
         site_url=st.secrets["sharepoint"]["site_url"],
-        file_path=st.secrets["sharepoint"]["userfig_path_2025"])
+        file_path=st.secrets["sharepoint"]["userfig_path_2025"],
+        sheet_name = "in"
+        )
 
 
     df = get_sharepoint_file(
@@ -285,7 +287,8 @@ def render_2025_dashboard():
         client_secret=st.secrets["sharepoint"]["client_secret"],
         tenant_id=st.secrets["sharepoint"]["tenant_id"],
         site_url=st.secrets["sharepoint"]["site_url"],
-        file_path=st.secrets["sharepoint"]["timesheet_path_2025"]
+        file_path=st.secrets["sharepoint"]["timesheet_path_2025"],
+        sheet_name = "in"
     )
 
     df_allowance = get_sharepoint_file(
@@ -293,7 +296,8 @@ def render_2025_dashboard():
         client_secret=st.secrets["sharepoint"]["client_secret"],
         tenant_id=st.secrets["sharepoint"]["tenant_id"],
         site_url=st.secrets["sharepoint"]["site_url"],
-        file_path=st.secrets["sharepoint"]["allowance_path_2025"]
+        file_path=st.secrets["sharepoint"]["allowance_path_2025"],
+        sheet_name = "in"
     )
 
     logged_in_email = st.user.email
