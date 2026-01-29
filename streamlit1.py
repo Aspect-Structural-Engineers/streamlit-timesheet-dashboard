@@ -974,8 +974,8 @@ def render_2026_dashboard():
 
     def donut_chart_plotly_vacation(
             used,
-            remaining,
             booked,
+            remaining,
             title,
             footer,
             annotation_text
@@ -1561,8 +1561,8 @@ def render_2026_dashboard():
     with r2_c2:
         fig_vac = donut_chart_plotly_vacation(
         used=vacation_used,
-        remaining=vacation_remaining,
         booked=future_vacation_hours,
+        remaining=vacation_remaining,
         title="Vacation",
         footer=f"Max: {vacation_max:.1f} hrs",
         annotation_text= "Vacation time you have used and booked. Future booked time is shown with a pattern."
