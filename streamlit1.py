@@ -1030,7 +1030,38 @@ def render_2026_dashboard():
                     font=dict(size=15, color="#6b7280"),
                     showarrow=False,
                 ),
-            ],
+
+
+                            dict(
+                x=0.78,
+                y=0.62,
+                xanchor="left",
+                yanchor="middle",
+                text=f"<span style='color:#ED017F;'>■</span> Used: {used:.1f} hrs",
+                showarrow=False,
+                font=dict(size=13, color="#111827"),
+            ),
+            dict(
+                x=0.78,
+                y=0.52,
+                xanchor="left",
+                yanchor="middle",
+                text=f"<span style='color:#ED017F;'>▧</span> Future Booked: {booked:.1f} hrs",
+                showarrow=False,
+                font=dict(size=13, color="#111827"),
+            ),
+            dict(
+                x=0.78,
+                y=0.42,
+                xanchor="left",
+                yanchor="middle",
+                text=f"<span style='color:#F7B3D6;'>■</span> Remaining: {remaining:.1f} hrs",
+                showarrow=False,
+                font=dict(size=13, color="#111827"),
+            ),
+        ],
+
+            
             showlegend=False,
             margin=dict(t=40, b=35, l=0, r=0),
             height=240,
