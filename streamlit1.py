@@ -851,17 +851,17 @@ def render_2026_dashboard():
             page_title="Timesheet Dashboard"
             )
 
-    st.markdown(
-            """
-            <style>
-            /* Remove Streamlit top padding */
-            .block-container {
-                padding-top: 1rem !important;
-            }
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
+    #st.markdown(
+    #        """
+    #        <style>
+    #        /* Remove Streamlit top padding */
+    #        .block-container {
+    #            padding-top: 1rem !important;
+    #        }
+    #        </style>
+    #        """,
+    #        unsafe_allow_html=True
+    #    )
 
         #donut chart def
 
@@ -1706,7 +1706,7 @@ def render_2026_dashboard():
     )
     st.altair_chart(bars + text)
 
-pass
+    pass
 
 if year == "2025":
     render_2025_dashboard()
