@@ -1439,7 +1439,7 @@ def render_2026_dashboard():
             ">
                 <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Hours Worked<span
                     class="info-tooltip"
-                    title="Total hours worked.\nIncludes PROJECT: client projects/proposals.\nINTERNAL: internal projects, professional development, and internal time codes"
+                    title="Total hours worked.Includes: \nPROJECT: client projects/proposals.\nINTERNAL: internal projects, professional development, and internal time codes"
                     style="
                         font-size: 1rem;
                         font-weight: 400;
@@ -1458,12 +1458,12 @@ def render_2026_dashboard():
                     <div style="display:flex;justify-content:center; align-items:center; gap:2rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Project</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{project_hours:.2f}</p>
+                            <p style="margin:0; font-weight:600; font-size:0.9rem; color:#111827;">{project_hours:.2f}</p>
                         </div>
-                        <div style="font-weight:700; font-size:1.2rem; color:#111827;">+</div>
+                        <div style="font-weight:700; font-size:1.0.9rem; color:#111827;">+</div>
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Internal</p>
-                            <p style="margin:0; font-weight:600; font-size :1.2rem; color:#111827;">{internal_hours:.2f}</p>
+                            <p style="margin:0; font-weight:600; font-size:0.9rem; color:#111827;">{internal_hours:.2f}</p>
                         </div>
                     </div>
                 </div>
@@ -1507,27 +1507,27 @@ def render_2026_dashboard():
                     <div style="display:flex;justify-content:center; align-items:center; gap:1.5rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Baseline</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{target_hours:.2f}</p>
+                            <p style="margin:0; font-weight:600; font-size:0.9rem; color:#111827;">{target_hours:.2f}</p>
                         </div>
-                        <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+                        <div style="font-weight:700; font-size:0.9rem; color:#111827;">-</div>
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Vacation</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_vacation:.2f}</p>
+                            <p style="margin:0; font-weight:600; font-size:0.9rem; color:#111827;">{pto_vacation:.2f}</p>
                         </div>
-                        <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+                        <div style="font-weight:700; font-size:0.9rem; color:#111827;">-</div>
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Sick/Medical</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_sick:.2f}</p>
+                            <p style="margin:0; font-weight:600; font-size:0.9rem; color:#111827;">{pto_sick:.2f}</p>
                         </div>
-                        <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+                        <div style="font-weight:700; font-size:0.9rem; color:#111827;">-</div>
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Stat</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{combined_closed:.2f}</p>
+                            <p style="margin:0; font-weight:600; font-size:0.9rem; color:#111827;">{combined_closed:.2f}</p>
                         </div>
-                        <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+                        <div style="font-weight:700; font-size:0.9rem; color:#111827;">-</div>
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Unpaid</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{unpaid_hours:.2f}</p>
+                            <p style="margin:0; font-weight:600; font-size:0.9rem; color:#111827;">{unpaid_hours:.2f}</p>
                         </div>
                     </div>
                 </div>
@@ -1560,12 +1560,12 @@ def render_2026_dashboard():
                 <div style="display:flex;justify-content:center; align-items:center; gap:1.5rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Hours Worked</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{total_working_hours:.2f}</p>
+                            <p style="margin:0; font-weight:600; font-size:1rem; color:#111827;">{total_working_hours:.2f}</p>
                         </div>
-                        <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
+                        <div style="font-weight:700; font-size:1rem; color:#111827;">-</div>
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Adjusted Baseline</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{adjusted_target:.2f}</p>
+                            <p style="margin:0; font-weight:600; font-size:1rem; color:#111827;">{adjusted_target:.2f}</p>
                         </div>
                 </div>
             </div>
