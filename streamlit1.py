@@ -1123,7 +1123,7 @@ def render_2026_dashboard():
     last_refreshed = monday.strftime("%B %d, %Y")
 
     df_allowance_user = df_allowance[
-    df_allowance["Full Name"].str.lower() == emp_name.lower()]
+    df_allowance["Employee Full Name"].str.lower() == emp_name.lower()]
 
     if not df_allowance_user.empty:
         timesheet_date_week = pd.to_datetime(
