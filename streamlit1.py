@@ -1463,7 +1463,7 @@ def render_2026_dashboard():
             ">
                 <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Hours Worked<span
                     class="info-tooltip"
-                    title="Total hours worked.Includes: \nPROJECT: client projects/proposals.\nINTERNAL: internal projects, professional development, and internal time codes"
+                    title="Total hours worked.Includes: \nPROJECT: client projects/proposals, internal projects.\nINTERNAL: Internal time codes"
                     style="
                         font-size: 1rem;
                         font-weight: 400;
