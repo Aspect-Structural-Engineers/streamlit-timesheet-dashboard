@@ -950,7 +950,7 @@ def render_2026_dashboard():
             annotations=[
                 title_info_annotation(annotation_text),
                 dict(
-                    text=f"<b>{used:.1f}</b>",
+                    text=f"<b>{used:.2f}</b>",
                     x=0.5,
                     y=0.5,
                     font=dict(size=25, color="#111827"),
@@ -1017,7 +1017,7 @@ def render_2026_dashboard():
             annotations=[
                 title_info_annotation(annotation_text),
             dict(
-                    text=f"<b>{used + booked:.1f}</b>",
+                    text=f"<b>{used + booked:.2f}</b>",
                     x=0.5,
                     y=0.5,
                     font=dict(size=25, color="#111827"),
@@ -1439,7 +1439,7 @@ def render_2026_dashboard():
             ">
                 <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Hours Worked<span
                     class="info-tooltip"
-                    title="Total hours worked. Includes PROJECT: client projects/proposals. INTERNAL: internal projects, professional development, and internal time codes"
+                    title="Total hours worked.\nIncludes PROJECT: client projects/proposals.\nINTERNAL: internal projects, professional development, and internal time codes"
                     style="
                         font-size: 1rem;
                         font-weight: 400;
@@ -1629,11 +1629,11 @@ def render_2026_dashboard():
             ">
                 <p style="margin:0;">
                     Your utilization for last month ({last_month_label}) was
-                    <strong>{util_last_month:.2%}</strong>,
+                    <strong>{util_last_month:.1%}</strong>,
                     and utilization YTD is
-                    <strong><span style="color:#ED017F;">{util_ytd:.2%}</span></strong>. 
+                    <strong><span style="color:#ED017F;">{util_ytd:.1%}</span></strong>. 
                     Your utilization target is 
-                    <strong><span style="color:#ED017F;">{util_target:.2%}</span><span
+                    <strong><span style="color:#ED017F;">{util_target:.1%}</span><span
                     class="info-tooltip"
                     title="Your utilization vs target. If you take flex time off, your utilization may be impacted as flex time is not included in hours worked, but is included in your baseline."
                     style="
