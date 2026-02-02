@@ -1117,29 +1117,35 @@ def render_2026_dashboard():
         emp_name = "Unknown User"
     first_name = emp_name.split(" ")[0]
 
-        # ----------------------
-        # LOCAL TEST DATA (2026)
-        # ----------------------
 
     today = datetime.today()
     monday = today - timedelta(days=today.weekday())
     last_refreshed = monday.strftime("%B %d, %Y")
 
-    excluded_categories = ["Budget PTO", "Add'l & Flex PTO"]
+    df_allowance_user = df_allowance[
+    df_allowance["Full Name"].str.lower() == emp_name.lower()]
 
-    df_emp_worked = df[
-        (df["Employee Full Name"] == emp_name) &
-        (~df["Utilization Category"].isin(excluded_categories))
-    ]
-    timesheet_date = df_emp_worked["Date"].max()
-    timesheet_date_week = df_emp_worked["Date"].max() - timedelta(days=timesheet_date.weekday())
-    timesheet_date_str = timesheet_date_week.strftime("%B %d, %Y")
+    if not df_allowance_user.empty:
+        timesheet_date_week = pd.to_datetime(
+            df_allowance_user.iloc[0]["Timesheet Week"]
+        )
+    else:
+        timesheet_date_week = None
+
+
+    if timesheet_date_week is not None:
+        timesheet_date_str = timesheet_date_week.strftime("%B %d, %Y")
+        is_stale = timesheet_date_week != monday
+    else:
+        timesheet_date_str = "Unavailable"
+        is_stale = True
 
     is_stale = timesheet_date_week != monday
 
     timesheet_color = "#DC2626" if is_stale else "#374151"   # red vs normal
     timesheet_weight = "600" if is_stale else "400"
 
+    
 
     col_left, col_right = st.columns([3, 1])
 
