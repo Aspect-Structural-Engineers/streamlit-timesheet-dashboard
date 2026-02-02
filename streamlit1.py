@@ -1120,27 +1120,33 @@ def render_2026_dashboard():
 
     today = datetime.today()
     monday = today - timedelta(days=today.weekday())
+    monday_date = monday.date()
     last_refreshed = monday.strftime("%B %d, %Y")
 
     df_allowance_user = df_allowance[
-    df_allowance["Employee Full Name"].str.lower() == emp_name.lower()]
+    df_allowance["Employee Full Name"].str.lower() == emp_name.lower()
+]
 
     if not df_allowance_user.empty:
         timesheet_date_week = pd.to_datetime(
-            df_allowance_user.iloc[0]["Timesheet Week"]
-        )
+            df_allowance_user["Timesheet Week"]
+        ).max()   # safer than iloc[0]
+
+        timesheet_monday = (
+            timesheet_date_week - timedelta(days=timesheet_date_week.weekday())
+        ).date()
     else:
-        timesheet_date_week = None
+        timesheet_monday = None
 
 
-    if timesheet_date_week is not None:
-        timesheet_date_str = timesheet_date_week.strftime("%B %d, %Y")
-        is_stale = timesheet_date_week != monday
+
+    if timesheet_monday is not None:
+        timesheet_date_str = timesheet_monday.strftime("%B %d, %Y")
+        is_stale = timesheet_monday != monday_date
     else:
         timesheet_date_str = "Unavailable"
         is_stale = True
 
-    is_stale = timesheet_date_week != monday
 
     timesheet_color = "#DC2626" if is_stale else "#374151"   # red vs normal
     timesheet_weight = "600" if is_stale else "400"
