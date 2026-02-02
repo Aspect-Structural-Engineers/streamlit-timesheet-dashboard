@@ -896,7 +896,7 @@ def render_2026_dashboard():
                 ]))
             ]["Hours"].sum()
 
-            return pto
+            return pto["Project No - Title"].isin(["Stat Holidays"]).sum()
 
     def weekday_hours(row):
             weekdays = pd.bdate_range(start=row["Start"], end=row["End"])
