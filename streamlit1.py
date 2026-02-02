@@ -896,7 +896,7 @@ def render_2026_dashboard():
                 ]))
             ]["Hours"].sum()
 
-            return max(target)
+            return target
 
     def weekday_hours(row):
             weekdays = pd.bdate_range(start=row["Start"], end=row["End"])
