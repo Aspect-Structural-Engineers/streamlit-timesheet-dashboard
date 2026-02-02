@@ -1112,7 +1112,7 @@ def render_2026_dashboard():
 
     if not user_info.empty:
         #emp_name = user_info.iloc[0]["Full Name"]
-        emp_name = "Gina Sheppard"  # TEMP FIX FOR TESTING
+        emp_name = "Aman Singh"  # TEMP FIX FOR TESTING
     else:
         emp_name = "Unknown User"
     first_name = emp_name.split(" ")[0]
