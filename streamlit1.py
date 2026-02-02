@@ -1165,7 +1165,7 @@ def render_2026_dashboard():
                 font-size: 0.9rem;
                 font-weight: {timesheet_weight};
             ">
-                <strong>Timesheet Week:</strong> {timesheet_date_str}
+                <strong>Your Timesheet Week:</strong> {timesheet_date_str}
                 <span
                     class="info-tooltip"
                     title="The most recent timesheet week included in this dashboard. If this date is before the last refreshed date, your timesheet may have missing entries, hence the red color. Please ensure your timesheet is up to date."
