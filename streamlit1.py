@@ -888,7 +888,7 @@ def render_2026_dashboard():
 
             # PTO taken in period
             pto = df_util[
-                (df_util["Date"] >= start_date) & (df_util["Date"] <= end_date) &
+                (df_util["DateOnly"] >= start_date) & (df_util["DateOnly"] <= end_date) &
                 (df_util["Project No - Title"].isin([
                     "Vacation",
                     "PTO Office Closed",
