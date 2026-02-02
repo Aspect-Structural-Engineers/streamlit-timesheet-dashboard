@@ -867,14 +867,18 @@ def render_2026_dashboard():
     
 
     def target_hours_in_period(row, period_start, period_end):
-            start = max(row["Start"], period_start)
-            end = min(row["End"], period_end)
+        period_start = pd.Timestamp(period_start)
+        period_end = pd.Timestamp(period_end)
 
-            if start > end:
-                return 0
+        start = max(row["Start"], period_start)
+        end = min(row["End"], period_end)
 
-            weekdays = pd.bdate_range(start=start, end=end)
-            return len(weekdays) * row["Daily_Hours"]
+        if start > end:
+            return 0
+
+        weekdays = pd.date_range(start, end, freq="B")
+        return len(weekdays) * row["Daily_Hours"]
+
 
     def adjusted_target_for_period(start_date, end_date):
     # Normalize dates
