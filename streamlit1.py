@@ -933,7 +933,7 @@ def render_2026_dashboard():
                         colors=["#ED017F", "#F7B3D6"]
                     ),
                     textinfo="none",
-                    hovertemplate="%{label}: %{value:.1f} hrs<extra></extra>",
+                    hovertemplate="%{label}: %{value:.2f} hrs<extra></extra>",
                 )
             ]
         )
@@ -1000,7 +1000,7 @@ def render_2026_dashboard():
                         )
                     ),
                     textinfo="none",
-                    hovertemplate="%{label}: %{value:.1f} hrs<extra></extra>",
+                    hovertemplate="%{label}: %{value:.2f} hrs<extra></extra>",
                 )
             ]
         )
@@ -1099,7 +1099,8 @@ def render_2026_dashboard():
     user_info = df_user[df_user["Email"].str.lower() == logged_in_email.lower()]
 
     if not user_info.empty:
-        emp_name = user_info.iloc[0]["Full Name"]
+        #emp_name = user_info.iloc[0]["Full Name"]
+        emp_name = "Gina Sheppard"  # TEMP FIX FOR TESTING
     else:
         emp_name = "Unknown User"
     first_name = emp_name.split(" ")[0]
@@ -1438,7 +1439,7 @@ def render_2026_dashboard():
             ">
                 <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Hours Worked<span
                     class="info-tooltip"
-                    title="Your total hours worked. Only includes Project and Internal hours."
+                    title="Total hours worked. Includes PROJECT: client projects/proposals. INTERNAL: internal projects, professional development, and internal time codes"
                     style="
                         font-size: 1rem;
                         font-weight: 400;
@@ -1446,7 +1447,7 @@ def render_2026_dashboard():
                         vertical-align: super;"        
                 > ⓘ</span></h3>
                             
-                <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{total_working_hours:.1f}</h1>
+                <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{total_working_hours:.2f}</h1>
                 <div style="
                 display:grid;
                 grid-template-columns: auto auto auto;
@@ -1495,7 +1496,7 @@ def render_2026_dashboard():
                         color: #6B7280;
                         vertical-align: super;    "        
                 > ⓘ</span></h3>
-                <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{adjusted_target:.1f}</h1>
+                <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{adjusted_target:.2f}</h1>
 
                 <div style="
                 display:grid;
@@ -1555,7 +1556,7 @@ def render_2026_dashboard():
                         color: #6B7280;
                         vertical-align: super;    "        
                 > ⓘ</span></h3>
-            <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{delta_hours:.1f}</h1>                 
+            <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{delta_hours:.2f}</h1>                 
                 <div style="display:flex;justify-content:center; align-items:center; gap:1.5rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Hours Worked</p>
@@ -1643,7 +1644,7 @@ def render_2026_dashboard():
                 > ⓘ</span></strong>
                 </p>
                 <p style="margin:0.4rem 0 0 0;">
-                    Project hours in December:
+                    Project hours in ({last_month_label}):
                     <strong>{project_last_month:.1f}</strong>
                     &nbsp;/&nbsp;
                     Baseline:
