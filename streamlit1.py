@@ -877,28 +877,34 @@ def render_2026_dashboard():
             return len(weekdays) * row["Daily_Hours"]
 
     def adjusted_target_for_period(start_date, end_date):
-            # Target hours in period
-            target = (
-                df_user[df_user["Full Name"] == emp_name]
-                .apply(target_hours_in_period, axis=1, args=(start_date, end_date))
-                .sum()
-            )
-            df_util["DateOnly"] = pd.to_datetime(df_util["Date"]).dt.date
+    # Normalize dates
+        start_date = start_date.date() if hasattr(start_date, "date") else start_date
+        end_date = end_date.date() if hasattr(end_date, "date") else end_date
 
+        df_util["Date"] = pd.to_datetime(df_util["Date"]).dt.date
 
-            # PTO taken in period
-            pto = df_util[
-                (df_util["DateOnly"] >= start_date) & (df_util["DateOnly"] <= end_date) &
-                (df_util["Project No - Title"].isin([
-                    "Vacation",
-                    "PTO Office Closed",
-                    "Stat Holidays",
-                    "Unpaid Time Off",
-                    "PTO Sick/Medical"
-                ]))
-            ]["Hours"].sum()
+        # Target hours
+        target = (
+            df_user[df_user["Full Name"] == emp_name]
+            .apply(target_hours_in_period, axis=1, args=(start_date, end_date))
+            .sum()
+        )
 
-            return max(target - pto, 0)
+        # PTO taken
+        pto = df_util[
+            (df_util["Date"] >= start_date) &
+            (df_util["Date"] <= end_date) &
+            (df_util["Project No - Title"].isin([
+                "Vacation",
+                "PTO Office Closed",
+                "Stat Holidays",
+                "Unpaid Time Off",
+                "PTO Sick/Medical"
+            ]))
+        ]["Hours"].sum()
+
+        return max(target - pto, 0)
+
 
     def weekday_hours(row):
             weekdays = pd.bdate_range(start=row["Start"], end=row["End"])
