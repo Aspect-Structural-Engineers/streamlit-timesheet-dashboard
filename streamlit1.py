@@ -1458,12 +1458,12 @@ def render_2026_dashboard():
                     <div style="display:flex;justify-content:center; align-items:center; gap:2rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Project</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{project_hours:.1f}</p>
+                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{project_hours:.2f}</p>
                         </div>
                         <div style="font-weight:700; font-size:1.2rem; color:#111827;">+</div>
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Internal</p>
-                            <p style="margin:0; font-weight:600; font-size :1.2rem; color:#111827;">{internal_hours:.1f}</p>
+                            <p style="margin:0; font-weight:600; font-size :1.2rem; color:#111827;">{internal_hours:.2f}</p>
                         </div>
                     </div>
                 </div>
@@ -1507,27 +1507,27 @@ def render_2026_dashboard():
                     <div style="display:flex;justify-content:center; align-items:center; gap:1.5rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Baseline</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{target_hours:.1f}</p>
+                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{target_hours:.2f}</p>
                         </div>
                         <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Vacation</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_vacation:.1f}</p>
+                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_vacation:.2f}</p>
                         </div>
                         <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Sick/Medical</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_sick:.1f}</p>
+                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{pto_sick:.2f}</p>
                         </div>
                         <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Stat</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{combined_closed:.1f}</p>
+                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{combined_closed:.2f}</p>
                         </div>
                         <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Unpaid</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{unpaid_hours:.1f}</p>
+                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{unpaid_hours:.2f}</p>
                         </div>
                     </div>
                 </div>
@@ -1560,12 +1560,12 @@ def render_2026_dashboard():
                 <div style="display:flex;justify-content:center; align-items:center; gap:1.5rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Hours Worked</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{total_working_hours:.1f}</p>
+                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{total_working_hours:.2f}</p>
                         </div>
                         <div style="font-weight:700; font-size:1.2rem; color:#111827;">-</div>
                         <div style="text-align:center;">
                             <p style="margin:0; font-size:0.9rem; color:#6b7280;">Adjusted Baseline</p>
-                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{adjusted_target:.1f}</p>
+                            <p style="margin:0; font-weight:600; font-size:1.2rem; color:#111827;">{adjusted_target:.2f}</p>
                         </div>
                 </div>
             </div>
@@ -1629,11 +1629,11 @@ def render_2026_dashboard():
             ">
                 <p style="margin:0;">
                     Your utilization for last month ({last_month_label}) was
-                    <strong>{util_last_month:.1%}</strong>,
+                    <strong>{util_last_month:.2%}</strong>,
                     and utilization YTD is
-                    <strong><span style="color:#ED017F;">{util_ytd:.1%}</span></strong>. 
+                    <strong><span style="color:#ED017F;">{util_ytd:.2%}</span></strong>. 
                     Your utilization target is 
-                    <strong><span style="color:#ED017F;">{util_target:.1%}</span><span
+                    <strong><span style="color:#ED017F;">{util_target:.2%}</span><span
                     class="info-tooltip"
                     title="Your utilization vs target. If you take flex time off, your utilization may be impacted as flex time is not included in hours worked, but is included in your baseline."
                     style="
@@ -1645,17 +1645,17 @@ def render_2026_dashboard():
                 </p>
                 <p style="margin:0.4rem 0 0 0;">
                     Project hours in ({last_month_label}):
-                    <strong>{project_last_month:.1f}</strong>
+                    <strong>{project_last_month:.2f}</strong>
                     &nbsp;/&nbsp;
                     Baseline:
-                    <strong>{adjusted_target_last_month:.1f}</strong>
+                    <strong>{adjusted_target_last_month:.2f}</strong>
                 </p>
                 <p style="margin:0.25rem 0 0 0;">
                     Project hours YTD:
-                    <strong>{project_ytd:.1f}</strong>
+                    <strong>{project_ytd:.2f}</strong>
                     &nbsp;/&nbsp;
                     Baseline:
-                    <strong>{adjusted_target_ytd:.1f}</strong>
+                    <strong>{adjusted_target_ytd:.2f}</strong>
                 </p>
             </div>
             """,
@@ -1693,17 +1693,17 @@ def render_2026_dashboard():
                 <div style="display:flex; justify-content:space-between;">
                     <div>
                         <p style="margin:0; font-size:0.8rem; color:#6b7280;">Flex Used</p>
-                        <p style="margin:0; font-weight:600; color:#111827;">{flex_vacation:.1f}</p>
+                        <p style="margin:0; font-weight:600; color:#111827;">{flex_vacation:.2f}</p>
                     </div>
 
                     <div>
                         <p style="margin:0; font-size:0.8rem; color:#6b7280;">Future Flex Booked</p>
-                        <p style="margin:0; font-weight:600; color:#111827;">{future_flex_hours:.1f}</p>
+                        <p style="margin:0; font-weight:600; color:#111827;">{future_flex_hours:.2f}</p>
                     </div>
 
                     <div>
                         <p style="margin:0; font-size:0.8rem; color:#6b7280;">Unpaid</p>
-                        <p style="margin:0; font-weight:600; color:#111827;">{unpaid_hours:.1f}</p>
+                        <p style="margin:0; font-weight:600; color:#111827;">{unpaid_hours:.2f}</p>
                     </div>
                 </div>
             </div>
