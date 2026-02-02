@@ -886,7 +886,7 @@ def render_2026_dashboard():
 
             # PTO taken in period
             pto = df_util[
-                (df_util["Date"].between(start_date, end_date)) &
+                (df_util["Date"].between(start_date, end_date, inclusive="both")) &
                 (df_util["Project No - Title"].isin([
                     "Vacation",
                     "PTO Office Closed",
@@ -895,8 +895,7 @@ def render_2026_dashboard():
                     "PTO Sick/Medical"
                 ]))
             ]["Hours"].sum()
-
-            return pto[["Project No - Title"].isin(["Stat Holidays"])]["Hours"].sum()
+            return max(target - pto, 0)
 
     def weekday_hours(row):
             weekdays = pd.bdate_range(start=row["Start"], end=row["End"])
