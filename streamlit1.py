@@ -1258,11 +1258,6 @@ def render_2026_dashboard():
     # Aggregate by employee
     df_target = df_user.groupby(["Full Name", "Legal Office"], as_index=False)["Target Working Hrs (Contract)"].sum()
 
-    df_util_target = (
-        df_user
-        .groupby("Full Name", as_index=False)
-        .agg({"Utilization Target": "mean"})
-    )
 
     #----------------------
     # TIMESHEET CLEANING
@@ -1356,7 +1351,7 @@ def render_2026_dashboard():
     )
 
     util_target = (
-        df_util_target.loc[df_util_target["Full Name"] == emp_name, "Utilization Target"]
+        df_allowance.loc[df_allowance["Full Name"] == emp_name, "Utilization Target"]
         .fillna(0)
         .iloc[0]
     )
