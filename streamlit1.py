@@ -1111,8 +1111,7 @@ def render_2026_dashboard():
     user_info = df_user[df_user["Email"].str.lower() == logged_in_email.lower()]
 
     if not user_info.empty:
-        #emp_name = user_info.iloc[0]["Full Name"]
-        emp_name = "Eva Chau"
+        emp_name = user_info.iloc[0]["Full Name"]
         
     else:
         emp_name = "Unknown User"
