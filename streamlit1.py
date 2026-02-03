@@ -1308,8 +1308,8 @@ def render_2026_dashboard():
     #----------------------
     # METRICS
     #----------------------
-    project_hours = totals_by_util.loc[totals_by_util["Utilization Category"] == "Project", "Hours"].sum()
-    internal_hours = totals_by_util.loc[totals_by_util["Utilization Category"] == "Internal", "Hours"].sum()
+    project_hours = df_filtered.loc[df_filtered["Utilization Category"] == "Project", "Hours"].sum()
+    internal_hours = df_filtered.loc[df_filtered["Utilization Category"] == "Internal", "Hours"].sum()
     total_working_hours = project_hours + internal_hours
     budget_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Budget PTO", "Hours"].sum()
     flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l & Flex PTO", "Hours"].sum()
