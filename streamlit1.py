@@ -1143,7 +1143,7 @@ def render_2026_dashboard():
     ]["Date"]
     .max()
     )
-    
+    latest_date_str = latest_date.strftime("%B %d, %Y")
 
     if not df_allowance_user.empty:
         timesheet_date_week = pd.to_datetime(
@@ -1219,7 +1219,7 @@ def render_2026_dashboard():
                 color: #374151;
                 font-size: 0.9rem;
             ">
-                <strong>Last Timesheet Date Included:</strong> {latest_date}
+                <strong>Last Timesheet Date Included:</strong> {latest_date_str}
                     <span
                         class="info-tooltip"
                         title="The last included timesheet date in the latest refresh (For partial completion)"
