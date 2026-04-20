@@ -1857,7 +1857,7 @@ def render_2026_dashboard():
             scale=alt.Scale(zero=False)   # dynamic scale
         ),
         tooltip=[
-            alt.Tooltip("WeekStart:T", title="Week"),
+            alt.Tooltip("WeekStart:T", format="%b %d", title="Week"),
             alt.Tooltip("Utilization:Q", format=".1%", title="Utilization"),
             alt.Tooltip("Utilization Target:Q", format=".1%", title="Target")
         ]
