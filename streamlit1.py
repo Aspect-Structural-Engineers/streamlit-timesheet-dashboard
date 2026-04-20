@@ -1272,7 +1272,7 @@ def render_2026_dashboard():
     df["Month"] = df["Date"].dt.to_period("M").astype(str)
 
     # Force Utilization Category order
-    cat_order = ["Project", "Internal", "Budget PTO", "Add'l & Flex PTO"]
+    cat_order = ["Billable Project", "Internal + Proposal", "Overhead", "Time Off"]
     df["Utilization Category"] = pd.Categorical(
         df["Utilization Category"], 
         categories=cat_order, 
@@ -1302,18 +1302,19 @@ def render_2026_dashboard():
     #----------------------
     # METRICS
     #----------------------
-    project_hours = df_filtered.loc[df_filtered["Utilization Category"] == "Project", "Hours"].sum()
-    internal_hours = df_filtered.loc[df_filtered["Utilization Category"] == "Internal", "Hours"].sum()
-    total_working_hours = project_hours + internal_hours
-    budget_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Budget PTO", "Hours"].sum()
-    flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l & Flex PTO", "Hours"].sum()
+    project_hours = df_filtered.loc[df_filtered["Utilization Category"] == "Billable Project", "Hours"].sum()
+    internalplusproposal_hours = df_filtered.loc[df_filtered["Utilization Category"] == "Internal + Proposal", "Hours"].sum()
+    overhead_hours = df_filtered.loc[df_filtered["Utilization Category"] == "Overhead", "Hours"].sum()
+    total_working_hours = project_hours + internalplusproposal_hours + overhead_hours
+    #budget_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Budget PTO", "Hours"].sum()
+    #flex_pto = totals_by_util.loc[totals_by_util["Utilization Category"] == "Add'l & Flex PTO", "Hours"].sum()
 
     # Calculate PTO breakdown
-    budget_pto_breakdown = df_filtered[df_filtered["Utilization Category"] == "Budget PTO"]
+    budget_pto_breakdown = df_filtered[df_filtered["Utilization Category"] == "Time Off"]
     budget_pto_grouped = budget_pto_breakdown.groupby("Project No - Title")["Hours"].sum().reset_index()
 
     # Add PTO Flex from Add'l & Flex PTO
-    flex_hours = df_filtered.loc[df_filtered["Utilization Category"] == "Add'l & Flex PTO", "Hours"].sum()
+    flex_hours = df_filtered.loc[df_filtered["Project No - Title"] == "PTO Flex Vacation", "Hours"].sum()
     flex_row = pd.DataFrame({"Project No - Title": ["PTO Flex Vacation"], "Hours": [flex_hours]})
     budget_pto_grouped = pd.concat([budget_pto_grouped, flex_row], ignore_index=True)
     unpaid_hours = df_filtered.loc[df_filtered["Project No - Title"] == "Unpaid Time Off", "Hours"].sum()
@@ -1405,13 +1406,13 @@ def render_2026_dashboard():
 
     # Last month project hours
     project_last_month = df_util[
-        (df_util["Utilization Category"] == "Project") &
+        (df_util["Utilization Category"] == "Billable Project") &
         (df_util["Date"].between(last_month_start, last_month_end))
     ]["Hours"].sum()
 
     # YTD project hours
     project_ytd = df_util[
-        (df_util["Utilization Category"] == "Project") &
+        (df_util["Utilization Category"] == "Billable Project") &
         (df_util["Date"].between(ytd_start, ytd_end))
     ]["Hours"].sum()
 
@@ -1480,8 +1481,13 @@ def render_2026_dashboard():
                         </div>
                         <div style="font-weight:700; font-size:1.0.9rem; color:#111827;">+</div>
                         <div style="text-align:center;">
-                            <p style="margin:0; font-size:0.9rem; color:#6b7280;">Internal</p>
-                            <p style="margin:0; font-weight:600; font-size:0.9rem; color:#111827;">{internal_hours:.2f}</p>
+                            <p style="margin:0; font-size:0.9rem; color:#6b7280;">Internal + Proposal</p>
+                            <p style="margin:0; font-weight:600; font-size:0.9rem; color:#111827;">{internalplusproposal_hours:.2f}</p>
+                        </div>
+                        <div style="font-weight:700; font-size:1.0.9rem; color:#111827;">+</div>
+                        <div style="text-align:center;">
+                            <p style="margin:0; font-size:0.9rem; color:#6b7280;">Overhead</p>
+                            <p style="margin:0; font-weight:600; font-size:0.9rem; color:#111827;">{overhead_hours:.2f}</p>
                         </div>
                     </div>
                 </div>
