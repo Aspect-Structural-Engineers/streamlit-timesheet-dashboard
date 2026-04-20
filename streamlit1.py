@@ -1719,7 +1719,7 @@ def render_2026_dashboard():
         st.plotly_chart(fig_sick, use_container_width=True, config ={"displayModeBar": False})
 
     flex_used = df_flexot_user["Flex PTO"].sum() + df_flexot_user["Future Flex PTO"].sum()
-    ot_used = df_flexot_user["OT PTO"].sum() + df_flexot_user["Future OT PTO"].sum()
+    ot_used = df_flexot_user["OT PTO"].sum() + df_flexot_user["Future OT PTO"].sum() + df_flexot_user["Payout OT"].sum()
     # ----------------------
     # Bottom Summary Row
     # ----------------------
@@ -1822,34 +1822,65 @@ def render_2026_dashboard():
             height=120
         )
 
-    agg_df = df_filtered.groupby(["Month", "Utilization Category"], as_index=False)["Hours"].sum()
 
-    #agg_df = df_filtered.groupby(["Month", "Utilization Category"], as_index=False)["Hours"].sum()
-    # Get totals by month for text labels
+    df_line = df_flexot_user.copy()
 
-    totals_by_month = agg_df.groupby("Month")["Hours"].sum().reset_index()
+    df_line["Week"] = pd.to_datetime(df_line["Week"])
 
-    st.subheader("Monthly Hours by Utilization Category")
-    bars = alt.Chart(agg_df).mark_bar().encode(
-        x="Month:N",
-        y="Hours:Q",
-        color=alt.Color(
-        "Utilization Category:N",
-        scale=alt.Scale(
-            domain=["Project", "Internal", "Budget PTO", "Add'l & Flex PTO"],
-            range=["black", "#50005C", "#ED017F", "#F2BEDA"])),
-        tooltip=["Month", "Utilization Category", "Hours"]
-    ).properties(width=700, height=400)
-
-    text = alt.Chart(totals_by_month).mark_text(
-        dy=-10,
-        color="black"
+    df_line = df_line.sort_values("Week")
+    util_line = alt.Chart(df_line).mark_line(
+    strokeWidth=3,
+    color="#ED017F"
     ).encode(
-        x="Month:N",
-        y="Hours:Q",
-        text=alt.Text("Hours:Q")
+    x=alt.X("Week:T", title="Week"),
+    y=alt.Y("Utilization:Q",axis=alt.Axis(format="%"), title="Utilization"),
+    tooltip=["Week:T", "Utilization:Q"]
     )
-    st.altair_chart(bars + text)
+
+    target_line = alt.Chart(df_line).mark_line(
+    strokeWidth=2,
+    color="black"
+    ).encode(
+    x="Week:T",
+    y=alt.y("Utilization Target:Q",axis=alt.Axis(format="%"), title = "Utilization Target"),
+    tooltip=["Week:T", "Utilization Target:Q"]
+    )
+
+    line_chart = (util_line + target_line).properties(
+    width="container",
+    height=300,
+    title="Weekly Utilization vs Target"
+    )
+    
+    st.altair_chart(line_chart, use_container_width=True)
+    # agg_df = df_filtered.groupby(["Month", "Utilization Category"], as_index=False)["Hours"].sum()
+
+    # #agg_df = df_filtered.groupby(["Month", "Utilization Category"], as_index=False)["Hours"].sum()
+    # # Get totals by month for text labels
+
+    # totals_by_month = agg_df.groupby("Month")["Hours"].sum().reset_index()
+
+    # st.subheader("Monthly Hours by Utilization Category")
+    # bars = alt.Chart(agg_df).mark_bar().encode(
+    #     x="Month:N",
+    #     y="Hours:Q",
+    #     color=alt.Color(
+    #     "Utilization Category:N",
+    #     scale=alt.Scale(
+    #         domain=["Project", "Internal", "Budget PTO", "Add'l & Flex PTO"],
+    #         range=["black", "#50005C", "#ED017F", "#F2BEDA"])),
+    #     tooltip=["Month", "Utilization Category", "Hours"]
+    # ).properties(width=700, height=400)
+
+    # text = alt.Chart(totals_by_month).mark_text(
+    #     dy=-10,
+    #     color="black"
+    # ).encode(
+    #     x="Month:N",
+    #     y="Hours:Q",
+    #     text=alt.Text("Hours:Q")
+    # )
+    # st.altair_chart(bars + text)
 
     pass
 
