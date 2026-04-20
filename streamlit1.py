@@ -1826,32 +1826,109 @@ def render_2026_dashboard():
     df_line = df_flexot_user.copy()
 
     df_line["WeekStart"] = pd.to_datetime(df_line["WeekStart"])
-
     df_line = df_line.sort_values("WeekStart")
-    util_line = alt.Chart(df_line).mark_line(
-    strokeWidth=3,
-    color="#ED017F"
-    ).encode(
-    x=alt.X("WeekStart:T", title="Week"),
-    y=alt.Y("Utilization:Q",axis=alt.Axis(format="%"), title="Utilization"),
-    tooltip=["WeekStart:T", "Utilization:Q"]
+
+    # -----------------------
+    # BASE ENCODING
+    # -----------------------
+    base = alt.Chart(df_line).encode(
+        x=alt.X(
+            "WeekStart:T",
+            title="",
+            axis=alt.Axis(
+                format="%b",          # Jan, Feb, Mar
+                labelAngle=0,
+                tickCount="month"
+            )
+        )
     )
 
-    target_line = alt.Chart(df_line).mark_line(
-    strokeWidth=2,
-    color="black"
+    # -----------------------
+    # UTILIZATION LINE
+    # -----------------------
+    util_line = base.mark_line(
+        strokeWidth=3,
+        color="#ED017F"
     ).encode(
-    x=alt.X("WeekStart:T", title="Week"),
-    y=alt.Y("Utilization Target:Q",axis=alt.Axis(format="%"), title = "Utilization Target"),
-    tooltip=["WeekStart:T", "Utilization Target:Q"]
+        y=alt.Y(
+            "Utilization:Q",
+            axis=alt.Axis(format="%"),
+            title="Utilization",
+            scale=alt.Scale(zero=False)   # dynamic scale
+        ),
+        tooltip=[
+            alt.Tooltip("WeekStart:T", title="Week"),
+            alt.Tooltip("Utilization:Q", format=".1%", title="Utilization"),
+            alt.Tooltip("Utilization Target:Q", format=".1%", title="Target")
+        ]
     )
 
-    line_chart = (util_line + target_line).properties(
-    width="container",
-    height=300,
-    title="Weekly Utilization vs Target"
+    # square markers
+    util_points = base.mark_point(
+        shape="square",
+        size=60,
+        filled=True,
+        color="#ED017F"
+    ).encode(
+        y="Utilization:Q"
     )
-    
+
+    # labels
+    util_labels = base.mark_text(
+        dy=-10,
+        color="#ED017F",
+        fontSize=10
+    ).encode(
+        y="Utilization:Q",
+        text=alt.Text("Utilization:Q", format=".0%")
+    )
+
+    # -----------------------
+    # TARGET LINE
+    # -----------------------
+    target_line = base.mark_line(
+        strokeWidth=2,
+        color="black"
+    ).encode(
+        y="Utilization Target:Q"
+    )
+
+    # square markers
+    target_points = base.mark_point(
+        shape="square",
+        size=50,
+        filled=True,
+        color="black"
+    ).encode(
+        y="Utilization Target:Q"
+    )
+
+    # labels
+    target_labels = base.mark_text(
+        dy=10,
+        color="black",
+        fontSize=10
+    ).encode(
+        y="Utilization Target:Q",
+        text=alt.Text("Utilization Target:Q", format=".0%")
+    )
+
+    # -----------------------
+    # FINAL CHART
+    # -----------------------
+    line_chart = (
+        util_line
+        + util_points
+        + util_labels
+        + target_line
+        + target_points
+        + target_labels
+    ).properties(
+        width="container",
+        height=320,
+        title="Weekly Utilization vs Target"
+    )
+
     st.altair_chart(line_chart, use_container_width=True)
     # agg_df = df_filtered.groupby(["Month", "Utilization Category"], as_index=False)["Hours"].sum()
 
