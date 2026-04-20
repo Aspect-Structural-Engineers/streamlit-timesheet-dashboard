@@ -1842,7 +1842,7 @@ def render_2026_dashboard():
     color="black"
     ).encode(
     x=alt.X("WeekStart:T", title="Week"),
-    y=alt.y("Utilization Target:Q",axis=alt.Axis(format="%"), title = "Utilization Target"),
+    y=alt.Y("Utilization Target:Q",axis=alt.Axis(format="%"), title = "Utilization Target"),
     tooltip=["WeekStart:T", "Utilization Target:Q"]
     )
 
