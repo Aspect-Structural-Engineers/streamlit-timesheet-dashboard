@@ -1475,7 +1475,7 @@ def render_2026_dashboard():
             ">
                 <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Hours Worked<span
                     class="info-tooltip"
-                    title="Total hours worked.Includes: \nBillable Project: Client Projects/proposals\nInternal+Proposals: Internal Projects + Proposals\nOverhead: Internal time codes"
+                    title="Total hours worked.Includes: \nBillable Project: Client Projects\nInternal+Proposals: Internal Projects + Proposals\nOverhead: Internal time codes"
                     style="
                         font-size: 1rem;
                         font-weight: 400;
@@ -1627,7 +1627,7 @@ def render_2026_dashboard():
                 margin-bottom: 0rem;
                 font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             ">
-                <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Flex Bucket<span
+                <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Additions:\nAdjusted Baseline < Working Hours < 40\nDeductions:\nFlex Time Used + Future Flex booked + Cap Deductions<span
                     class="info-tooltip"
                     title="Flex Bucket"
                     style="
@@ -1661,7 +1661,7 @@ def render_2026_dashboard():
                 margin-bottom: 0rem;
                 font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             ">
-                <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">OT Bucket<span
+                <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Additions:\nOT Hours according to the policy\nDeductions:\nOT PTO Used + Future OT PTO booked + Payout<span
                     class="info-tooltip"
                     title="OT Bucket"
                     style="
@@ -1718,8 +1718,10 @@ def render_2026_dashboard():
         )
         st.plotly_chart(fig_sick, use_container_width=True, config ={"displayModeBar": False})
 
-    flex_used = df_flexot_user["Flex PTO"].sum() + df_flexot_user["Future Flex PTO"].sum()
-    ot_used = df_flexot_user["OT PTO"].sum() + df_flexot_user["Future OT PTO"].sum() + df_flexot_user["Payout OT"].sum()
+    flex_used = df_flexot_user["Flex PTO"].sum()
+    flex_booked = df_flexot_user["Future Flex PTO"].sum()
+    ot_used = df_flexot_user["OT PTO"].sum() + df_flexot_user["Payout OT"].sum()
+    ot_booked = df_flexot_user["Future OT PTO"].sum()
     # ----------------------
     # Bottom Summary Row
     # ----------------------
@@ -1792,7 +1794,7 @@ def render_2026_dashboard():
                 ">
                     Additional Time Off<span
                     class="info-tooltip"
-                    title="Additional Time off. Includes flex used & booked, OT used & booked, and unpaid."
+                    title="Additional Time off. Includes flex used & future booked, OT used & futurebooked, and Unpaid time off taken."
                     style="
                         font-size: 1rem;
                         font-weight: 400;
@@ -1806,12 +1808,18 @@ def render_2026_dashboard():
                         <p style="margin:0; font-size:0.8rem; color:#6b7280;">Flex Used</p>
                         <p style="margin:0; font-weight:600; color:#111827;">{flex_used:.2f}</p>
                     </div>
-
+                    <div>
+                        <p style="margin:0; font-size:0.8rem; color:#6b7280;">Flex Booked</p>
+                        <p style="margin:0; font-weight:600; color:#111827;">{flex_booked:.2f}</p>
+                    </div>
                     <div>
                         <p style="margin:0; font-size:0.8rem; color:#6b7280;">OT Used</p>
                         <p style="margin:0; font-weight:600; color:#111827;">{ot_used:.2f}</p>
                     </div>
-
+                    <div>
+                        <p style="margin:0; font-size:0.8rem; color:#6b7280;">OT Booked</p>
+                        <p style="margin:0; font-weight:600; color:#111827;">{ot_booked:.2f}</p>
+                    </div>
                     <div>
                         <p style="margin:0; font-size:0.8rem; color:#6b7280;">Unpaid</p>
                         <p style="margin:0; font-weight:600; color:#111827;">{unpaid_hours:.2f}</p>
@@ -1836,7 +1844,7 @@ def render_2026_dashboard():
             "WeekStart:T",
             title="",
             axis=alt.Axis(
-                format="%b %d",          # Jan, Feb, Mar
+                format="%b",          # Jan, Feb, Mar
                 labelAngle=0,
                 tickCount="month"
             )
