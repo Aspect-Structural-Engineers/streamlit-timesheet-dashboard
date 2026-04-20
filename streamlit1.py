@@ -1770,7 +1770,7 @@ def render_2026_dashboard():
                     Your utilization target is 
                     <strong><span style="color:#ED017F;">{util_target:.1%}</span><span
                     class="info-tooltip"
-                    title="Your utilization vs target. If you take flex time off, your utilization may be impacted as flex time is not included in hours worked, but is included in your baseline."
+                    title="Your utilization vs target. If you take flex time or OT time off, your utilization will be impacted as they are included in the adjusted baseline."
                     style="
                         font-size: 1rem;
                         font-weight: 400;
@@ -1816,7 +1816,7 @@ def render_2026_dashboard():
                 ">
                     Additional Time Off<span
                     class="info-tooltip"
-                    title="Additional Time off. Includes flex used & future booked, OT used & futurebooked, and Unpaid time off taken."
+                    title="Additional Time off. Includes flex used & future booked, OT used & future booked, and Unpaid time off taken."
                     style="
                         font-size: 1rem;
                         font-weight: 400;
