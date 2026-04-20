@@ -1131,9 +1131,19 @@ def render_2026_dashboard():
     monday_date = monday.date()
     last_refreshed = monday.strftime("%B %d, %Y")
 
+
+
     df_allowance_user = df_allowance[
     df_allowance["Employee Full Name"].str.lower() == emp_name.lower()
 ]
+    latest_date = (
+    df[
+        (df["Employee Full Name"].str.lower() == emp_name.lower()) &
+        (df["Utilization Category"] != "Time Off")
+    ]["Date"]
+    .max()
+    )
+    
 
     if not df_allowance_user.empty:
         timesheet_date_week = pd.to_datetime(
@@ -1203,6 +1213,18 @@ def render_2026_dashboard():
                     title="The most recent timesheet week included in this dashboard. If this date is before the last refreshed date, your timesheet may have missing entries, hence the red color. Please ensure your timesheet is up to date."
                     style="vertical-align: super;"
                 > ⓘ</span>
+            </p>
+            <p style="
+                text-align: right;
+                color: #374151;
+                font-size: 0.9rem;
+            ">
+                <strong>Last Timesheet Date Included:</strong> {latest_date}
+                    <span
+                        class="info-tooltip"
+                        title="The last included timesheet date in the latest refresh (For partial completion)"
+                        style="vertical-align: super;" 
+                    > ⓘ</span>
             </p>
             """,
             unsafe_allow_html=True
@@ -1627,9 +1649,9 @@ def render_2026_dashboard():
                 margin-bottom: 0rem;
                 font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             ">
-                <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Additions:\nAdjusted Baseline < Working Hours < 40\nDeductions:\nFlex Time Used + Future Flex booked + Cap Deductions<span
+                <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Flex Bucket<span
                     class="info-tooltip"
-                    title="Flex Bucket"
+                    title="Additions:\nAdjusted Baseline < Working Hours < 40\nDeductions:\nFlex Time Used + Future Flex booked + Cap Deductions"
                     style="
                         font-size: 1rem;
                         font-weight: 400;
@@ -1661,9 +1683,9 @@ def render_2026_dashboard():
                 margin-bottom: 0rem;
                 font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             ">
-                <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Additions:\nOT Hours according to the policy\nDeductions:\nOT PTO Used + Future OT PTO booked + Payout<span
+                <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">OT Bucket<span
                     class="info-tooltip"
-                    title="OT Bucket"
+                    title="Additions:\nOT Hours according to the policy\nDeductions:\nOT PTO Used + Future OT PTO booked + Payout OT"
                     style="
                         font-size: 1rem;
                         font-weight: 400;
