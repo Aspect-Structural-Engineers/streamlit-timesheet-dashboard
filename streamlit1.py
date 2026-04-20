@@ -1107,6 +1107,15 @@ def render_2026_dashboard():
         sheet_name="PQ"
     )
 
+    df_flexot = get_sharepoint_file(
+        client_id=st.secrets["sharepoint"]["client_id"],
+        client_secret=st.secrets["sharepoint"]["client_secret"],
+        tenant_id=st.secrets["sharepoint"]["tenant_id"],
+        site_url=st.secrets["sharepoint"]["site_url"],
+        file_path=st.secrets["sharepoint"]["flexot_path_2026"],
+        sheet_name="PQ"
+    )
+
     logged_in_email = st.user.email
     user_info = df_user[df_user["Email"].str.lower() == logged_in_email.lower()]
 
@@ -1441,6 +1450,14 @@ def render_2026_dashboard():
     # Hours Worked Box
     #----------------------
 
+
+
+    df_flexot_user = df_flexot[
+    df_flexot["Full Name"].str.lower() == emp_name.lower()
+    ]
+    flex_bucket = df_flexot_user["Flex Bucket"].sum()
+    ot_bucket = df_flexot_user["OT Bucket"].sum()
+
     r1_c1, r1_c2, r1_c3 = st.columns(3, gap="large")
 
     with r1_c1:
@@ -1458,7 +1475,7 @@ def render_2026_dashboard():
             ">
                 <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Hours Worked<span
                     class="info-tooltip"
-                    title="Total hours worked.Includes: \nPROJECT: client projects/proposals, internal projects.\nINTERNAL: Internal time codes"
+                    title="Total hours worked.Includes: \nBillable Project: Client Projects/proposals\nInternal+Proposals: Internal Projects + Proposals\nOverhead: Internal time codes"
                     style="
                         font-size: 1rem;
                         font-weight: 400;
@@ -1476,7 +1493,7 @@ def render_2026_dashboard():
                 
                     <div style="display:flex;justify-content:center; align-items:center; gap:2rem; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                         <div style="text-align:center;">
-                            <p style="margin:0; font-size:0.9rem; color:#6b7280;">Project</p>
+                            <p style="margin:0; font-size:0.9rem; color:#6b7280;">BillableProject</p>
                             <p style="margin:0; font-weight:600; font-size:0.9rem; color:#111827;">{project_hours:.2f}</p>
                         </div>
                         <div style="font-weight:700; font-size:1.0.9rem; color:#111827;">+</div>
@@ -1596,6 +1613,74 @@ def render_2026_dashboard():
             """,height=200)
 
     #st.markdown("<div style='margin-top:-0.75rem'></div>", unsafe_allow_html=True)
+    r2a_c1, r2a_c2 = st.columns(2, gap="small")
+    with r2a_c1:
+            components.html(f"""
+            <div style="
+                width: 100%;
+                padding: 1rem;
+                border: 1px solid #e5e7eb;
+                border-radius: 10px;
+                box-sizing: border-box;
+                text-align: center;
+                margin-top: 0rem;
+                margin-bottom: 0rem;
+                font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            ">
+                <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Flex Bucket<span
+                    class="info-tooltip"
+                    title="Flex Bucket"
+                    style="
+                        font-size: 1rem;
+                        font-weight: 400;
+                        color: #6B7280;
+                        vertical-align: super;"        
+                > ⓘ</span></h3>
+                            
+                <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{flex_bucket:.2f}</h1>
+                <div style="
+                display:grid;
+                grid-template-columns: auto auto auto;
+                gap:1.5rem;
+                justify-content:center;
+                ">
+                </div>
+            </div>
+            """,height=200)
+
+    with r2a_c2:
+            components.html(f"""
+            <div style="
+                width: 100%;
+                padding: 1rem;
+                border: 1px solid #e5e7eb;
+                border-radius: 10px;
+                box-sizing: border-box;
+                text-align: center;
+                margin-top: 0rem;
+                margin-bottom: 0rem;
+                font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            ">
+                <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">OT Bucket<span
+                    class="info-tooltip"
+                    title="OT Bucket"
+                    style="
+                        font-size: 1rem;
+                        font-weight: 400;
+                        color: #6B7280;
+                        vertical-align: super;"        
+                > ⓘ</span></h3>
+                            
+                <h1 style="margin:0 0 1rem 0; font-weight:700; font-size:3rem; color:#111827;">{ot_bucket:.2f}</h1>
+                <div style="
+                display:grid;
+                grid-template-columns: auto auto auto;
+                gap:1.5rem;
+                justify-content:center;
+                ">
+                </div>
+            </div>
+            """,height=200)
 
     r2_c1, r2_c2, r2_c3 = st.columns(3, gap="small")
     #----------------------
