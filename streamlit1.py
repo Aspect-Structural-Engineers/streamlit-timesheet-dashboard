@@ -1718,6 +1718,8 @@ def render_2026_dashboard():
         )
         st.plotly_chart(fig_sick, use_container_width=True, config ={"displayModeBar": False})
 
+    flex_used = df_flexot_user["Flex PTO"].sum() + df_flexot_user["Future Flex PTO"].sum()
+    ot_used = df_flexot_user["OT PTO"].sum() + df_flexot_user["Future OT PTO"].sum()
     # ----------------------
     # Bottom Summary Row
     # ----------------------
@@ -1790,7 +1792,7 @@ def render_2026_dashboard():
                 ">
                     Additional Time Off<span
                     class="info-tooltip"
-                    title="Additional Time off. Includes flex taken, future flex booked, and unpaid."
+                    title="Additional Time off. Includes flex used & booked, OT used & booked, and unpaid."
                     style="
                         font-size: 1rem;
                         font-weight: 400;
@@ -1802,12 +1804,12 @@ def render_2026_dashboard():
                 <div style="display:flex; justify-content:space-between;">
                     <div>
                         <p style="margin:0; font-size:0.8rem; color:#6b7280;">Flex Used</p>
-                        <p style="margin:0; font-weight:600; color:#111827;">{flex_vacation:.2f}</p>
+                        <p style="margin:0; font-weight:600; color:#111827;">{flex_used:.2f}</p>
                     </div>
 
                     <div>
-                        <p style="margin:0; font-size:0.8rem; color:#6b7280;">Future Flex Booked</p>
-                        <p style="margin:0; font-weight:600; color:#111827;">{future_flex_hours:.2f}</p>
+                        <p style="margin:0; font-size:0.8rem; color:#6b7280;">OT Used</p>
+                        <p style="margin:0; font-weight:600; color:#111827;">{ot_used:.2f}</p>
                     </div>
 
                     <div>
