@@ -1651,7 +1651,7 @@ def render_2026_dashboard():
             ">
                 <h3 style="margin:0 0 0.25rem 0; font-weight:600; color:#111827;">Flex Bucket<span
                     class="info-tooltip"
-                    title="Additions:\nAdjusted Baseline < Working Hours < 40\nDeductions:\nFlex Time Used + Future Flex booked + Cap Deductions"
+                    title="Additions:\nAdjusted Baseline < Working Hours < 40\nDeductions:\n(Adjusted Baseline - Working Hours) if Working Hours < Adjusted Baseline + Flex Time Used + Future Flex booked + Cap Deductions"
                     style="
                         font-size: 1rem;
                         font-weight: 400;
