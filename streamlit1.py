@@ -1825,25 +1825,25 @@ def render_2026_dashboard():
 
     df_line = df_flexot_user.copy()
 
-    df_line["Week"] = pd.to_datetime(df_line["Week"])
+    df_line["WeekStart"] = pd.to_datetime(df_line["WeekStart"])
 
-    df_line = df_line.sort_values("Week")
+    df_line = df_line.sort_values("WeekStart")
     util_line = alt.Chart(df_line).mark_line(
     strokeWidth=3,
     color="#ED017F"
     ).encode(
-    x=alt.X("Week:T", title="Week"),
+    x=alt.X("WeekStart:T", title="Week"),
     y=alt.Y("Utilization:Q",axis=alt.Axis(format="%"), title="Utilization"),
-    tooltip=["Week:T", "Utilization:Q"]
+    tooltip=["WeekStart:T", "Utilization:Q"]
     )
 
     target_line = alt.Chart(df_line).mark_line(
     strokeWidth=2,
     color="black"
     ).encode(
-    x="Week:T",
+    x=alt.X("WeekStart:T", title="Week"),
     y=alt.y("Utilization Target:Q",axis=alt.Axis(format="%"), title = "Utilization Target"),
-    tooltip=["Week:T", "Utilization Target:Q"]
+    tooltip=["WeekStart:T", "Utilization Target:Q"]
     )
 
     line_chart = (util_line + target_line).properties(
