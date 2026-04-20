@@ -1779,14 +1779,14 @@ def render_2026_dashboard():
                 > ⓘ</span></strong>
                 </p>
                 <p style="margin:0.4rem 0 0 0;">
-                    Project hours in ({last_month_label}):
+                    Billable Project hours in ({last_month_label}):
                     <strong>{project_last_month:.2f}</strong>
                     &nbsp;/&nbsp;
                     Baseline:
                     <strong>{adjusted_target_last_month:.2f}</strong>
                 </p>
                 <p style="margin:0.25rem 0 0 0;">
-                    Project hours YTD:
+                    Billable Project hours YTD:
                     <strong>{project_ytd:.2f}</strong>
                     &nbsp;/&nbsp;
                     Baseline:
