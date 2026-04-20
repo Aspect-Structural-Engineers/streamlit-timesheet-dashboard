@@ -1836,7 +1836,7 @@ def render_2026_dashboard():
             "WeekStart:T",
             title="",
             axis=alt.Axis(
-                format="%b",          # Jan, Feb, Mar
+                format="%b %d",          # Jan, Feb, Mar
                 labelAngle=0,
                 tickCount="month"
             )
