@@ -1381,11 +1381,6 @@ def render_2026_dashboard():
         .iloc[0]
     )
 
-    util_target = (
-        df_allowance.loc[df_allowance["Full Name"] == emp_name, "Utilization Target"]
-        .fillna(0)
-        .iloc[0]
-    )
 
     #  max allocations per PTO type
     pto_max = {
@@ -1479,6 +1474,11 @@ def render_2026_dashboard():
     ]
     flex_bucket = df_flexot_user["Flex Bucket"].sum()
     ot_bucket = df_flexot_user["OT Bucket"].sum()
+
+    util_target = (
+    df_flexot_user.loc[df_flexot_user["Utilization Target"] > 0, "Utilization Target"]
+    .mean()
+    )
 
     r1_c1, r1_c2, r1_c3 = st.columns(3, gap="large")
 
