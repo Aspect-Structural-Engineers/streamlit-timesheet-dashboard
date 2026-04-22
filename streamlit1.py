@@ -1775,10 +1775,10 @@ def render_2026_dashboard():
                     and utilization YTD is
                     <strong><span style="color:#ED017F;">{util_ytd:.1%}</span></strong>. 
                     Your average utilization target YTD is 
-                    <strong><span style="color:#ED017F;">{util_target:.1%}</span>
+                    <strong><span style="color:#ED017F;">{util_target:.1%}</span></strong>
                     Your current utilization target is
-                    <strong><span style="color:#ED017F;">{current_util_target:.1%}</span>
-                    <span
+                    <strong><span style="color:#ED017F;">{current_util_target:.1%}</span></strong>
+                    <strong><span
                     class="info-tooltip"
                     title="Your utilization vs target. If you take flex time or OT time off, your utilization will be impacted as they are included in the adjusted baseline.\nYour average utilization target is the average of your utilization target over the weeks, accounting for any changes because of the updated calculation of Utilization."
                     style="
