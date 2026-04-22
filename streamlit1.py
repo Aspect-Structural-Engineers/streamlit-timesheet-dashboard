@@ -1745,6 +1745,12 @@ def render_2026_dashboard():
     flex_booked = df_flexot_user["Future Flex PTO"].sum()
     ot_used = df_flexot_user["OT PTO"].sum() + df_flexot_user["Payout OT"].sum()
     ot_booked = df_flexot_user["Future OT PTO"].sum()
+
+    current_util_target = (
+        df_allowance.loc[df_allowance["Full Name"] == emp_name, "Utilization Target"]
+        .fillna(0)
+        .iloc[0]
+    )
     # ----------------------
     # Bottom Summary Row
     # ----------------------
@@ -1768,10 +1774,13 @@ def render_2026_dashboard():
                     <strong>{util_last_month:.1%}</strong>,
                     and utilization YTD is
                     <strong><span style="color:#ED017F;">{util_ytd:.1%}</span></strong>. 
-                    Your utilization target is 
-                    <strong><span style="color:#ED017F;">{util_target:.1%}</span><span
+                    Your average utilization target YTD is 
+                    <strong><span style="color:#ED017F;">{util_target:.1%}</span>
+                    Your current utilization target is
+                    <strong><span style="color:#ED017F;">{current_util_target:.1%}</span>
+                    <span
                     class="info-tooltip"
-                    title="Your utilization vs target. If you take flex time or OT time off, your utilization will be impacted as they are included in the adjusted baseline."
+                    title="Your utilization vs target. If you take flex time or OT time off, your utilization will be impacted as they are included in the adjusted baseline.\nYour average utilization target is the average of your utilization target over the weeks, accounting for any changes because of the updated calculation of Utilization."
                     style="
                         font-size: 1rem;
                         font-weight: 400;
