@@ -1475,10 +1475,11 @@ def render_2026_dashboard():
     flex_bucket = df_flexot_user["Flex Bucket"].sum()
     ot_bucket = df_flexot_user["OT Bucket"].sum()
 
-    util_target = (
-    df_flexot_user.loc[df_flexot_user["Utilization Target"] > 0, "Utilization Target"]
-    .mean()
-    )
+    valid_targets = df_flexot_user.loc[
+    df_flexot_user["Utilization Target"] > 0, "Utilization Target"
+    ]
+
+    util_target = valid_targets.mean() if not valid_targets.empty else 0
 
     r1_c1, r1_c2, r1_c3 = st.columns(3, gap="large")
 
