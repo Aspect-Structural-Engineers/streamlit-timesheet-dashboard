@@ -1773,7 +1773,7 @@ def render_2026_dashboard():
                     Your utilization for last month ({last_month_label}) was
                     <strong>{util_last_month:.1%}</strong>,
                     and utilization YTD is
-                    <strong><span style="color:#ED017F;">{util_ytd:.1%}</span></strong>.
+                    <strong><span style="color:#ED017F;">{util_ytd:.1%}</span></strong>
                     <strong><span
                     class="info-tooltip"
                     title="Your utilization vs target. If you take flex time or OT time off, your utilization will be impacted as they are included in the adjusted baseline.\nYour average utilization target is the average of your utilization target over the weeks, accounting for any changes because of the updated calculation of Utilization."
