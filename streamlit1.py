@@ -1773,11 +1773,7 @@ def render_2026_dashboard():
                     Your utilization for last month ({last_month_label}) was
                     <strong>{util_last_month:.1%}</strong>,
                     and utilization YTD is
-                    <strong><span style="color:#ED017F;">{util_ytd:.1%}</span></strong>. 
-                    Your average utilization target YTD is 
-                    <strong><span style="color:#ED017F;">{util_target:.1%}</span></strong>
-                    Your current utilization target is
-                    <strong><span style="color:#ED017F;">{current_util_target:.1%}</span></strong>
+                    <strong><span style="color:#ED017F;">{util_ytd:.1%}</span></strong>.
                     <strong><span
                     class="info-tooltip"
                     title="Your utilization vs target. If you take flex time or OT time off, your utilization will be impacted as they are included in the adjusted baseline.\nYour average utilization target is the average of your utilization target over the weeks, accounting for any changes because of the updated calculation of Utilization."
@@ -1788,6 +1784,14 @@ def render_2026_dashboard():
                         vertical-align: super;    "        
                 > ⓘ</span></strong>
                 </p>
+                <p style="margin:0.4rem 0 0 0;"> 
+                    Your average utilization target YTD is 
+                    <strong><span style="color:#ED017F;">{util_target:.1%}</span></strong>
+                    and current utilization target is
+                    <strong><span style="color:#ED017F;">{current_util_target:.1%}</span></strong>
+                </p>
+                 
+                
                 <p style="margin:0.4rem 0 0 0;">
                     Billable Project hours in ({last_month_label}):
                     <strong>{project_last_month:.2f}</strong>
@@ -1922,7 +1926,6 @@ def render_2026_dashboard():
         y="Utilization:Q",
         text=alt.Text("Utilization:Q", format=".0%")
     )
-
     # -----------------------
     # TARGET LINE
     # -----------------------
