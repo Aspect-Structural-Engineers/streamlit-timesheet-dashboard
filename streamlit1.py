@@ -1808,7 +1808,7 @@ def render_2026_dashboard():
                 </p>
             </div>
             """,
-            height=120
+            height=200
         )
 
     with util_right:
@@ -1863,7 +1863,7 @@ def render_2026_dashboard():
                 </div>
             </div>
             """,
-            height=120
+            height=200
         )
 
 
