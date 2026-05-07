@@ -13,7 +13,8 @@ import plotly.graph_objects as go
 
 st.set_page_config(
     layout="wide",  # makes content stretch full width
-    page_title="Timesheet Dashboard"
+    page_title="Timesheet Dashboard",
+    page_icon = "assets/ASPECT_Logomark.png"
     )
 
 if not hasattr(st, "user") or not st.user.is_logged_in:
