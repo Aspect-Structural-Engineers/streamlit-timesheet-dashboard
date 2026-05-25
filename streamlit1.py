@@ -545,13 +545,13 @@ def render_2025_dashboard():
 
     # Last month project hours
     project_last_month = df_util[
-        (df_util["Utilization Category"] == "Project") &
+        (df_util["Utilization Category"] == "Billable Project") &
         (df_util["Date"].between(last_month_start, last_month_end))
     ]["Hours"].sum()
 
     # YTD project hours
     project_ytd = df_util[
-        (df_util["Utilization Category"] == "Project") &
+        (df_util["Utilization Category"] == "Billable Project") &
         (df_util["Date"].between(ytd_start, ytd_end))
     ]["Hours"].sum()
 
