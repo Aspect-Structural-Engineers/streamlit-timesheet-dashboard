@@ -1421,10 +1421,13 @@ def render_2026_dashboard():
     # UTILIZATION DATE WINDOWS
     # -------------------------
 
-    # Last month relative to current data cutoff
-    last_month_end = cap_end_date.replace(day=1) - pd.Timedelta(days=1)
-    last_month_start = last_month_end.replace(day=1)
+    df_filtered["Date"] = pd.to_datetime(df_filtered["Date"]).dt.normalize()
+    cap_end_date = pd.to_datetime(cap_end_date).normalize()
 
+    # Last month relative to current data cutoff
+    last_month_end = cap_end_date.replace(day=1) - pd.Timedelta(days=1).normalize()
+
+    last_month_start = last_month_end.replace(day=1).normalize()
 
     ytd_start = pd.Timestamp("2026-01-01")
     ytd_end = cap_end_date
@@ -1434,7 +1437,7 @@ def render_2026_dashboard():
     # Last month project hours
     project_last_month = df_util[
         (df_util["Utilization Category"] == "Billable Project") &
-        (df_util["Date"].between(last_month_start, last_month_end))
+        (df_util["Date"].between(last_month_start, last_month_end, inclusive="both"))
     ]["Hours"].sum()
 
     # YTD project hours
