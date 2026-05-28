@@ -1425,9 +1425,9 @@ def render_2026_dashboard():
     cap_end_date = pd.to_datetime(cap_end_date).normalize()
 
     # Last month relative to current data cutoff
-    last_month_end = cap_end_date.replace(day=1) - pd.Timedelta(days=1).normalize()
+    last_month_end = cap_end_date.replace(day=1) - pd.Timedelta(days=1)
 
-    last_month_start = last_month_end.replace(day=1).normalize()
+    last_month_start = last_month_end.replace(day=1)
 
     ytd_start = pd.Timestamp("2026-01-01")
     ytd_end = cap_end_date
